@@ -1,0 +1,287 @@
+No. of Printed Pages : 7
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA) (REVISED)
+Term-End Examination December, 2023
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections i.e. Section A and Section B.
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+
+Section--A
+1. (a) An electric bulb manufacturing company chooses a random sample of 10 bulbs, received from one of the suppliers. It
+P. T. O.
+
+[ 2 ]
+
+BCS-040
+
+determines life of each bulb. The result (in
+
+thousands of hours) are as follows :
+
+3
+
+4.5, 5.0, 4.2, 4.8, 4.2, 5.1, 4.0, 4.2, 4.2, 4.5
+
+Compute and analyse a point estimate of the mean length of the life of the bulbs received from the supplier.
+
+(b) Compare parametric and non-parametric
+
+tests.
+
+2
+
+2. An insurance company has insured 1000 truck
+
+drivers, 3000 car drivers and 6000 scooter
+
+drivers. The probabilities that the truck, car
+
+and scooter drivers meet with an accident are
+
+0.2, 0.04 and 0.25, respectively. One of the
+
+insured persons meets with an accident. What
+
+is the probability that the person is a car
+
+driver ?
+
+5
+
+3. A football manufacturing company wants to check the variation in the weight of balls. For this, 25 samples (each of size 4) are selected. The weight of each ball is measured (in grams), the sum of sample averages and sum of sample
+
+[ 3 ]
+
+BCS-040
+
+25
+ranges were found to be  xi = 4010 grams
+i 1
+
+25
+
+and  Ri  72 grams, respectively.
+
+5
+
+i 1
+
+Compute the control limits for the X and R-
+chart. It is given that A2 = 0.729, D3 = 0 and D4 = 2.282.
+
+4. The frequency distribution of the accidental data of the factory for the last 50 weeks is shown below :
+
+No. of Accidents
+
+No. of Weeks
+
+0--5
+
+8
+
+5--10
+
+22
+
+10--15
+
+10
+
+15--20
+
+8
+
+20--25
+
+2
+
+Draw the histogram and calculate the average
+
+number of accidents per week.
+
+5
+
+5. In order to test whether there is any significant difference between the proportion of safety
+
+P. T. O.
+
+[ 4 ]
+
+BCS-040
+
+consciousness of men and women, while driving a car, a study was conducted. The study includes a sample of 300 men and 300 women. Out of 300 men, 130 said that they used seat belts, and out of 300 women, 90 said that they used seat belts. Based on the given data, test the claim that there is no significant difference between the proportion of safety consciousness of men and women, while driving a car at 5% level of significance. (Given that Z0.025 = 1.96). 5
+
+6. A company manufactures two types of machines (A and B). The manager of the company tests a random sample of 50 machines of Type A and 60 machines of Type B and found the following information :
+
+Mean Life (in hours)
+
+Standard Deviation (in hours)
+
+Type A
+
+1300
+
+50
+
+Type B
+
+1200
+
+60
+
+[ 5 ]
+
+BCS-040
+
+Obtain 99% confidence interval for the
+
+difference of the average life of the two types of
+
+machines. (Given that Z0.005 = 2.58).
+
+5
+
+Section--B
+
+7. To enforce the speed limit at four different locations in the city, the Police plans to install radar traps at each of the locations L1, L2, L3 and L4. The radar traps at each of the locations L1, L2, L3 and L4 are operated 40%, 30%, 20% and 30% of the time. If a person who is speeding on his way to work has probabilities of 0.2, 0.1, 0.5 and 0.2 respectively, of passing through these locations, what is the probability that he will receive a speeding ticket ? Find also the probability that he will receive a speeding ticket at locations L1, L2, L3 and L4. 10
+
+8. Find and plot the regression line of y on x, for
+
+the data given below :
+
+10
+
+Speed (km/hr.)
+
+30
+
+40 50 60
+
+Stopping distance (in feet) 160
+
+240 330 435
+
+P. T. O.
+
+[ 6 ]
+
+BCS-040
+
+9. A chemical firm wants to determine how four catalysts differ in yield ? The firm runs the experiment in three of its plant, namely A, B & C. In each plant, the yield is measured with each catalyst. The yield (in quintals) are as follows :
+
+Catalyst
+
+1
+
+2
+
+3
+
+4
+
+Plant
+
+A
+
+2
+
+1
+
+2
+
+4
+
+B
+
+3
+
+2
+
+1
+
+3
+
+C
+
+1
+
+3
+
+3
+
+1
+
+Perform an ANOVA and comment
+
+whether the yield due to a particular catalyst is
+
+significant or not at 5% level of significance
+
+(Given F3,6 = 4.76).
+
+10
+
+10. In order to study the impact of air pollution on households, a random sample of 200 households was selected from each of the two communities. The respondent in each house was asked whether or not any one in the house was bothered by air pollution. The responses are
+
+[ 7 ]
+
+BCS-040
+
+tabulated below   0.05) :
+
+(Given
+
+120.05  3.841,
+
+Community Yes
+
+No
+
+Total
+
+I
+
+43
+
+157
+
+200
+
+II
+
+81
+
+119
+
+200
+
+Total
+
+124
+
+276
+
+400
+
+Can the researcher conclude that the 2
+
+communities are bothered differently by air
+
+pollution ?
+
+10
+
+BCS-040
+
+P. T. O.
+
+

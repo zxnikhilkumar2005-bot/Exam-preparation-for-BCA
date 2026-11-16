@@ -1,0 +1,271 @@
+No. of Printed Pages : 5
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA) (Revised)
+Term-End Examination June, 2021
+
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 hours
+
+Maximum Marks : 50
+
+Note :
+(i) Attempt both sections, i.e., Section A and Section B. (ii) Attempt any four questions from Section A. (iii) Attempt any three questions from Section B. (iv) Use of non-scientific calculator is allowed.
+
+SECTION A
+
+1. An Automobile service centre performed the following number of car services each month :
+
+15, 18, 25, 40, 25, 18, 25, 21, 30, 33, 25, 20, 10, 28, 36, 15, 26, 35, 20, 21, 32, 40, 32, 16, 12, 14, 22, 26, 37, 16.
+(i) Construct a continuous frequency distribution of the above data by taking suitable class width.
+(ii) Draw the histogram of constructed continuous frequency distribution in part (i). 5
+
+BCS-040
+
+1
+
+P.T.O.
+
+2. The information regarding production of wheat (in thousand kg) in 25 districts is collected for a particular season. Select a possible systematic random sample of 7 units from the data given below :
+
+23, 20, 30, 37, 76, 36, 13, 36, 16, 58, 53, 83, 10, 15, 13, 17, 12, 16, 17, 21, 20, 18, 61, 31, 71.
+
+Also calculate the sample mean from the selected
+
+units.
+
+5
+
+3. A shopkeeper claims that the average life of a
+
+CFL Bulb is 1600 hours. To check this claim, a
+
+researcher takes a sample of 100 CFL bulbs of the
+
+same make randomly and finds mean lifetime of
+
+1570 hours with standard deviation of 120 hours.
+
+Is the claim acceptable at 5% level of
+
+significance ? [Given that Z =  1.96]
+
+5
+
+4. The incidence of occupational disease in an industry is such that the workers have a 20% chance of suffering from it. What is the probability that out of six workers
+
+(i) Four or more will contract the disease ?
+
+(ii) Three will contract the disease ?
+
+5
+
+5. Differentiate between the following with one example of each :
+
+(i) Assignable causes and Chance causes
+
+(ii) Producer's risk and Consumer's risk
+
+5
+
+BCS-040
+
+2
+
+6. Use moving average of length 3 for the data on sales given in following table :
+
+Month 1 2 3 4 5 6 7 8 9 10 11 12
+
+Sales 25 15 30 38 58 62 85 88 60 40 40 38
+
+Calculate the moving average and plot it against
+
+the appropriate month. Also plot the data in the
+
+same graph.
+
+5
+
+BCS-040
+
+3
+
+P.T.O.
+
+SECTION B
+
+7. A researcher wishes to test whether a person's
+
+cholesterol level will change if the diet is changed.
+
+She takes a sample of 15 persons and divides
+
+them into 3 diet groups randomly. The data of
+
+cholesterol levels (in mg/deciliter) for the three
+
+groups are given below :
+
+Cholesterol Levels
+
+Diet 1
+
+Diet 2
+
+Diet 3
+
+190
+
+210
+
+170
+
+170
+
+200
+
+200
+
+210
+
+230
+
+210
+
+180
+
+210
+
+200
+
+200
+
+190
+
+205
+
+Test whether the average effect of different diets
+
+on cholesterol level differs significantly at 5%
+
+level of significance.
+
+[Given that F(2, 12) (0.05) = 3.885]
+
+10
+
+8. The following contingency table presents the analysis of 300 persons according to hair colour and eye colour :
+
+Hair Colour
+
+Eye Colour Blue Grey Brown
+
+Burgundy
+
+30
+
+10
+
+40
+
+Brown
+
+40
+
+20
+
+40
+
+Black
+
+50
+
+30
+
+40
+
+Test the hypothesis that there is an association
+
+between hair colour and eye colour at 5% level of
+
+significance. [Given that 24, 0.05 = 9.48]
+
+10
+
+BCS-040
+
+4
+
+9. Determine a regression equation y = a + bx for the data given in the table below :
+
+x
+
+y
+
+1
+
+2
+
+1
+
+3
+
+2
+
+5
+
+3
+
+6
+
+4
+
+8
+
+4
+
+8
+
+5
+
+9
+
+6
+
+10
+
+6
+
+9
+
+7
+
+11
+
+Use fitted regression line to predict y when x = 8.
+
+Draw a scatter diagram to represent the data.
+
+10
+
+10. Write short notes on any two of the
+
+following :
+
+52=10
+
+(i) Exponential Smoothing Method
+
+(ii) Cluster Sampling
+
+(iii) Correlation and Rank-correlation
+
+BCS-040
+
+5
+
+P.T.O.
+
+

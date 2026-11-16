@@ -1,0 +1,272 @@
+No. of Printed Pages : 6
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS
+
+(BCA) (REVISED) Term-End Examination
+December, 2025
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections i. e., Section A and Section B.
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+
+B-1038/BCS-040
+
+P. T. O.
+
+[ 2 ]
+Section--A
+
+BCS-040
+
+1. Explain the term `probability distribution'.
+
+How does Binomial distribution differ from
+
+Poisson distribution ?
+
+5
+
+2. Given the following sample of 10 numbers :
+
+12, 41, 48, 58, 14, 43, 50, 59, 15, 45
+
+(a) Compute Mean, Variance and Standard
+
+Deviation.
+
+3
+
+(b) If the largest value in the above set of
+
+numbers is changed to 500, to what
+
+extent are the mean and variance
+
+affected by the change ? Justify your
+
+answer.
+
+2
+
+3. A Mathematics professor has given five tests. A student scored 70, 75, 65, 80 and 95 respectively in the five tests. The professor decides to determine his grade by randomly selecting a sample of 3 test scores. Construct the sampling distribution for this process. 5
+
+B-1038/BCS-040
+
+[ 3 ]
+
+BCS-040
+
+4. Write two merits and two demerits of
+
+median. Given the frequency distribution as
+
+follows :
+
+5
+
+C. I.
+
+Frequency
+
+10--20
+
+12
+
+20--30
+
+30
+
+30--40
+
+34
+
+40--50
+
+65
+
+50--60
+
+46
+
+60--70
+
+25
+
+70--80
+
+18
+
+Find the median value.
+
+5. Differentiate between the linear systematic sampling and circular systematic sampling.
+
+5
+
+6. Write short notes on the following :
+
+5
+
+(a) F-test for equality of two variances
+
+(b) Chi-square test for independence of attributes
+
+B-1038/BCS-040
+
+P. T. O.
+
+[ 4 ]
+Section--B
+
+BCS-040
+
+7. The following table shows the sample value
+
+of 3 independent normal random variables
+
+X1, X2 and X3. Assuming that they have
+
+equal variances, test the hypothesis that
+
+they have the same mean by using ANOVA
+
+(Given F(2, 9) (0. 05) = 4.26) :
+
+10
+
+X1
+
+X2
+
+X3
+
+13
+
+16
+
+15
+
+11
+
+8
+
+12
+
+16
+
+21
+
+25
+
+22
+
+11
+
+10
+
+8. What do you understand by forecasting ?
+
+How is forecasting related to future
+
+planning ? Give suitable example in support
+
+of your answer. Briefly discuss any
+
+forecasting model.
+
+10
+
+B-1038/BCS-040
+
+[ 5 ]
+
+BCS-040
+
+9. An IT company wants to estimate how its
+
+monthly costs are related to its
+
+monthly output rate ? For that the firm
+
+collects a data regarding its costs and
+
+outputs for a sample of nine months as given
+
+below :
+
+10
+
+Output (tons)
+
+Production Cost (in thousands of dollars)
+
+1
+
+2
+
+2
+
+3
+
+4
+
+4
+
+8
+
+7
+
+6
+
+6
+
+5
+
+5
+
+8
+
+8
+
+9
+
+8
+
+7
+
+6
+
+B-1038/BCS-040
+
+P. T. O.
+
+[ 6 ]
+
+BCS-040
+
+(a) Calculate the best linear regression
+
+line.
+
+(b) Use this regression line to predict the firm's monthy costs if they decide to produce 4 tons per month.
+
+10. Differentiate between the following :
+
+10
+
+(a) Z-test and t-test
+
+(b) Correlation and Regression
+
+× × × × ×
+
+B-1038/BCS-040
+
+

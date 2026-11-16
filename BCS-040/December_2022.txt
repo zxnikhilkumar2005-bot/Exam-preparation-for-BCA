@@ -1,0 +1,250 @@
+No. of Printed Pages : 5
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA) (REVISED)
+Term-End Examination December, 2022
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections i.e. Section A and Section B.
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+
+P. T. O.
+
+[ 2 ]
+
+BCS-040
+
+Section--A
+
+1. In a study on the per capita income for a
+
+particular year in a city, the following weekly
+
+observations were made :
+
+5
+
+Per Capita Income (`) (1 k = 1000)
+
+Number of Weeks
+
+14 k-15 k
+
+5
+
+15 k-16 k
+
+10
+
+16 k-17 k
+
+20
+
+17 k-18 k
+
+9
+
+18 k-19 k
+
+6
+
+19 k-20 k
+
+2
+
+Draw a histogram and frequency polygon on the same scale.
+
+2. A problem of statistics techniques is given to
+
+three students A, B and C whose chances of
+
+solving it are 1 , 1 and 1 respectively. 5
+
+23
+
+4
+
+(i) What is the probability that the problem will be solved ?
+(ii) What is the probability that only one of them will solve the problem correctly ?
+
+[ 3 ]
+
+BCS-040
+
+3. Determine mean and median for the following
+
+data :
+
+5
+
+Marks
+
+No. of Students
+
+0--10
+
+10
+
+10--20
+
+9
+
+20--30
+
+25
+
+30--40
+
+30
+
+40--50
+
+16
+
+50--60
+
+10
+
+4. Box A contains 5 red and 4 blue balls, Box B
+
+contains 2 red and 5 blue balls. A ball is drawn
+
+at random from each box. Find the probability
+
+that one is red and the other is blue.
+
+5
+
+5. A statistics professor has given four tests. A
+
+student scored 75, 65, 80 and 95 respectively in
+
+the four tests. The professor decides to
+
+determine his grade by randomly selecting a
+
+sample of 2 test scores. Construct the sampling
+
+distribution for this process.
+
+5
+
+P. T. O.
+
+[ 4 ]
+
+BCS-040
+
+Section--B
+
+6. Find and plot the regression line of y on x for
+
+the data given below :
+
+10
+
+Speed (km/hr) (x)
+
+Stopping distance (in feet) (y)
+
+30
+
+160
+
+40
+
+240
+
+50
+
+330
+
+60
+
+435
+
+7. In a partially destroyed laboratory, the legible
+
+record of analysis of correlation of data, is as
+
+follows :
+
+10
+
+Variance of x = 9, Regression equations :
+
+(i) 8x - 10y + 66 = 0
+
+(ii) 4x - 18y - 214 = 0
+
+What were (a) the means of x and y, (b) the coefficient of correlation between x and y and (c) the standard deviation of y ?
+
+8. (a) Compare simple random sampling with
+
+replacement and simple random sampling
+
+without replacement.
+
+2
+
+(b) Define time series and discuss various
+
+components of time series.
+
+4
+
+[ 5 ]
+
+BCS-040
+
+(c) Write short notes on the following : 2+2 (i) t-test (ii) Properties of good estimator
+
+9. The table given below shows the relation between the performance of students in Statistics and Computer Sciences. Test the hypothesis that the performance in Statistics is independent of the performance in Computer Sciences using 5% level of significance.
+
+(Given that
+
+2
+0.05, 4
+
+= 9.49 ).
+
+10
+
+Computer Science
+
+High Medium Low Grade Grade Grade
+
+High
+
+36
+
+72
+
+42
+
+Grade
+
+Statistics Medium 34 122 44 Grade
+
+Low
+
+50
+
+56
+
+44
+
+Grade
+
+BCS-040
+
+P. T. O.
+
+

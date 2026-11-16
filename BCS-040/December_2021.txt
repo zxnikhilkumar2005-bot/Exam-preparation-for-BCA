@@ -1,0 +1,308 @@
+No. of Printed Pages : 7
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA) (REVISED)
+Term-End Examination December, 2021
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections i.e. Section A and Section B.
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+Section--A
+1. A pharmacologist measured the amount of dopamine (no. of moles/gm) in the brains of
+
+P. T. O.
+
+[2]
+
+BCS-040
+
+each of 10 rats. The observed data is given below :
+
+6.8, 7.0, 5.3, 6.0, 5.9, 5.6, 6.8, 7.4, 6.2, 7.0
+
+Calculate :
+
+5
+
+(i) The mean and standard deviation
+
+(ii) Coefficient of variation
+
+2. In a certain population of women, 5% have
+
+breast cancer, 15% are smokers and 3% are
+
+smokers as well as have breast cancer. A
+
+woman is selected and random from the
+
+population. What is the probability that she has
+
+breast cancer or she is a smoker ?
+
+5
+
+3. The pulse rate of 6 people was recorded before and after taking a new drug, which are given below :
+
+Pulse Rate
+
+Before Drug 68 71 84 93 67 74
+
+After Drug 71 70 82 97 73 80
+
+On the basis of the above information, can you conclude that there is a significant effect of the
+
+[3]
+
+BCS-040
+
+new drug to increase the pulse rate at 1% level
+
+of significance ?
+
+5
+
+[Given that t5 (0.01) = 4.032]
+
+4. A company produces electric bulbs. To estimate
+
+the average life of the bulbs, the quality
+
+inspector selects 80 bulbs randomly. She finds
+
+that the average life of these bulbs is 50 hours.
+
+Find the population average life of the electric
+
+bulbs produced by the company using 95%
+
+confidence limits.
+
+5
+
+5. The average yield of wheat crop (in quintals/ha) pertaining to fields of 40 villages in a district is given below :
+
+20, 21, 32, 41, 55, 22, 64, 42, 28, 35, 25, 25, 24, 32, 75, 28, 29, 38, 19, 19, 16, 28, 30, 29, 29, 19, 37, 34, 31, 35, 29, 19, 27, 42, 39, 11, 26, 21, 45, 61.
+
+Select a systematic random sample of 10 units
+
+and find the average of it.
+
+5
+
+P. T. O.
+
+[4]
+
+BCS-040
+
+6. The yearly water consumption in a small city
+
+for ten years is given below. Determine the
+
+trend values by using a 3-yearly moving
+
+average. Also plot the values and interpret the
+
+results :
+
+5
+
+Year
+
+Water consumption (in thousand gallon)
+
+2007
+
+26
+
+2008
+
+27
+
+2009
+
+28
+
+2010
+
+30
+
+2011
+
+29
+
+2012
+
+27
+
+2013
+
+30
+
+2014
+
+31
+
+2015
+
+32
+
+2016
+
+31
+
+[5]
+
+BCS-040
+
+Section--B
+
+7. Twenty individuals were randomly assigned to four different production processes. Production of units per hour for the four processes are given below :
+
+Process I
+
+33 30 28 29 30
+
+Process II 33 35 30 38 34
+
+Process III 28 38 30 34 30
+
+Process IV 34 28 29 26 28
+
+Determine if there is significant difference in
+
+the average production units per hour for the
+
+four types of production processes. [Given that
+
+F(3,16) 5% = 3.24].
+
+10
+
+8. A population of size 10000 is divided into 4 strata. Their sizes and standard deviations are given below :
+
+Strata
+
+I
+
+II
+
+III
+
+IV
+
+Ni = Sizes 5000 1000 2000 2000
+
+si
+
+25
+
+10
+
+15
+
+20
+
+P. T. O.
+
+[6]
+
+BCS-040
+
+A stratified random sample of size 500 is to be drawn from this population. Determine the sizes of samples from these strata, in case : 10
+
+(i) Proportional allocation is used
+
+(ii) Neyman's optimum allocation is used.
+
+9. 1000 students at college level were graded according to their IQ levels and the economic condition of their parents, as follows :
+
+Economic Condition
+Rich Poor Total
+
+High 230 470 700
+
+IQ Level Low 170 130 300
+
+Total 400 600 1000
+
+Test the hypothesis that IQ levels are independent of the economic conditions at 1% level of significance.
+
+[Given that
+
+2
+1 (0.01)
+
+
+
+6.63 ]
+
+10
+
+[7]
+
+BCS-040
+
+10. A gynecologist recorded the blood pressure (BP) of her patients and collected the following data :
+
+Age (in years)
+
+BP (in mmHg)
+
+23
+
+65
+
+24
+
+60
+
+25
+
+62
+
+26
+
+70
+
+28
+
+70
+
+29
+
+73
+
+31
+
+75
+
+35
+
+83
+
+40
+
+90
+
+Fit the regression line for the given data
+
+and estimate BP if age of the patient is
+
+38 years.
+
+10
+
+BCS-040
+
+P. T. O.
+
+

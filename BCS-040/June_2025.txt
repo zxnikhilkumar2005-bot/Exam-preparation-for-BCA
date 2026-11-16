@@ -1,0 +1,210 @@
+No. of Printed Pages : 6
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA-REVISED)
+Term-End Examination June, 2025
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections (Section A and Section B).
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+
+B-1073/BCS-040
+
+P. T. O.
+
+[ 2 ]
+
+BCS-040
+
+Section--A
+
+1. With the help of a suitable example,
+
+describe the term `Probability Distribution'.
+
+How does the Binomial distribution differ
+
+from the Poisson's distribution ?
+
+5
+
+2. Construct Model ANOVA table for one-way
+
+classification.
+
+5
+
+3. From a population of 200 observations, a
+
+sample of n = 50 is selected. Calculate the
+
+standard error; if the population standard
+
+deviation equals 22.
+
+5
+
+4. Calculate an estimate of median for the
+
+following data :
+
+5
+
+Class 0--24.9 25--49.9 50--74.9 75--99.9 100--124.9 125--149.9
+
+Frequency 6 11 14 16 13 10
+
+B-1073/BCS-040
+
+[ 3 ]
+
+BCS-040
+
+5. In order to find the correlation coefficient
+
+between two variables X and Y from 20 pairs
+
+of observations, the following calculations
+
+were made :
+
+5
+
+X = 15, Y = - 6, XY = 50, X2 = 61 and
+
+Y2 = 90.
+
+Calculate the correlation coefficient and the slope of the regression line of Y on X.
+
+6. Compare and contrast Random Sampling
+
+with Non-random Sampling. Briefly discuss
+
+the methods involved in selection of any
+
+simple random sampling.
+
+5
+
+Section--B
+
+7. Describe the following tests in detail : 5+5
+
+(a) Paired t-test
+B-1073/BCS-040
+
+P. T. O.
+
+[ 4 ]
+
+BCS-040
+
+(b) Chi-square test for independence of
+
+attributes
+
+8. The following table summarizes a
+
+sample showing the level of education and
+
+marriage adjustment score for married
+
+persons :
+
+10
+
+Marriage Adjustment Score
+
+Very Low High
+High
+
+Middle
+
+Level of
+
+School 25
+
+5
+
+10
+
+Education
+
+High
+
+School 50
+
+30
+
+40
+
+College 120 60
+
+60
+
+B-1073/BCS-040
+
+[ 5 ]
+
+BCS-040
+
+Can you calculate from the above, the higher
+
+the level of education, the greater is the
+
+degree of adjustment in marriage ?
+
+(Given
+
+:
+
+2
+(4, 0.05)
+
+ 9.488 ).
+
+9. What do you understand by the term `time
+
+series' ? Discuss all the categories in which
+
+time series is classified (in 100 words
+
+each).
+
+10
+
+10. In a partially destroyed laboratory record of
+
+an analysis of correlation of data, only the
+
+following results are legible :
+
+10
+
+Variance of x = 9,
+
+Regression equations :
+
+(i) 8x 10y  66  0
+B-1073/BCS-040
+
+P. T. O.
+
+[ 6 ]
+(ii) 40x 18y  214  0
+
+BCS-040
+
+What were (a) the means of x and y, (b) the coefficient of correlation between x and y, and (c) the standard deviation of y ?
+× × × × ×
+
+B-1073/BCS-040
+
+

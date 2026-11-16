@@ -1,0 +1,225 @@
+No. of Printed Pages : 6
+
+BCS-040
+
+BACHELOR OF COMPUTER APPLICATIONS (BCA) (REVISED)
+Term-End Examination June, 2024
+BCS-040 : STATISTICAL TECHNIQUES
+
+Time : 2 Hours
+
+Maximum Marks : 50
+
+Note : (i) Attempt both Sections i.e. Section A and Section B.
+(ii) Attempt any four questions from Section A.
+(iii) Attempt any three questions from Section B.
+(iv) Use of non-scientific calculator is allowed.
+
+Section--A
+
+1. The life of 20 electric bulbs (in hours) are given as follows :
+
+125
+
+160
+
+175
+
+170
+
+111
+
+101
+
+165
+
+150
+
+140
+
+130
+
+120
+
+135
+
+145
+
+155
+
+165
+
+145
+
+105
+
+157
+
+167
+
+153
+
+P. T. O.
+
+(a) Construct
+
+[ 2 ]
+a continuous
+
+BCS-040
+frequency
+
+distribution of the data by taking class
+
+width 10.
+
+3
+
+(b) Draw the histogram of the distribution in
+
+given above.
+
+2
+
+2. The marks of four students in BCS-040 examination are given below :
+
+Name Amit Preeti Aman Seema
+
+Marks 40 26 30 32
+
+Write down all possible samples of size 2
+
+(without replacement) which can be drawn from
+
+the above data and show that sample mean
+
+(mean of all sample means) is equal to the
+
+population mean.
+
+5
+
+[ 3 ]
+
+BCS-040
+
+3. State additive law of probability. There are 300
+
+patients in a certain hospital of which 15 are
+
+COVID-19 patients, 13 are typhoid patients
+
+while 3 are suffering from both. If a patient is
+
+selected at random from the hospital, what is
+
+the probability that he/she either COVID-19 or
+
+typhoid patient ?
+
+5
+
+4. The mean weekly sales of chocolate packets in different departmental stores was 146 packets per store. After an advertisement campaign the mean weekly sales of 16 stores for a typical week was 150 and showed a standard deviation of 10. Was the advertisement campaign successful at 5% level of significance ?
+
+(Given t(15), 0.05 = 1.753).
+
+5
+
+5. Define time series with example and write its
+
+components.
+
+5
+
+P. T. O.
+
+[ 4 ]
+
+BCS-040
+
+6. Write short notes on any two of the following : 21+21
+22
+
+(i) Stratified random sampling
+
+(ii) Correlation
+
+(iii) Median and Standard deviation Section--B
+
+7. In an experiment to study whether city smoke
+
+affects health, the following data was collected.
+
+Use Chi-square test to test the hypothesis that
+
+city smoke has effect on health, at 5% level of
+
+significance :
+
+10
+
+Inhale City Smoke
+
+Light Moderate Heavy
+
+Health affected
+
+17
+
+31
+
+36
+
+Health not affected
+
+38
+
+24
+
+19
+
+(Given
+
+2
+(2),0.05
+
+
+
+5.99 ).
+
+[ 5 ]
+
+BCS-040
+
+8. A company has the following cost and sales
+
+data :
+
+10
+
+Cost (in ` '000)
+10 12 13 11 9 11 12 10
+
+Sales (in ` '000)
+15 16 16 15 10 14 14 12
+
+(i) Construct a scatter plot for the given data. (ii) Find the best linear regression line
+assuming that cost is an independent variable and sales is a dependent variable. (iii) Predict sale when cost is ` 15,000.
+9. Describe systematic sampling. The information regarding production of wheat (in thousand kg) in 25 districts is collected for a particular
+
+P. T. O.
+
+[ 6 ]
+
+BCS-040
+
+season. Select a possible systematic random sample of 7 units from the data given as follows :
+10 23, 20, 30, 37, 76, 36, 13, 36, 16, 58, 53, 83, 10, 15, 13, 17, 12, 16, 17, 21, 18, 61, 31, 71, 20
+Also calculate the sample mean from the selected units.
+
+10. Write short notes on any two of the following : 5+5
+(i) X -control chart (ii) Goodness of fit test (iii) Poisson distribution
+
+BCS-040
+
+
