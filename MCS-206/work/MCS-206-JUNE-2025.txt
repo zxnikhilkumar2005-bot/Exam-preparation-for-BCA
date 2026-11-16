@@ -1,0 +1,167 @@
+No. of Printed Pages : 6  MCS–206
+
+POST GRADUATE DIPLOMA IN
+  COMPUTER APPLICATIONS
+             [PGDCA–NEW]
+      Term-End Examination
+                 June, 2025
+
+MCS-206 : OBJECT ORIENTED
+PROGRAMMING USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                   Weightage : 70%
+
+Note : Question No. 1 is compulsory and carries
+
+40 marks. Attempt any three questions
+
+from the rest.
+
+1. (a) Discuss the utility of ‘ByteStream’ class
+
+in Java with suitable example.  5
+
+B–1088/MCS–206                  P. T. O.
+                [ 2 ]   MCS–206
+
+(b) Explain the use of getter methods and
+
+setter methods in Java. Give suitable
+
+example code for each.  5
+
+(c) How is event handling performed in
+
+JavaFx ? Explain with the help of a
+
+program.                5
+
+(d) Describe the term ‘package’ in Java.
+
+Explain the accessibility rules for
+
+packages in Java.       5
+
+(e) What are access specifiers ? List and
+
+discuss the various access specifiers
+
+available in Java.      5
+
+(f) Write a java program which takes a
+      string as input and displays its length.
+      Support your code with suitable
+
+B–1088/MCS–206
+                [ 3 ]  MCS–206
+
+comments. Also print the first character
+
+of the string.         5
+
+(g) What is a constructor ? How are
+      parameterised constructors defined in
+      Java ? Explain with suitable code. 5
+
+(h) Discuss the features of ‘AWT’ and
+
+‘Swing’ used for GUI programming in
+
+Java.                  5
+
+2. (a) What is JDBC ? Describe the utility of
+
+JDBC drivers. Write the steps to
+
+connect a database through JDBC. Also,
+
+write a suitable code in Java to
+
+showcase the database connectivity
+
+using JDBC.            10
+
+B–1088/MCS–206         P. T. O.
+           [ 4 ]               MCS–206
+
+(b) What is ‘Inheritance’ ? Give advantages
+
+of inheritance. Also, write a suitable
+
+code in Java to describe the
+
+implementation of inheritance in Java.
+
+Support your code with suitable
+
+comments.                      10
+
+3. (a) What is an exception in Java ? Give
+
+basic causes of exception. Write a
+
+program to explain how to handle
+
+‘ArrayIndexOutOfBoundsException’ in
+
+Java. Also, explain the use of ‘finally’
+
+clause in exception handling.  10
+
+     (b) What is multithreading in Java ?
+           Explain how thread synchronization is
+           achieved in Java, with the help of a
+
+B–1088/MCS–206
+                      [ 5 ]  MCS–206
+
+program. Support your program with
+
+suitable comments.           10
+
+4. (a) Compare 2-tier architecture with 3-tier
+
+architecture in relation to JDBC. Draw
+
+suitable block diagram for both the
+
+architectures. Also, discuss the
+
+functionality of core components of
+
+JDBC.                        10
+
+(b) Explain, why main method in Java is
+
+always static.               5
+
+(c) Write a Java program using
+
+appropriate GUI components, which
+
+takes your name and e-mail id as input
+
+and displays them on click of a button.
+
+Support your code with suitable
+
+           comments.               5
+
+B–1088/MCS–206               P. T. O.
+                [ 6 ]            MCS–206
+
+5. Write short notes on the following : 5×4=20
+
+(a) Decision constructs in Java
+
+(b) PreparedStatement Interface
+
+(c) Role of Hashset and Hashmap
+
+(d) Assertion statement and its significance
+
+                × × × × ×
+
+B–1088/MCS–206
+

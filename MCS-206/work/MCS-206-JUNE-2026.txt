@@ -1,0 +1,156 @@
+No. of Printed Pages : 5  MCS–206
+
+POST GRADUATE DIPLOMA
+          IN COMPUTER
+          APPLICATIONS
+           (PGDCA–NEW)
+
+    Term-End Examination
+              June, 2026
+
+MCS-206 : OBJECT ORIENTED
+PROGRAMMING USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                   Weightage : 70%
+
+Note : Question No. 1 is compulsory and carries
+         40 marks. Attempt any three questions
+         from the rest.
+
+B–2069/MCS–206             P. T. O.
+                [ 2 ]          MCS–206
+
+1. (a) Discuss the significance of Java Virtual
+
+Machine (JVM) in the Java ecosystem.
+
+Explain how JVM facilitates platform
+
+independence.                  5
+
+(b) Describe the role of constructors in Java
+      classes. Explain the concept of
+      constructor overloading with example. 5
+
+(c) Explain the use of the final keyword in
+
+Java. Discuss its significance in
+
+variable declaration and method
+
+definition.                    5
+
+(d) Explain encapsulation in Java. Discuss
+
+the benefits of encapsulation and
+
+explain how access modifiers are used
+
+to achieve encapsulation.      5
+
+(e) What is I/O streams in Java. Explain
+
+the differences between byte stream
+
+and character stream classes.  5
+
+B–2069/MCS–206
+                [ 3 ]       MCS–206
+
+(f) What are assertions in Java ? Discuss
+
+their use and importance in code
+
+development. Provide example of using
+
+assertions to validate program
+
+assumptions.                5
+
+(g) Describe the features and advantages of
+
+Java FX for building graphical user
+
+interfaces (GUIs). Explain the
+
+components and layout options
+
+available in JavaFX.        5
+
+(h) Explain the role of static methods in an
+
+interface in Java. Discuss the issues
+
+associated with multiple interfaces and
+
+how they can be addressed.  5
+
+2. (a) Write a Java program to demonstrate
+
+the use of synchronization in
+
+multithreading. Use synchronized
+
+methods or blocks to coordinate access
+
+to share resources.         10
+
+B–2069/MCS–206              P. T. O.
+                [ 4 ]  MCS–206
+
+(b) Explain the potential issues that may
+      arise in multithreaded programs and
+      strategies to avoid or mitigate them. 10
+
+3. (a) Explain the role of exceptions in Java
+
+and hierarchy of exception classes.
+
+Explain how custom exception classes
+
+can be created and used in Java
+
+programs.              10
+
+(b) Write a Java program to demonstrate
+
+exception handling for database
+
+connection failures.   10
+
+4. (a) Explain the concept of serialization in
+
+Java and its importance in data storage
+
+and transfer. Discuss the steps involved
+
+in serializing and deserializing objects
+
+in Java.               10
+
+(b) Write a Java program to demonstrate
+
+methods overloading and methods
+
+overriding.            10
+
+B–2069/MCS–206
+                [ 5 ]      MCS–206
+
+5. Write short notes on the following : 5×4=20
+
+(a) Polymorphism
+
+(b) IDBC
+
+(c) Flushable interfaces
+
+(d) Thread Life Cycle
+
+(e) Dynamic binding
+
+                × × × × ×
+
+B–2069/MCS–206             P. T. O.
+

@@ -1,0 +1,128 @@
+No. of Printed Pages : 3                    MCS-206
+
+POST GRADUATE DIPLOMA IN COMPUTER
+                APPLICATIONS (NEW)
+                      (PGDCA (NEW))
+
+                Term-End Examination
+
+                          June, 2022
+
+MCS-206 : OBJECT ORIENTED PROGRAMMING
+                        USING JAVA
+
+Time : 3 hours               Maximum Marks : 100
+                                   (Weightage : 70%)
+
+Note :  Question no. 1 is compulsory and carries
+        40 marks. Answer any three questions from the
+        rest.
+
+1. (a) What are access specifiers ? Explain the
+
+         difference between public and private
+
+         access specifiers in Java, with the help of
+
+         an example.                                  6
+
+(b) Write a Java program which takes a string
+
+         as input and displays its length.            5
+
+(c) Write a Java program to find the sum of
+
+         two matrices of dimension 3  3.             5
+
+MCS-206                   1                 P.T.O.
+(d) What is a package in Java ? Explain
+
+         accessibility rules for packages.            7
+
+(e) Explain the use of Map class in Java, with
+
+         the help of a program.                       5
+
+(f) What is object serialization ? Explain the
+
+         working and use of object serialization.     6
+
+(g) Explain event handling in JavaFX, with the
+
+         help of a program.                           6
+
+2. (a) What is inheritance ? Explain the
+
+         advantages of inheritance. Explain order of
+
+         calling of constructors in the case of
+
+         multilevel inheritance, with the help of a
+
+         program.                                     10
+
+(b) Write a program using JDBC to store
+
+         student information which includes name,
+
+         roll number, date of birth and programme
+
+         code. Give suitable comments in your
+
+         program.                                     10
+
+3. (a) What is multithreading ? Explain how
+
+         thread synchronization is achieved in Java,
+
+         with the help of a program.                  10
+
+(b) What is polymorphism ? Explain the
+
+         different types of polymorphism that are
+
+         supported by Java, with the help of
+
+         examples.                                    10
+
+MCS-206                      2
+4. (a) Explain how Java provides platform
+
+         independence, with the help of a diagram.     5
+
+(b) Explain the use of ‘‘final’’ and ‘‘super’’
+
+         keywords of Java.                             5
+
+(c) What is exception ? Explain basic causes of
+
+         exception. Write a program to explain how to
+
+         handle ‘‘ArrayIndexOutOfBoundsException’’
+
+         in Java. Also explain the use of ‘‘finally’’
+
+         clause in exception handling.                 10
+
+5. (a) What is encapsulation ? How is it
+
+         implemented in Java ? Explain through a
+
+         program.                                      5
+
+(b) Explain the use of getter methods and
+
+         setter methods in Java programming, with
+
+         the help of an example.                       5
+
+(c) Explain the difference between abstract
+
+         class and interface.                          5
+
+(d) Explain the use of ‘‘ByteStream’’ class in
+
+         Java.                                         5
+
+MCS-206                     3                       P.T.O.
+

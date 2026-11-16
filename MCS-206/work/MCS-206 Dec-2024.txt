@@ -1,0 +1,143 @@
+No. of Printed Pages : 6  MCS–206
+
+POST GRADUATE DIPLOMA IN
+  COMPUTER APPLICATIONS
+             (PGDCA–NEW)
+
+      Term-End Examination
+             December, 2024
+
+       MCS-206 : OBJECT ORIENTED
+        PROGRAMMING USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                   Weightage : 70%
+
+Note : (i) Question No. 1 is compulsory.
+
+(ii) Attempt any three questions from the
+      rest.
+
+B–1066/MCS–206                            P. T. O.
+                [ 2 ]    MCS–206
+
+1. (a) What is object oriented programming ?
+
+Explain the concept of encapsulation with
+
+the help of an example.  5
+
+(b) What is a variable ? Explain the use of a
+
+“final” variable with the help of a Java
+
+program.                 5
+
+(c) What is JDBC ? Briefly explain the core
+
+components of JDBC. Write and explain
+
+necessary steps to create a JDBC
+
+application.             10
+
+(d) What is an object in Java ? Explain how an
+
+object is assigned to another object, with
+
+the help of Java code.   5
+
+B–1066/MCS–206
+                [ 3 ]  MCS–206
+
+(e) What is Java thread model ? Explain
+
+thread life cycle in Java with the help of a
+
+diagram.               7
+
+(f) What is a package ? Explain how you
+
+can create your own package in Java.
+
+What are the different types of packages in
+
+Java ?                 8
+
+2. (a) What is constructor ? Explain the need of
+           parameterised constructor in Java
+           program with the help of an example. 5
+
+     (b) What is an Exception ? What are the
+           different types of Exceptions ? Explain the
+           need of exception handling in Java. Also,
+
+B–1066/MCS–206         P. T. O.
+                [ 4 ]  MCS–206
+
+explain how exceptions, which are “checked
+
+by compiler”, are handled with the help of
+
+an example.            10
+
+(c) Write a Java program which takes a string
+
+as input and displays its reverse. Also, find
+
+is length.             5
+
+3. (a) What is collection-API in Java ?
+
+What is Date Class ? Explain the use of
+
+compareTo and after methods of Date
+
+class.                 5
+
+(b) What is HashSet class ? Explain its two
+
+constructors.          5
+
+B–1066/MCS–206
+                [ 5 ]           MCS–206
+
+(c) What is inheritance ? List and explain the
+
+types of inheritances supported by Java.
+
+Write a Java program to illustrate
+
+implementation of inheritance.  10
+
+4. (a) Explain the differences between
+           “ByteStream” and “CharacterStream.” 5
+
+(b) What is AWT ? Explain the differences
+
+between AWT and Swing.          5
+
+(c) What is “ResultSet” in JDBC programming ?
+
+What are the different types of ResultSet ?
+
+Explain ResultSet Holdability with the
+
+help of an example.             10
+
+B–1066/MCS–206                  P. T. O.
+                                      [ 6 ]  MCS–206
+
+5. Write short notes on the following :      4×5=20
+
+(a) JavaFX
+
+(b) Polymorphism
+
+(c) Java Interface
+
+(d) User-Defined Exceptions
+
+                          × × × × × × ×
+B–1066/MCS–206
+

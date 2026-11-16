@@ -1,0 +1,137 @@
+No. of Printed Pages : 4  MCS-206
+
+POST GRADUATE DIPLOMA IN
+  COMPUTER APPLICATIONS
+            (PGDCA) (NEW)
+
+      Term-End Examination
+                 June, 2023
+
+       MCS-206 : OBJECT ORIENTED
+        PROGRAMMING USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                   Weightage : 70%
+
+Note : (i) Question No. 1 is compulsory and carries
+               40 marks.
+
+         (ii) Attempt any three questions from the
+               rest.
+
+1. (a) Briefly discuss the concept of static binding
+
+with suitable example.            5
+
+(b) Illustrate the execution of switch-case
+
+statement and if-then-else statement, with
+
+suitable code in Java for each.   5
+
+                                 P. T. O.
+[ 2 ]                               MCS-206
+
+(c) What are constructors ? How do
+
+constructors differ from methods ?  5
+
+(d) Compare Multiple Inheritance and Multi-
+
+level Inheritance. Give suitable Java code
+
+and block diagram for each.         5
+
+(e) What is an Interface in Java ? How
+      Interface differs from abstract class ? 5
+
+(f) What is the significance of assertion
+
+statement in Java ? How usage of assertion
+
+statement differs from the procedure of
+
+exception handling in Java ?        5
+
+(g) Differentiate between static and default
+
+methods in interfaces in Java.      5
+
+(h) What is multithreading concept in Java ?
+
+How does it differ from the concept of
+
+multiprocessing ?                   5
+
+2. (a) Differentiate between the following : 10
+           (i) Map Interface and Hashmap Class
+           (ii) Treeset and Hashset
+           (iii) Set and Map
+           (iv) Hashset and Hashmap
+           (v) List and Set
+            [ 3 ]        MCS-206
+
+(b) Discuss the purpose of stream classes in
+
+Java. How do byte streams differ from
+
+character streams ? Give suitable example
+
+for each.                10
+
+3. (a) What is purpose of AWT-API in Java ?
+
+Briefly discuss the role of component class,
+
+container class, panel class, windows class
+
+and frame class of AWT.  10
+
+(b) Compare the 2-tier architecture of JDBC
+      with 3-tier architecture of JDBC, draw
+      suitable block diagram for both
+      architectures. Also, discuss the
+      functionality of core components of JDBC.
+
+                         10
+
+4. (a) What is the purpose of Connection
+
+Interface in JDBC ? Briefly discuss and
+
+compare statement interface, Prepared-
+
+StatementInterface and CallableStatement
+
+interface.               10
+
+(b) Briefly discuss the concept of Garbage
+
+collection in Java. Give advantages and
+
+disadvantages of Garbage collection. Also
+
+discuss the role of finalize( ) method in
+
+Garbage collection.      10
+
+                         P. T. O.
+         [ 4 ]               MCS-206
+
+5. (a) Write a program in Java to print
+
+multiplication table of the number entered
+
+by the user. Support your code with
+
+suitable comments.           5
+
+(b) Compare the concept of Throw and Throws
+      in Java with the help of example code. 5
+
+(c) What is JDBC Batch Processing ? Explain
+
+with the help of a program.  10
+
+MCS–206
+

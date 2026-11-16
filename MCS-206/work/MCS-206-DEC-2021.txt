@@ -1,0 +1,83 @@
+                                                                     [2]      MCS-206
+
+No. of Printed Pages : 4  MCS-206                    (b) Write a Java program which takes three
+
+                                                     numbers as input and displays the largest
+
+    POST GRADUATE DIPLOMA IN                         among these.             5
+       COMPUTER APPLICATION
+                (PGDCA) (NEW)                        (c) Explain why main method in Java is
+          Term-End Examination
+                 December, 2021                      always static.           5
+
+MCS-206 : OBJECT ORIENTED PROGRAMMING                (d) Differentiate between String and String-
+                         USING JAVA
+                                                     Buffer classes in Java.  5
+
+                                                     (e) What is Package in Java ? Explain, with
+
+Time : 3 Hours            Maximum Marks : 100        example, how a user defined package is
+
+                          Weightage : 70%            created in Java.         6
+
+Note : (i) Question No. 1 is compulsory and carries  (f) What is JDBC ? Explain use of Driver-
+               40 marks.                                   Manager class in the context of JDBC. 5
+
+(ii) Attempt any three questions from the            (g) What is Multithreading ? Explain Java
+      rest.                                                thread model with the help of a diagram. 8
+
+1. (a) What is Object Oriented Programming ?         2. (a) What is an Abstract Class ? Explain
+
+What is an object ? How is it created in             advantages of abstract class with the help
+
+Java ? Explain with the help of an
+
+example.                  6                          of a program.            10
+
+                          P. T. O.
+          [3]                     MCS-206                   [4]               MCS-206
+
+(b) Explain use of “super” keyword in Java       (b) Explain the use of the following classes in
+
+programming with the help of an                  Java programming with the help of
+
+example.                          5              example :                    10
+
+(c) Write a Java program to demonstrate how      (i) Date
+
+a thread is created in Java. Also set the        (ii) List
+
+priority of created thread to 8.  5              5. (a) What is JavaFX ? Explain the features of
+
+                                                 JavaFX.                      10
+
+3. (a) What is Exception ? Why proper exception  (b) What is JDBC batch processing ? Explain
+
+handling is necessary in Java                    with the help of a program.  10
+
+Programming ? Write a program to
+
+demonstrate use of multiple “catch” clauses
+
+in exception handling.            10
+
+(b) What is “File” class in Java ? List any
+
+two methods of “file” class. Also explain
+
+use of these methods with the help of a
+
+program.                          10
+
+4. (a) What is Polymorphism ? What are the
+
+different types of polymorphism ? Explain
+
+how polymorphism helps in code reuse in
+
+Java programming with the help of a
+
+program.                          10             MCS–206
+
+                                  P. T. O.
+

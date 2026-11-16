@@ -1,0 +1,165 @@
+No. of Printed Pages : 6  MCS–206
+
+     POST GRADUATE DIPLOMA IN
+COMPUTER APPLICATIONS (PGDCA–
+
+                       NEW)
+           Term-End Examination
+
+                December, 2025
+
+MCS-206 : OBJECT ORIENTED
+PROGRAMMING USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                Weightage : 70%
+
+Note : Question No. 1 is compulsory and carries
+          40 marks. Attempt any three questions
+          from the rest.
+
+B–1047/MCS–206             P. T. O.
+                [ 2 ]       MCS–206
+
+1. (a) What is encapsulation ? How is
+
+encapsulation implemented in Java ?
+
+Explain through a program.         5
+
+(b) Differentiate between abstract class
+
+and interface in Java. Give example of
+
+each.                              5
+
+(c) Discuss the utility of map interface in
+
+Java, with the help of a program.  5
+
+(d) What is object serialization in Java ?
+
+Explain the working and utility of
+
+object serialization.              5
+
+(e) Describe the utility of ‘final’ and
+
+‘super’ keywords in Java with suitable
+
+code.                              5
+
+B–1047/MCS–206
+                [ 3 ]  MCS–206
+
+(f) Write a Java program to find the sum of
+
+two matrices of dimension 3 × 3.
+
+Support your code with suitable
+
+comments.              5
+
+(g) Explain the use of ResultSet
+
+interface in JDBC, with the help of a
+
+program.               5
+
+(h) Explain the advantage of function
+
+overloading in Java with the help of a
+
+suitable program.      5
+
+2. (a) What is multithreading ? Write suitable
+
+code in Java to illustrate the creation of
+
+thread. Also, explain the use of isAlive( )
+
+method in multithreaded programming
+
+with the help of a program.
+
+Support your code with suitable
+
+comments.              10
+
+B–1047/MCS–206         P. T. O.
+                [ 4 ]         MCS–206
+
+(b) What is Number Class ? Explain the
+
+use of parseInt (String s) method with
+
+the help of an example.       5
+
+(c) Explain event handling in Java FX,
+
+with the help of an example.  5
+
+3. (a) Describe the term ‘Exception Handling’
+
+in Java. Discuss the role of ‘throws’
+
+clause in exception handling, with the
+
+help of a suitable code in Java. Support
+
+your code with suitable comments. Also,
+
+explain the advantages of exception
+
+handling.                     10
+
+(b) Write a program in Java using
+      JDBC to store the employees
+
+B–1047/MCS–206
+                [ 5 ]    MCS–206
+
+information which includes ID, Name,
+
+Date of Birth, Department, position in a
+
+database table named Employee.
+
+Support your code with suitable
+
+comments.                10
+
+4. (a) What is Polymorphism ? Explain
+
+different types of polymorphism that
+
+are supported by Java, with the help of
+
+example codes for each.  10
+
+(b) Discuss the purpose of stream classes in
+
+Java. How do byte streams differ from
+
+character streams ? Give suitable
+
+example for each.        10
+
+5. Write short notes on the following : 4×5=20
+     (a) CallableStatement Interface
+
+B–1047/MCS–206           P. T. O.
+                [ 6 ]               MCS–206
+
+(b) Garbage collection and role of finalize( )
+
+method in garbage collection
+
+(c) JavaFX and its features
+
+(d) Utility of TreeSet and HashSet
+
+                × × × × ×
+
+B–1047/MCS–206
+

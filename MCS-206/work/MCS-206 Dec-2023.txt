@@ -1,0 +1,147 @@
+No. of Printed Pages : 4  MCS–206
+
+POST GRADUATE DIPLOMA IN
+  COMPUTER APPLICATIONS
+            (PGDCA) (NEW)
+
+Term-End Examination
+      December, 2023
+
+MCS–206 : OBJECT ORIENTED PROGRAMMING
+
+                         USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+                                   Weightage : 70%
+
+Note : (i) Question No. 1 is compulsory and carries
+               40 marks.
+
+         (ii) Attempt any three questions from the
+               rest.
+
+1. (a) Briefly discuss the concept of dynamic
+
+binding with a suitable example.  5
+
+(b) Illustrate the execution of while loop and
+
+do---while loop with suitable code in Java
+
+for each.                         5
+
+                                  P. T. O.
+          [ 2 ]                   MCS–206
+
+(c) What are access specifiers ? Briefly discuss
+
+the purpose of public, private, protected
+
+and default access specifiers.    5
+
+(d) Compare Hierarchical inheritance with
+
+Multiple inheritance. Give suitable pseudo
+
+code and block diagram for each.  5
+
+(e) Differentiate between overloading and
+
+overriding. Give suitable example for each.
+
+                                  5
+
+(f) What are annotations in Java ? Briefly
+
+discuss the purpose of the following, Built-
+
+in Java annotations :             5
+
+(i) @ Override
+
+(ii) @ Suppress Warning
+
+(iii) @ Deprecated
+
+(g) Differentiate between class and interface
+
+in Java.                          5
+
+(h) Briefly discuss the various states of thread
+
+life cycle. Also draw block diagram for
+
+thread life cycle.                5
+
+2. (a) Write short notes on the following :
+                                                             21×4=10
+
+                                                                                        2
+
+           (i) Closable Interface
+           (ii) Flushable Interface
+           (iii) Autoclosable Interface
+
+(iv) I/O Exception
+[ 3 ]                               MCS–206
+
+(b) What is a vector class ? How does vector
+
+clans differ from stack class ? Briefly
+
+discuss any two methods of both.      10
+
+3. (a) What are swings in Java ? How does Java
+           swings differ from Java AWT ? Also, list
+           the features of JavaFx that makes it
+           superior to Java AWT and JavaSiwings. 10
+
+     (b) What is the purpose of JDBC driver ?
+           Briefly discuss the Type-I, Type-II,
+           Type-III and Type-IV of JDBC drivers. 10
+
+4. (a) What is a transaction in DBMS ? How is it
+
+maintained in the JDBC applications ?
+
+How do dirty read, non-repeatable reads
+
+and phantom read makes the database in
+
+consistent ? What mechanism can we use
+
+to resolve these inconsistencies ?    10
+
+(b) Differentiate between the following : 5+5
+
+(i) JDBC RowSet and ResultSet
+
+(ii) JavaDataObject API and JDBC API
+
+5. (a) Write a program in Java to print the name
+           of week days, (MON to SUN) when the
+           user enters the number between 1 to 7.
+           Support your code with suitable comments.
+                                                                       4
+
+                                    P. T. O.
+         [ 4 ]                   MCS–206
+
+(b) Compare the concepts of Final, Finally and
+
+Finalize in Java with example.   6
+
+(c) Explain the use of “Super” keyword in Java
+
+with the help of an example.     5
+
+(d) Write Java program to demonstrate how a
+
+thread is created in Java. Also set priority
+
+of created thread to B. Support your
+
+program with suitable comments.  5
+
+MCS–206
+

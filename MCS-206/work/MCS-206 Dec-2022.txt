@@ -1,0 +1,136 @@
+No. of Printed Pages : 4  MCS-206
+
+    POST GRADUATE DIPLOMA IN
+      COMPUTER APPLICATIONS
+                (PGDCA) (NEW)
+
+          Term-End Examination
+                 December, 2022
+
+MCS-206 : OBJECT ORIENTED PROGRAMMING
+                         USING JAVA
+
+Time : 3 Hours            Maximum Marks : 100
+
+Note : (i)                                    Weightage : 70%
+            Question No. 1 is compulsory and carries
+            40 marks.
+
+(ii) Attempt any three questions from the
+      rest.
+
+1. (a) Write a java program which takes three
+
+numbers as input and displays average of
+
+these numbers.            5
+
+                          P. T. O.
+               [ 2 ]           MCS-206
+
+(b) Briefly explain use of the following logical
+
+operators with the help of example of
+
+each :                         6
+
+(i) <
+
+(ii) >
+
+(iii) > =
+
+(c) Explain function overloading with the help
+
+of a program.                  6
+
+(d) Explain use of abstract class with the help
+
+of a program. Explain why abstract class
+
+cannot be instantiated.        6
+
+(e) What is constructor ? Explain how
+
+parameterised constructors are defined in
+
+Java.                          6
+
+(f) Explain use of ResultSet interface in JDBC
+      programming with the help of a program. 5
+
+(g) Write a Java program to display table of a
+
+given number between 1 to 20.  6
+
+2. (a) What is inheritance ? Explain advantages
+
+of inheritance. Explain how inheritance in
+
+Java is implemented with the help of a
+
+program. Also explain the advantages of
+
+method overriding.             10
+            [ 3 ]  MCS-206
+
+(b) What is multithreading ? Briefly explain
+      how thread is created in Java. Explain use
+      of isAlive( ) method in multithreaded
+      programming with the help of a program.
+                                                                10
+
+3. (a) Write a Java program which takes a string
+
+as input and displays reverse of the input
+
+string.            5
+
+(b) Explain different uses of “final” keyword of
+
+Java.              5
+
+(c) Explain advantages of exception handling.
+      Explain how exceptions are handled in
+      Java, with the help of a program. Also
+      explain use of “throws” clause in Java. 10
+
+4. (a) Explain use of interface in Java with the
+
+help of an example program. Also describe
+
+difference between abstract class and
+
+interface.         10
+
+(b) Discuss the utility of set and vector classes
+
+in Java Programming with the help of a
+
+program.           10
+
+                   P. T. O.
+         [ 4 ]          MCS-206
+
+5. (a) What is GUI programming in Java ?
+
+Briefly explain the features of “AWT” and
+
+“Swing” in Java.        5
+
+(b) Write a Java program using appropriate
+
+GUI components, which takes your name
+
+and e-mail id as input and displays them
+
+on click of a button.   7
+
+(c) What is JDBC ? What is the use of JDBC
+
+driver ? Explain the steps to connect a
+
+database through JDBC.  8
+
+MCS–206
+

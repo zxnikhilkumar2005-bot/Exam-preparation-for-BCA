@@ -1,0 +1,80 @@
+                                [ 1 ]         MCS-206                   [ 2 ]                         MCS-206
+No. of Printed Pages : 3
+                                       MCS-206              (d) What is inheritance ? How it is implemented in
+
+                                                            Java ? Define Vehicle class and inherit classes
+
+                                                            “Two wheeler vehicle” and “four wheeler vehicle”
+
+POST GRADUATE DIPLOMA IN                                    from vehicle class. Define appropriate
+  COMPUTER APPLICATIONS
+                                                            constructors in all these three classes.  10
+            (PGDCA-NEW)
+                                                            (e) What is File class in Java ? Explain the use of
+      Term-End Examination
+                June 2024                                  any two methods in File class.            5
+
+  MCS-206 : OBJECT ORIENTED                                 (f) What is assertions in Java ? Explain how
+  PROGRAMMING USING JAVA                                          assertions are enabled and disabled in Java. 5
+
+                                                            (g) Explain the use of JDBC in two-tier system. Also,
+
+                                                            explain the need of JDBC driver.          5
+
+Time : 3 Hours                         Maximum Marks : 100  2. (a) Write a Java program to explain the use of “switch
+
+Note : Question No. 1 is compulsory. Attempt any three      case” and “break” statements.             5
+
+questions from the rest.                                    (b) What is method overloading ? Implement it with
+
+                                                            the help of a program ?                   5
+
+1. (a) What is a class ? How a class is defined in          (c) What is abstract class ? List its advantages. In
+
+Java ? Explain the differences between public               java how an abstract class is defined ? Can you
+
+and private classes.                   5
+
+(b) What is a relational operator ? List and explain        crate object from an abstract class ? Also, explain
+
+the use of different relational operators in                differences between abstract class and
+
+Java.                                  5                    interface.                                10
+
+(c) Write a Java program which take radius of a             3. (a) What is an exception ? Discuss the Throwable
+      circle as input and display its area. Define                      class hierarchy. Also, explain checked and
+      appropriate class and methods in the program.5                    unchecked exception.
+
+                                       P.T.O.
+                    [ 3 ]                MCS-206             [ 4 ]  MCS-206
+
+(b) What is an access specifier (control) ? What are
+      the different types of access specifiers ? Explain
+      why methods of interface are public ? Write Java
+      code to show how interface is extended. 10
+
+4. (a) What are the various steps for connecting Java
+            application with database using JDBC ? Explain
+            with the help of program segment. Also, explain
+            the difference between commit and rollback.
+
+(b) What is the need of event handling in GUI
+
+programming ? Explain how events are handled
+
+in Java Fx.                                       10
+
+5. Write short notes on the following :  4×5=20
+
+(a) Multithreading in Java
+
+(b) Use of “finally” block in Exception Handling
+
+(c) uses of “super” keyword
+
+(d) Arrays in Java
+
+                    ***
+
+                                         P.T.O.
+
