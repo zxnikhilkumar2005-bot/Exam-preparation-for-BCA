@@ -378,7 +378,7 @@ graph TB
 
 ### 3.6 Extended & Base Services of Server Programs (⭐⭐⭐ HIGHEST PRIORITY - 3 exact 10-mark repeats: Dec 21, Jun 21, Dec 23)
 
-**Based on PYQ Analysis and standard middleware architecture:**
+> **Note**: This topic is **not explicitly covered in the textbook** under these terms. It is a middleware/application server architecture concept that appears repeatedly in exams. The classification below is based on standard middleware architecture and PYQ analysis.
 
 #### Base Services (Core OS Services provided to server programs)
 | Service | Description |
@@ -403,6 +403,12 @@ graph TB
 | **Message Queuing** | Asynchronous communication (JMS, MQ, RabbitMQ) |
 | **Directory/Naming Services** | JNDI, LDAP for resource lookup |
 | **Security Extensions** | SSO, delegation, fine-grained access control (RBAC/ABAC) |
+
+**Exam Answer Structure for 10 Marks**:
+1. Define Base Services (OS-level) - list 6 with brief description
+2. Define Extended Services (Middleware-level) - list 10 with brief description
+3. Explain the difference: Base = OS kernel services; Extended = Application server/middleware value-add
+4. Mention examples: Java EE / .NET Framework provide extended services on top of OS base services
 
 ### 3.7 Important Exam Questions
 
@@ -454,16 +460,6 @@ graph TB
 | **[13]** | 69.3 | **Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')** | Widespread, Low remediation, Often, Code execution/Data loss/DoS, Easy detection, High awareness |
 | **[14]** | 68.5 | **Download of Code Without Integrity Check** | Medium prevalence, Medium-High remediation, Rarely, Code execution, Moderate detection, Low awareness |
 | **[15]** | 67.8 | **Incorrect Authorization** | High prevalence, Low-Medium remediation, Often, Security bypass, Moderate detection, High awareness |
-| **[16]** | 66.0 | **Inclusion of Functionality from Untrusted Control Sphere** | High prevalence, Low-Medium remediation, Often, Security bypass, Moderate detection, High awareness |
-| **[17]** | 65.5 | **Incorrect Permission Assignment for Critical Resource** | Medium prevalence, Low-High remediation, Often, Data loss/Code execution, Easy detection, High awareness |
-| **[18]** | 64.6 | **Use of Potentially Dangerous Function** | High prevalence, Medium remediation, Rarely, Data loss/Code execution, Easy detection, High awareness |
-| **[19]** | 64.1 | **Use of a Broken or Risky Cryptographic Algorithm** | High prevalence, Medium-High remediation, Rarely, Data loss/Security bypass, Moderate detection, Medium awareness |
-| **[20]** | 62.4 | **Incorrect Calculation of Buffer Size** | High prevalence, Low remediation, Often, Code execution/DoS/Data loss, Easy-Moderate detection, High awareness |
-| **[21]** | 61.5 | **Improper Restriction of Excessive Authentication Attempts** | Medium prevalence, Medium remediation, Sometimes, Security bypass, Moderate detection, High awareness |
-| **[22]** | 61.1 | **URL Redirection to Untrusted Site ('Open Redirect')** | High prevalence, Medium remediation, Sometimes, Code execution/Data loss/DoS, Easy detection, Medium awareness |
-| **[23]** | 61.0 | **Uncontrolled Format String** | Common, Low remediation, Sometimes, Code execution, Easy detection, High awareness |
-| **[24]** | 60.3 | **Integer Overflow or Wraparound** | Common, Low remediation, Sometimes, DoS/Code execution/Data loss, Easy detection, High awareness |
-| **[25]** | 59.9 | **Use of a One-Way Hash without a Salt** | Medium prevalence, Medium-High remediation, Rarely, Security bypass, Moderate detection, High awareness |
 
 ### 4.3 SQL Injection Case Study (Textbook §4.3.1) (⭐⭐⭐)
 
@@ -489,7 +485,7 @@ string query = "SELECT * FROM items WHERE owner = '" + userName + "' AND itemnam
 
 **Mechanism** (Textbook): Combine stateless HTTP + data/script mixture in HTML + data passing between sites + diverse encoding + feature-rich browsers → Attacker injects JavaScript → Victim's browser executes as trusted origin
 
-**Types** (Textbook implied):
+**Types** (Industry standard classification - not explicitly in textbook but essential for exam):
 | Type | Description | Example |
 |------|-------------|---------|
 | **Stored (Persistent)** | Script saved in DB, served to all | Comment field, forum post |
@@ -663,7 +659,7 @@ sequenceDiagram
 
 | Priority | Topic | Must-Know For Exam |
 |----------|-------|-------------------|
-| 🔴 **Critical** | **Extended & Base Services** | Table with 6 base + 10 extended services; detailed explanations |
+| 🔴 **Critical** | **Extended & Base Services** | Table with 6 base + 10 extended services; detailed explanations; note this is middleware concept not explicit in textbook |
 | 🔴 **Critical** | **XSS vs XSRF** | Comparison table; mechanisms; prevention for each; CWE ranks |
 | 🔴 **Critical** | **SQL Injection** | Example payload; types; parameterized query prevention; MS SQL xp_cmdshell |
 | 🔴 **Critical** | **Three-Tier vs Two-Tier** | Diagram; advantages; security implications |
