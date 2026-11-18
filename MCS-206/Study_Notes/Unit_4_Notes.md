@@ -892,6 +892,8 @@ class Resource implements AutoCloseable {
 - **In `java.lang` package** (auto-imported)
 - String literals stored in **String Constant Pool**
 
+> **📋 PYQ Insight**: String handling appeared in **2021 Q1(d)** (String vs StringBuffer, 5m), **2022 Q1(b)** (String length program, 5m), **2023 Q3(a)** (String reverse program, 5m), **2024 Q2(c)** (String reverse + length, 5m), **2025 Q1(f)** (String length + first char, 5m). "String reverse + length program" appeared **4 times** (2022, 2023, 2024, 2025). "Explain String immutability" and "Difference between String, StringBuilder, StringBuffer" are **5-10 mark questions**.
+
 ### Creating Strings
 ```java
 // 1. String literal (uses pool)
@@ -905,6 +907,22 @@ String s4 = new String("Hello");  // Different objects
 s1 == s2   // true (same reference)
 s1 == s3   // false (different objects)
 s1.equals(s3)  // true (same content)
+```
+
+### String Constant Pool vs Heap (⭐ Important Concept)
+```java
+String s1 = "Hello";           // Pool
+String s2 = "Hello";           // Pool (same as s1)
+String s3 = new String("Hello"); // Heap (new object)
+String s4 = new String("Hello"); // Heap (another new object)
+
+s1 == s2   // true  (same pool reference)
+s1 == s3   // false (pool vs heap)
+s1.equals(s3) // true (content comparison)
+
+// intern() - moves to pool / returns pool reference
+String s5 = new String("Hello").intern();  // Returns pool reference
+s1 == s5   // true
 ```
 
 ### Important Methods
@@ -941,6 +959,62 @@ s = s.concat(" World");  // Reassign
 System.out.println(s);  // "Hello World"
 ```
 
+### Why String is Immutable? (Exam Theory)
+1. **String Pool**: Sharing requires immutability
+2. **Security**: Network params, file paths, DB URLs can't be changed
+3. **Thread Safety**: Immutable = inherently thread-safe
+4. **Performance**: Hashcode cached, substring sharing (pre-Java 7)
+5. **Class Loading**: Class names as Strings must be immutable
+
+### String Reverse + Length Program (⭐⭐⭐ High Yield - appeared 4 times)
+```java
+// Method 1: Using StringBuilder (recommended)
+public static String reverse(String str) {
+    return new StringBuilder(str).reverse().toString();
+}
+
+// Method 2: Using char array (manual - often asked in exams)
+public static String reverseManual(String str) {
+    char[] chars = str.toCharArray();
+    int left = 0, right = chars.length - 1;
+    while (left < right) {
+        char temp = chars[left];
+        chars[left] = chars[right];
+        chars[right] = temp;
+        left++;
+        right--;
+    }
+    return new String(chars);
+}
+
+// Method 3: Using recursion (theoretical)
+public static String reverseRecursive(String str) {
+    if (str.isEmpty()) return str;
+    return reverseRecursive(str.substring(1)) + str.charAt(0);
+}
+
+// Complete Exam Program
+public class StringReverseDemo {
+    public static void main(String[] args) {
+        String input = "Hello World";
+        
+        // Length
+        System.out.println("Length: " + input.length());  // 11
+        
+        // Reverse
+        String reversed = reverse(input);
+        System.out.println("Reversed: " + reversed);  // "dlroW olleH"
+        
+        // First character (2025 Q1(f))
+        System.out.println("First char: " + input.charAt(0));  // 'H'
+    }
+    
+    static String reverse(String str) {
+        return new StringBuilder(str).reverse().toString();
+    }
+}
+```
+
 ### String vs StringBuilder vs StringBuffer
 
 | Feature | String | StringBuilder | StringBuffer |
@@ -949,6 +1023,7 @@ System.out.println(s);  // "Hello World"
 | **Thread Safety** | N/A (immutable) | Not synchronized | Synchronized |
 | **Performance** | Fast for reads | Fastest for modifications | Slower (sync overhead) |
 | **Use Case** | Constant strings | Single-threaded modifications | Multi-threaded modifications |
+| **Java Version** | 1.0 | 5.0 | 1.0 |
 
 ```java
 // StringBuilder example
@@ -961,6 +1036,58 @@ System.out.println(sb);   // "dlroW ,olleH"
 // StringBuffer example (thread-safe)
 StringBuffer sbf = new StringBuffer("Hello");
 sbf.append(" World");
+
+// Performance Demo
+public class PerformanceDemo {
+    public static void main(String[] args) {
+        long start, end;
+        
+        // String concatenation (slow - creates many objects)
+        String s = "";
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) s += "a";
+        end = System.currentTimeMillis();
+        System.out.println("String: " + (end - start) + "ms");
+        
+        // StringBuilder (fast)
+        StringBuilder sb = new StringBuilder();
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) sb.append("a");
+        end = System.currentTimeMillis();
+        System.out.println("StringBuilder: " + (end - start) + "ms");
+        
+        // StringBuffer (slower due to sync)
+        StringBuffer sbf = new StringBuffer();
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) sbf.append("a");
+        end = System.currentTimeMillis();
+        System.out.println("StringBuffer: " + (end - start) + "ms");
+    }
+}
+```
+
+### Additional String Methods for Exams
+```java
+String s = "  Hello World  ";
+
+// Formatting
+String.format("Name: %s, Age: %d", "Alice", 20);  // "Name: Alice, Age: 20"
+
+// Join (Java 8+)
+String.join(", ", "Apple", "Banana", "Cherry");  // "Apple, Banana, Cherry"
+
+// Lines (Java 11+)
+"Line1\nLine2\nLine3".lines().forEach(System.out::println);
+
+// Strip (Java 11+) - Unicode-aware trim
+"  Hello  ".strip();  // "Hello" (better than trim() for Unicode)
+
+// Repeat (Java 11+)
+"Ha".repeat(3);  // "HaHaHa"
+
+// Blank check (Java 11+)
+"  ".isBlank();  // true (only whitespace)
+"".isBlank();    // true
 ```
 
 ---
@@ -982,6 +1109,10 @@ sbf.append(" World");
 10. Difference between `String` and `StringBuffer`/`StringBuilder`.
 11. Why is `main` method static?
 12. What is constructor overloading?
+13. **Difference between `final`, `finally`, `finalize`** (⭐ 2023 Q5(b) 6m, 2025 Q5(d))
+14. **Difference between `throw` and `throws`** (⭐ 2023 Q5(b), 2025, 2026)
+15. **Difference between overloading and overriding** (⭐ 2023 Q1(e), 2026)
+16. **Difference between abstract class and interface** (⭐ 2022, 2023, 2024, 2025, 2026)
 
 **5-Mark Questions:**
 1. Explain constructor with types and example program.
@@ -994,11 +1125,17 @@ sbf.append(" World");
 8. Write a program demonstrating String methods (length, reverse, compare).
 9. Explain String immutability with example.
 10. Difference between String, StringBuilder, StringBuffer.
+11. **Explain constructor chaining with `this()` and `super()`** (⭐ 2022 Q2(a) 10m)
+12. **Why parameterized constructor needed?** (⭐ 2022, 2024, 2025, 2026)
+13. **Static block vs instance block vs constructor execution order** (⭐ Theory)
+14. **Protected access in different package via inheritance vs reference** (⭐ Nuance)
 
 **10-Mark Questions:**
 1. What is a class? Explain constructors, `this`, `static`, `final` with comprehensive example.
 2. Explain encapsulation in detail with access modifiers and a complete program.
 3. Explain memory management in Java: object creation, garbage collection, finalize.
+4. **Inheritance + Constructor chaining order in multilevel** (⭐ 2022 Q2(a) 10m)
+5. **final vs finally vs finalize with examples** (⭐ 2023 Q5(b) 6m)
 
 ### Programs to Practice (High Yield)
 1. ✅ **Encapsulation with getter/setter** - appeared 2021, 2022, 2024, 2025, 2026
@@ -1008,6 +1145,9 @@ sbf.append(" World");
 5. ✅ **Final variable/method/class** - appeared 2022, 2023, 2024, 2025, 2026
 6. ✅ **String reverse + length** - appeared 2022, 2023, 2024, 2025
 7. ✅ **Object assignment/reference** - appeared 2024
+8. ✅ **Constructor chaining with `super()` in multilevel inheritance** - 2022 Q2(a)
+9. ✅ **final vs finally vs finalize demo** - 2023 Q5(b), 2025 Q5(d)
+10. ✅ **Protected access demo (inheritance vs reference)** - Theory nuance
 
 ---
 
@@ -1016,17 +1156,17 @@ sbf.append(" World");
 | Topic | Key Points |
 |-------|------------|
 | **Class** | Blueprint with fields, methods, constructors |
-| **Object** | Instance of class; created with `new` |
-| **Constructor** | Same name as class; no return type; default/parameterized/overloaded |
-| **`this`** | Current object reference; resolves conflicts; constructor chaining |
-| **`static`** | Class-level; shared; accessed via class name; no `this` |
-| **`final`** | Variable=constant, Method=can't override, Class=can't extend |
-| **Encapsulation** | Private fields + public getters/setters |
-| **Access Modifiers** | private < default < protected < public |
-| **Garbage Collection** | Automatic; reclaims unreferenced objects; `finalize()` called before destruction |
-| **String** | Immutable; pool for literals; many utility methods |
-| **StringBuilder** | Mutable; non-synchronized; fast |
-| **StringBuffer** | Mutable; synchronized; thread-safe |
+| **Object** | Instance of class; created with `new`; reference vs object |
+| **Constructor** | Same name as class; no return type; default/parameterized/overloaded; chaining with `this()`/`super()` |
+| **`this`** | Current object reference; resolves conflicts; constructor chaining; pass/return self |
+| **`static`** | Class-level; shared; accessed via class name; no `this`; static blocks init order |
+| **`final`** | Variable=constant, Method=can't override, Class=can't extend; blank final in constructor |
+| **Encapsulation** | Private fields + public getters/setters; validation in setters |
+| **Access Modifiers** | private < default < protected < public; protected=package+subclass(inheritance) |
+| **Garbage Collection** | Automatic; daemon thread; non-deterministic; finalize() deprecated Java 9; Cleaner API |
+| **String** | Immutable; pool for literals; many utility methods; reverse/length high yield |
+| **StringBuilder** | Mutable; non-synchronized; fast; single-threaded |
+| **StringBuffer** | Mutable; synchronized; thread-safe; legacy |
 
 ---
 
@@ -1051,3 +1191,325 @@ sbf.append(" World");
 | Thread Safety | Yes (immutable) | Yes (synchronized) | No |
 | Performance | Slow for concat | Moderate | Fast |
 | Java Version | 1.0 | 1.0 | 5.0 |
+
+### final vs finally vs finalize (⭐⭐⭐ 2023 Q5(b) 6m, 2025 Q5(d))
+| Aspect | `final` | `finally` | `finalize()` |
+|--------|---------|-----------|--------------|
+| **Type** | Keyword/Modifier | Block | Method |
+| **Purpose** | Restrict modification | Cleanup (always runs) | GC cleanup (deprecated) |
+| **Applies To** | Variable, Method, Class, Parameter | try-catch-finally | Object class |
+| **Guarantee** | Compile-time | Runtime (always*) | Not guaranteed |
+| **Since/Deprecated** | Java 1.0 | Java 1.0 | Java 1.0 / Deprecated Java 9 |
+
+*except `System.exit()`, infinite loop, or JVM crash
+
+### Access Modifiers Quick Reference
+| Modifier | Same Class | Same Package | Subclass (Diff Pkg) | World |
+|----------|------------|--------------|---------------------|-------|
+| `private` | ✅ | ❌ | ❌ | ❌ |
+| `default` | ✅ | ✅ | ❌ | ❌ |
+| `protected` | ✅ | ✅ | ✅ (via inheritance) | ❌ |
+| `public` | ✅ | ✅ | ✅ | ✅ |
+
+### Static vs Instance Members
+| Aspect | Static | Instance |
+|--------|--------|----------|
+| Memory | Class area (once) | Heap (per object) |
+| Access | `ClassName.member` | `object.member` |
+| `this` reference | Not available | Available |
+| Can access | Only static members | Both static & instance |
+| Override | Cannot override (can hide) | Can override |
+
+### Protected Access Nuance (⭐ Exam Important)
+| Access Via | Same Package | Different Package (Subclass) | Different Package (Non-subclass) |
+|------------|--------------|------------------------------|----------------------------------|
+| `this.protectedVar` | ✅ | ✅ | ❌ |
+| `super.protectedVar` | ✅ | ✅ | ❌ |
+| `parentRef.protectedVar` | ✅ | ❌ | ❌ |
+
+**Rule**: Protected = Package access + **Inheritance-based** access in subclass (not reference-based)
+
+### String Creation Methods
+| Method | Pool? | New Object? | Use Case |
+|--------|-------|-------------|----------|
+| `String s = "Hello"` | ✅ Yes | ❌ (reuse) | Preferred for literals |
+| `String s = new String("Hello")` | ❌ No | ✅ Always | Rarely needed |
+| `String s = "Hello".intern()` | ✅ Yes | ❌ (pool) | Explicit pooling |
+
+---
+
+## 4.12 Comprehensive 10-Mark Exam Program (Combines Multiple Topics)
+
+This program demonstrates: **Class/Object, Constructor Overloading, `this` chaining, `static`, `final`, Encapsulation, Access Modifiers, String handling**
+
+```java
+// ⭐⭐⭐ COMPREHENSIVE 10-MARK PROGRAM - Covers Unit 4 Core Topics ⭐⭐⭐
+
+// Base class demonstrating final, static, encapsulation
+final class University {  // final class - cannot extend
+    static final String UNIVERSITY_NAME = "IGNOU";  // final static constant
+    static int totalStudents = 0;  // static variable
+    
+    private String campus;  // encapsulated
+    
+    University(String campus) {
+        this.campus = campus;
+    }
+    
+    public String getCampus() { return campus; }
+    public void setCampus(String campus) { this.campus = campus; }
+    
+    static void showTotalStudents() {
+        System.out.println("Total Students: " + totalStudents);
+    }
+}
+
+// Student class - demonstrates all Unit 4 concepts
+class Student {
+    // Private fields (Encapsulation)
+    private String name;
+    private int age;
+    private final String studentId;  // final instance variable (blank final)
+    private double gpa;
+    private static int idCounter = 0;  // static counter
+    
+    // Constructor overloading with this() chaining
+    public Student() {
+        this("Unknown", 0, 0.0);  // this() chaining
+    }
+    
+    public Student(String name, int age) {
+        this(name, age, 0.0);  // this() chaining
+    }
+    
+    public Student(String name, int age, double gpa) {
+        // this resolves name conflicts
+        this.name = validateName(name);
+        this.age = validateAge(age);
+        this.gpa = validateGpa(gpa);
+        this.studentId = "STU" + (++idCounter);  // blank final initialized
+        University.totalStudents++;  // access static from other class
+    }
+    
+    // Private validation methods (encapsulation helper)
+    private String validateName(String name) {
+        if (name == null || name.trim().isEmpty()) 
+            throw new IllegalArgumentException("Name required");
+        return name.trim();
+    }
+    
+    private int validateAge(int age) {
+        if (age < 16 || age > 100) 
+            throw new IllegalArgumentException("Age 16-100");
+        return age;
+    }
+    
+    private double validateGpa(double gpa) {
+        if (gpa < 0.0 || gpa > 4.0) 
+            throw new IllegalArgumentException("GPA 0.0-4.0");
+        return gpa;
+    }
+    
+    // Getters (accessors)
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getStudentId() { return studentId; }
+    public double getGpa() { return gpa; }
+    
+    // Setters (mutators) with validation
+    public void setName(String name) { this.name = validateName(name); }
+    public void setAge(int age) { this.age = validateAge(age); }
+    public void setGpa(double gpa) { this.gpa = validateGpa(gpa); }
+    
+    // Method demonstrating this reference return (method chaining)
+    public Student updateGpa(double newGpa) {
+        setGpa(newGpa);
+        return this;  // return current object for chaining
+    }
+    
+    // final method - cannot override
+    public final void printIdCard() {
+        System.out.println("=== ID CARD ===");
+        System.out.println("University: " + University.UNIVERSITY_NAME);
+        System.out.println("ID: " + studentId);
+        System.out.println("Name: " + name);
+    }
+    
+    // String handling demo
+    public String getReversedName() {
+        return new StringBuilder(name).reverse().toString();
+    }
+    
+    public int getNameLength() {
+        return name.length();
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Student[%s: %s, Age: %d, GPA: %.2f]", 
+            studentId, name, age, gpa);
+    }
+}
+
+// Demo class
+public class ComprehensiveDemo {
+    public static void main(String[] args) {
+        System.out.println("=== UNIT 4 COMPREHENSIVE DEMO ===\n");
+        
+        // 1. Constructor overloading + this() chaining
+        Student s1 = new Student();
+        Student s2 = new Student("Alice", 20);
+        Student s3 = new Student("Bob", 22, 3.8);
+        
+        System.out.println("1. Constructor Overloading:");
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println(s3);
+        
+        // 2. Encapsulation with validation
+        System.out.println("\n2. Encapsulation + Validation:");
+        try {
+            s2.setGpa(5.0);  // Will throw exception
+        } catch (IllegalArgumentException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        }
+        s2.setGpa(3.9);
+        System.out.println("Updated: " + s2);
+        
+        // 3. Method chaining (this return)
+        System.out.println("\n3. Method Chaining:");
+        s3.updateGpa(4.0).updateGpa(3.7);  // Chaining!
+        System.out.println("After chaining: " + s3);
+        
+        // 4. Static members
+        System.out.println("\n4. Static Variables/Methods:");
+        University.showTotalStudents();  // 3
+        System.out.println("University: " + University.UNIVERSITY_NAME);
+        
+        // 5. Final variable (studentId cannot change)
+        System.out.println("\n5. Final Instance Variable:");
+        System.out.println("ID (final): " + s3.getStudentId());
+        // s3.studentId = "NEW";  // COMPILE ERROR
+        
+        // 6. String handling
+        System.out.println("\n6. String Methods:");
+        System.out.println("Name: " + s3.getName());
+        System.out.println("Reversed: " + s3.getReversedName());
+        System.out.println("Length: " + s3.getNameLength());
+        
+        // 7. Object reference vs object (assignment)
+        System.out.println("\n7. Object Reference Behavior:");
+        Student s4 = s3;  // Same object!
+        s4.setName("Charlie");
+        System.out.println("s3 name: " + s3.getName());  // "Charlie"
+        System.out.println("s4 name: " + s4.getName());  // "Charlie"
+        System.out.println("s3 == s4: " + (s3 == s4));   // true
+        
+        // 8. Final class cannot extend
+        // class NewUni extends University {}  // COMPILE ERROR
+        
+        // 9. Final method cannot override
+        s3.printIdCard();  // Works
+        // class GradStudent extends Student { void printIdCard(){} } // ERROR
+        
+        System.out.println("\n=== ALL UNIT 4 CONCEPTS DEMONSTRATED ===");
+    }
+}
+```
+
+---
+
+## 4.13 Common Exam Pitfalls & Mistakes to Avoid
+
+| Pitfall | Wrong | Correct | Why |
+|---------|-------|---------|-----|
+| **`this()` not first** | `Student() { int x=1; this("a"); }` | `Student() { this("a"); int x=1; }` | `this()`/`super()` MUST be first statement |
+| **Static accessing instance** | `static void m() { this.x = 1; }` | `static void m() { /* no this */ }` | Static has no `this` reference |
+| **Final variable not init** | `final int x; // in class` | `final int x = 10;` or init in ALL constructors | Blank final must be initialized |
+| **Protected via reference** | `Parent p = new Parent(); p.protectedVar` (diff pkg) | `this.protectedVar` or `super.protectedVar` | Protected = inheritance access only in diff pkg |
+| **== vs equals** | `s1 == s2` for content | `s1.equals(s2)` | `==` compares references |
+| **String concat in loop** | `s += "a"` in loop | `StringBuilder sb; sb.append("a")` | String immutable = O(n²) objects |
+| **finalize() reliance** | Rely on finalize for cleanup | Use try-with-resources / Cleaner | finalize deprecated, not guaranteed |
+| **Default constructor gone** | Define param constructor, use default | Define default explicitly if needed | Compiler only provides if NO constructor defined |
+| **Constructor override** | `@Override Student() {}` | Not possible | Constructors not inherited, cannot override |
+| **Static method override** | `@Override static void m() {}` | `static void m()` in child (hiding) | Static methods hidden, not overridden |
+
+---
+
+## 4.14 Memory Management Deep Dive (For 10-Mark Theory)
+
+### Object Memory Layout
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      HEAP                                   │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ Object Header│  │ Instance     │  │ Padding      │      │
+│  │ (12-16 bytes)│  │ Data         │  │ (alignment)  │      │
+│  │ - Mark Word  │  │ - Fields     │  │              │      │
+│  │ - Class Ptr  │  │ - final      │  │              │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+                              ▲
+                              │ Reference (4/8 bytes on 32/64-bit)
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                      STACK                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ Local Vars   │  │ Operand Stack│  │ Frame Data   │      │
+│  │ (references) │  │              │  │              │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### GC Roots (What Keeps Objects Alive)
+1. **Local variables** in stack frames
+2. **Active threads** 
+3. **Static variables** of loaded classes
+4. **JNI references** (native code)
+5. **Synchronized locks** (monitor objects)
+
+### Generational GC (Conceptual)
+```
+Young Generation (Eden + S0 + S1)     Old Generation (Tenured)
+├─ Minor GC (fast, frequent)          ├─ Major GC (slow, rare)
+├─ Short-lived objects                ├─ Long-lived objects
+└─ Survivor spaces                    └─ Promoted from Young
+```
+
+### Memory Leaks in Java (Yes, they exist!)
+```java
+// 1. Static collections holding references
+static List<Object> cache = new ArrayList<>();
+cache.add(largeObject);  // Never removed = leak
+
+// 2. Listeners not removed
+button.addListener(listener);  // If button lives longer = leak
+
+// 3. ThreadLocal not cleaned
+ThreadLocal<Connection> tl = new ThreadLocal<>();
+tl.set(conn);  // Thread pool reuses threads = leak
+
+// 4. String.intern() abuse (pre-Java 7 PermGen, now Metaspace)
+String s = hugeString.intern();  // Stays in pool forever
+```
+
+---
+
+## 4.15 Quick Revision Checklist (Before Exam)
+
+- [ ] **Class vs Object**: Definition, memory, reference vs object
+- [ ] **Constructors**: Default, parameterized, overloading, chaining (`this()`/`super()`)
+- [ ] **`this` keyword**: 4 uses (variable, constructor, argument, return)
+- [ ] **`static`**: Variables, methods, blocks, initialization order, why main static
+- [ ] **`final`**: Variable (blank final), method, class, parameter, effectively final
+- [ ] **Encapsulation**: Private + getters/setters, validation, benefits
+- [ ] **Access Modifiers**: Table, protected nuance (inheritance vs reference)
+- [ ] **Garbage Collection**: Eligibility, finalize(), resurrection, modern alternatives
+- [ ] **String**: Immutable, pool vs heap, == vs equals, reverse/length program
+- [ ] **StringBuilder/Buffer**: Differences, performance, when to use
+- [ ] **final vs finally vs finalize**: Clear differentiation with examples
+- [ ] **Programs**: Encapsulation, Constructor chaining, String reverse, Object reference
+
+---
+
+*Unit 4 Complete - Ready for Exam Preparation!*

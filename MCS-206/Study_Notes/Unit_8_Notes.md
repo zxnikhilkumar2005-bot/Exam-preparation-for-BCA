@@ -1,7 +1,28 @@
 # Unit 8: Packages and Interfaces
 
 ## Unit Overview
-This unit covers packages (built-in and user-defined), access rules in packages, CLASSPATH, creating and importing packages, and interfaces (definition, implementation, extension, default/static methods, multiple interface issues).
+This unit covers packages (built-in and user-defined), access rules in packages, CLASSPATH, creating and importing packages, and interfaces (definition, implementation, extension, default/static methods, multiple interface issues, abstract class vs interface comparison).
+
+## PYQ Priority (Based on 10 Years Analysis: Dec 2021 - June 2026)
+| Topic | Frequency | Priority | Years Appeared | Typical Marks |
+|-------|-----------|----------|----------------|---------------|
+| Package (creation, import, accessibility rules) | 6/10 | **HIGH** | 2021, 2022, 2023, 2024×2, 2025 | 5-8 |
+| Interface (declaration, implementation, extension) | 5/10 | **HIGH** | 2022, 2023, 2024, 2025, 2026 | 5-10 |
+| Types of packages (built-in, user-defined) | 1/10 | **MEDIUM** | 2024 | 8 |
+| Static & Default methods in interface | 2/10 | **MEDIUM** | 2023, 2026 | 5 |
+| Package access protection | 1/10 | **LOW** | 2022 | 7 |
+| **Abstract Class vs Interface** (cross-unit) | 8/10 | **CRITICAL** | 2021, 2022, 2023×2, 2024, 2025×2 | 5-10 |
+
+**Key Exam Questions from PYQ:**
+- 2021 Q1(e): User-defined Package creation (6m) - Theory+Code
+- 2022 Q1(d): Package accessibility rules (7m) - Theory
+- 2023 Q1(g): Class vs Interface (5m) - Differentiate
+- 2023 Q1(g): Static vs Default methods in interface (5m) - Differentiate
+- 2024 Q1(f): Package creation + types (8m) - Theory
+- 2025 Q1(d): Package + accessibility rules (5m) - Theory
+- 2025 Q1(e): Access specifiers (5m) - Theory
+- 2026 Q1(h): Static methods in interface + multiple interface issues (5m) - Theory
+- 2024 Q5(c): Java Interface short note (5m)
 
 ---
 
@@ -19,6 +40,19 @@ A package is a namespace that organizes related classes and interfaces. It preve
 |------|-------------|----------|
 | **Built-in** | Provided by Java API | `java.lang`, `java.util`, `java.io`, `java.sql` |
 | **User-defined** | Created by programmer | `com.company.project.module` |
+
+### Difference: Built-in vs User-defined Packages
+
+| Aspect | Built-in Packages | User-defined Packages |
+|--------|-------------------|----------------------|
+| **Origin** | Provided by Java API / JDK | Created by programmer |
+| **Naming Convention** | `java.*`, `javax.*`, `javafx.*` | Reverse domain name (e.g., `com.company.project`) |
+| **Location** | JDK installation (`jre/lib/rt.jar`) | Custom directory structure (`-d` option) |
+| **Availability** | Always available, auto-imported for `java.lang` | Must be compiled and added to CLASSPATH |
+| **Purpose** | Core functionality (I/O, Collections, Networking, GUI, DB) | Organize project-specific code |
+| **Modification** | Cannot be modified | Fully controllable by developer |
+
+**Key Point:** `java.lang` is the only package implicitly imported. All other built-in packages require explicit import.
 
 ### Common Built-in Packages
 

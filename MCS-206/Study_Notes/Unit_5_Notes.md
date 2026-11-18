@@ -144,6 +144,18 @@ Animal makes sound
 - **Why use overriding?** To achieve **runtime polymorphism** — same interface, different behavior
 - **`super.method()`**: Used to call parent's overridden method from child
 
+### Can We Override? — **Frequent 2-Mark Question (2022, 2025)**
+| Method Type | Can Override? | Reason |
+|-------------|---------------|--------|
+| **`private`** | ❌ **No** | Not inherited by subclass |
+| **`final`** | ❌ **No** | Explicitly prevented |
+| **`static`** | ❌ **No** (hidden) | Belongs to class, not instance |
+| **`abstract`** | ✅ **Must override** | Unless subclass is also abstract |
+| **`default` (interface)** | ✅ **Yes** | Can be overridden in implementing class |
+| **`protected`/`public`** | ✅ **Yes** | Normal overriding rules apply |
+
+> **Exam Answer Format**: "Private methods are not inherited, so cannot be overridden. Final methods cannot be overridden. Static methods are hidden, not overridden (binding is static)."
+
 ---
 
 ## 5.4 Advantages of Inheritance
@@ -621,6 +633,88 @@ final class Parent {
 3. ✅ **Method overriding example** - appeared 2022, 2024, 2025, 2026
 4. ✅ **Multilevel inheritance (Student → Marks → Percentage)** - appeared 2022
 5. ✅ **Constructor execution order** - appeared 2022
+
+---
+
+### 2024 Q1(d) - 10 Marks: Vehicle → Two-wheeler/Four-wheeler (Exact Exam Question)
+```java
+class Vehicle {
+    String brand;
+    int maxSpeed;
+    
+    Vehicle(String b, int s) {
+        brand = b;
+        maxSpeed = s;
+    }
+    
+    void display() {
+        System.out.println("Brand: " + brand);
+        System.out.println("Max Speed: " + maxSpeed);
+    }
+}
+
+class TwoWheeler extends Vehicle {
+    boolean hasCarrier;
+    
+    TwoWheeler(String b, int s, boolean c) {
+        super(b, s);  // Call Vehicle constructor
+        hasCarrier = c;
+    }
+    
+    @Override
+    void display() {
+        super.display();  // Call Vehicle's display()
+        System.out.println("Has Carrier: " + hasCarrier);
+    }
+}
+
+class FourWheeler extends Vehicle {
+    int numDoors;
+    boolean hasAC;
+    
+    FourWheeler(String b, int s, int d, boolean ac) {
+        super(b, s);  // Call Vehicle constructor
+        numDoors = d;
+        hasAC = ac;
+    }
+    
+    @Override
+    void display() {
+        super.display();  // Call Vehicle's display()
+        System.out.println("Number of Doors: " + numDoors);
+        System.out.println("Has AC: " + hasAC);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        TwoWheeler tw = new TwoWheeler("Honda", 120, true);
+        FourWheeler fw = new FourWheeler("Toyota", 180, 4, true);
+        
+        System.out.println("--- Two Wheeler ---");
+        tw.display();
+        
+        System.out.println("\n--- Four Wheeler ---");
+        fw.display();
+    }
+}
+```
+
+**Output:**
+```
+--- Two Wheeler ---
+Brand: Honda
+Max Speed: 120
+Has Carrier: true
+
+--- Four Wheeler ---
+Brand: Toyota
+Max Speed: 180
+Number of Doors: 4
+Has AC: true
+```
+
+> **Exam Pattern**: This exact hierarchy appeared in **2024 Q1(d) for 10 marks** — "Inheritance + Vehicle/Two-wheeler/Four-wheeler". Practice this thoroughly!
 
 ---
 
