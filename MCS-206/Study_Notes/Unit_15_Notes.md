@@ -1,9 +1,9 @@
-# Unit 15: JDBC Part 1
+# Unit 15: JDBC Part 1 & Part 2 (Combined)
 
 ## Unit Overview
-This unit covers **JDBC Architecture** (2-tier vs 3-tier), **JDBC Driver Types** (I-IV), **JDBC Core Components**, database connection steps, **DriverManager** class, **Connection** interface, **Statement types** (Statement, PreparedStatement, CallableStatement), basic **JDBC programming** (CRUD), and **Transaction Management** basics.
+This unit covers **JDBC Architecture** (2-tier vs 3-tier), **JDBC Driver Types** (I-IV), **JDBC Core Components**, database connection steps, **DriverManager** class, **Connection** interface, **Statement types** (Statement, PreparedStatement, CallableStatement), basic **JDBC programming** (CRUD), **Transaction Management** (ACID, commit/rollback/savepoint), **Isolation Levels**, **Concurrency Problems**, **Batch Processing**, **ResultSet** (types, concurrency, holdability, navigation, updatable), **RowSet** (connected/disconnected, implementations), **Metadata** (DatabaseMetaData, ResultSetMetaData, ParameterMetaData), and **JDO vs JDBC**.
 
-> **Exam Priority (PYQ Analysis 2021-2026):** 🔴 **CRITICAL** — JDBC appears 8/10 years. 10-mark questions combining Architecture + Drivers + Connection Steps + Statement Types + Transactions appeared in **2021, 2022, 2023, 2024, 2025**. Driver Types (10m): 2022, 2023, 2024, 2025. Architecture (10m): 2022, 2023, 2024, 2025. Connection Steps + Code: every year.
+> **Exam Priority (PYQ Analysis 2021-2026):** 🔴 **CRITICAL** — JDBC appears 8/10 years. 10-mark questions combining Architecture + Drivers + Connection Steps + Statement Types + Transactions appeared in **2021, 2022, 2023, 2024, 2025**. Driver Types (10m): 2022, 2023, 2024, 2025. Architecture (10m): 2022, 2023, 2024, 2025. Connection Steps + Code: every year. Batch Processing (10m): 2021, 2023, 2025. Transactions + Isolation (10m): 2023, 2024. ResultSet types/concurrency (10m): 2022, 2024. RowSet vs ResultSet (10m): 2023. JDO vs JDBC (10m): 2023. CallableStatement (5m): 2023, 2025. PreparedStatement (5m): 2025.
 
 ---
 
@@ -22,10 +22,10 @@ This unit covers **JDBC Architecture** (2-tier vs 3-tier), **JDBC Driver Types**
 
 | Package | Description |
 |---------|-------------|
-| `java.sql` | **Core JDBC API** — DriverManager, Connection, Statement, PreparedStatement, CallableStatement, ResultSet, SQLException, DatabaseMetaData, ResultSetMetaData |
-| `javax.sql` | **Extended JDBC API** — DataSource, ConnectionPoolDataSource, PooledConnection, RowSet (JdbcRowSet, CachedRowSet, WebRowSet) |
+| `java.sql` | **Core JDBC API** — DriverManager, Connection, Statement, PreparedStatement, CallableStatement, ResultSet, SQLException, DatabaseMetaData, ResultSetMetaData, ParameterMetaData, Savepoint, Types |
+| `javax.sql` | **Extended JDBC API** — DataSource, ConnectionPoolDataSource, PooledConnection, RowSet (JdbcRowSet, CachedRowSet, WebRowSet, JoinRowSet, FilteredRowSet), RowSetListener, RowSetEvent |
 
-> **Note**: `java.sql` is the primary package for all basic JDBC operations. `javax.sql` adds enterprise features (connection pooling, DataSource, RowSet).
+> **Note**: `java.sql` is the primary package for all basic JDBC operations. `javax.sql` adds enterprise features (connection pooling, DataSource, RowSet). RowSet implementations are in `javax.sql.rowset`.
 
 ---
 
@@ -64,7 +64,8 @@ Java Application
 ┌──────────────────┐
 │   JDBC API       │  ← java.sql.* interfaces (DriverManager, Connection, 
 │  (Core Components)    Statement, PreparedStatement, CallableStatement,
-│                  │     ResultSet, SQLException, DatabaseMetaData)
+│                  │     ResultSet, SQLException, DatabaseMetaData,
+│                  │     ResultSetMetaData, ParameterMetaData, Savepoint)
 └────────┬─────────┘
          │
          ▼
@@ -95,6 +96,9 @@ Java Application
 | **SQLException** | `java.sql.SQLException` | Checked exception for DB errors |
 | **DatabaseMetaData** | `java.sql.DatabaseMetaData` | DB info (tables, columns, version, capabilities) |
 | **ResultSetMetaData** | `java.sql.ResultSetMetaData` | ResultSet structure (column count, types, names) |
+| **ParameterMetaData** | `java.sql.ParameterMetaData` | PreparedStatement parameter info |
+| **Savepoint** | `java.sql.Savepoint` | Transaction checkpoint for partial rollback |
+| **Types** | `java.sql.Types` | SQL type constants (INTEGER, VARCHAR, etc.) |
 
 ---
 
@@ -257,6 +261,11 @@ Statement createStatement()
 PreparedStatement prepareStatement(String sql)
 CallableStatement prepareCall(String sql)
 
+// Create statements with ResultSet type/concurrency
+Statement createStatement(int resultSetType, int resultSetConcurrency)
+PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
+CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency)
+
 // Transaction management
 void setAutoCommit(boolean autoCommit)     // Default: true
 void commit()
@@ -275,6 +284,7 @@ void close()
 String getCatalog() / void setCatalog(String catalog)
 int getTransactionIsolation() / void setTransactionIsolation(int level)
 boolean isReadOnly() / void setReadOnly(boolean readOnly)
+int getHoldability() / void setHoldability(int holdability)
 ```
 
 ### Auto-Commit Mode & Transaction Management (HIGH Priority — 2023, 2024, 2025)
@@ -373,310 +383,6 @@ try {
 
 ---
 
-## 15.11 JDBC Batch Processing — **CRITICAL (2021, 2023, 2025 — 10 marks each)**
-
-### Purpose
-Execute multiple SQL statements as a single batch for better performance. Reduces network round-trips by sending multiple statements in one request.
-
-### How Batch Processing Works
-
-```java
-// Traditional approach (single statement, multiple network trips):
-for (int i = 0; i < 1000; i++) {
-    stmt.executeUpdate("INSERT INTO students VALUES(" + i + ", 'Student" + i + "')");
-    // 1000 network round-trips!
-}
-
-// Batch approach (multiple statements, one network trip):
-for (int i = 0; i < 1000; i++) {
-    stmt.addBatch("INSERT INTO students VALUES(" + i + ", 'Student" + i + "')");
-}
-int[] results = stmt.executeBatch();  // Single network trip
-```
-
-### Using PreparedStatement (Preferred — Pre-compiled, Type Safe, Faster)
-
-```java
-String sql = "INSERT INTO students(name, age, email) VALUES(?, ?, ?)";
-PreparedStatement pstmt = conn.prepareStatement(sql);
-
-for (int i = 1; i <= 100; i++) {
-    pstmt.setString(1, "Student" + i);
-    pstmt.setInt(2, 18 + i);
-    pstmt.setString(3, "student" + i + "@example.com");
-    pstmt.addBatch();
-}
-
-int[] results = pstmt.executeBatch();
-// results = [1, 1, 1, ...] (100 elements)
-
-conn.commit();  // If auto-commit false
-```
-
-### Batch Error Handling — **Exam Important**
-
-```java
-try (PreparedStatement pstmt = conn.prepareStatement(
-        "INSERT INTO students(id, name, age) VALUES(?, ?, ?)")) {
-    
-    for (int i = 1; i <= 100; i++) {
-        pstmt.setInt(1, i);
-        pstmt.setString(2, "Student" + i);
-        pstmt.setInt(3, 18 + i);
-        pstmt.addBatch();
-    }
-    
-    int[] results = pstmt.executeBatch();
-    
-    // Verify all inserts succeeded
-    for (int i = 0; i < results.length; i++) {
-        if (results[i] == Statement.EXECUTE_FAILED) {
-            System.out.println("Batch statement " + i + " failed");
-        } else {
-            System.out.println("Batch statement " + i + ": inserted " + results[i] + " row(s)");
-        }
-    }
-    
-} catch (BatchUpdateException e) {
-    // Database-specific error handling
-    System.err.println("Batch failed: " + e.getMessage());
-    System.err.println("SQL State: " + e.getSQLState());
-    System.err.println("Error Code: " + e.getErrorCode());
-    
-    // Get update counts for successful statements before failure
-    int[] updateCounts = e.getUpdateCounts();
-    System.out.println("Successful statements before failure: " + updateCounts.length);
-}
-```
-
-### Batch Processing with Transaction (Best Practice)
-
-```java
-try {
-    conn.setAutoCommit(false);
-    Statement stmt = conn.createStatement();
-    
-    stmt.addBatch("INSERT INTO products VALUES(1, 'Laptop', 50000)");
-    stmt.addBatch("INSERT INTO products VALUES(2, 'Mouse', 500)");  
-    stmt.addBatch("INSERT INTO products VALUES(3, 'Keyboard', 800)");
-    
-    int[] counts = stmt.executeBatch();
-    System.out.println("Batch results: " + java.util.Arrays.toString(counts));
-    conn.commit();
-    
-} catch (BatchUpdateException e) {
-    conn.rollback();
-    System.out.println("Rolled back due to batch error");
-}
-```
-
-> **Exam Tip**: Batch processing appeared 2021 (Q5b 10m), 2023 (Q5c 10m), 2025 (Q5c 10m). **Always use PreparedStatement for batch** — pre-compiled once, type-safe, prevents SQL injection. Know `addBatch()`, `executeBatch()`, `BatchUpdateException`, and `getUpdateCounts()`.
-
----
-
-## 15.12 Transaction Isolation Levels — **CRITICAL (2023 — 10 marks, 2024, 2025)**
-
-### Four Standard Isolation Levels
-
-| Level | Constant | Dirty Read | Non-Repeatable Read | Phantom Read | Performance | Default DB |
-|-------|----------|------------|---------------------|--------------|-------------|------------|
-| **Read Uncommitted** | `TRANSACTION_READ_UNCOMMITTED` | ✅ Possible | ✅ Possible | ✅ Possible | Highest | — |
-| **Read Committed** | `TRANSACTION_READ_COMMITTED` | ❌ Prevented | ✅ Possible | ✅ Possible | High | PostgreSQL, Oracle, SQL Server |
-| **Repeatable Read** | `TRANSACTION_REPEATABLE_READ` | ❌ Prevented | ❌ Prevented | ✅ Possible | Medium | MySQL |
-| **Serializable** | `TRANSACTION_SERIALIZABLE` | ❌ Prevented | ❌ Prevented | ❌ Prevented | Lowest | SQLite |
-
-### Setting and Checking Isolation Level
-
-```java
-// Get current isolation level
-int currentLevel = conn.getTransactionIsolation();
-System.out.println("Current level: " + isolationLevelToString(currentLevel));
-
-// Set isolation level (MUST be called BEFORE starting transaction!)
-conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-
-// Helper method to print level
-public String isolationLevelToString(int level) {
-    return switch (level) {
-        case Connection.TRANSACTION_READ_UNCOMMITTED -> "Read Uncommitted";
-        case Connection.TRANSACTION_READ_COMMITTED -> "Read Committed";
-        case Connection.TRANSACTION_REPEATABLE_READ -> "Repeatable Read";
-        case Connection.TRANSACTION_SERIALIZABLE -> "Serializable";
-        case Connection.TRANSACTION_NONE -> "None";
-        default -> "Unknown";
-    };
-}
-
-// Isolation level constants
-Connection.TRANSACTION_READ_UNCOMMITTED   // 0 - Lowest
-Connection.TRANSACTION_READ_COMMITTED     // 2 - Default for most DBs
-Connection.TRANSACTION_REPEATABLE_READ    // 4 - Good balance
-Connection.TRANSACTION_SERIALIZABLE       // 8 - Highest isolation
-Connection.TRANSACTION_NONE               // For read-only scenarios
-```
-
-### Database-Specific Defaults
-
-| Database | Default | Supported Levels |
-|----------|---------|------------------|
-| MySQL | Repeatable Read | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
-| PostgreSQL | Read Committed | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
-| Oracle | Read Committed | READ_COMMITTED, SERIALIZABLE |
-| SQL Server | Read Committed | READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
-| SQLite | Serializable | SERIALIZABLE |
-
-> **Exam Tip (2023 Q4(a) 10m)**: "JDBC Transaction + dirty read, non-repeatable, phantom read" — Must explain all three concurrency problems with T1/T2 examples and show which isolation level prevents which.
-
----
-
-## 15.13 Concurrency Problems (Explained with Examples) — **CRITICAL (2023 — 10 marks)**
-
-### 1. Dirty Read
-> Reading **uncommitted** data from another transaction.
-
-```
-T1: UPDATE accounts SET balance = 500 WHERE id = 1  (not committed)
-T2: SELECT balance FROM accounts WHERE id = 1  → Reads 500 (DIRTY!)
-T1: ROLLBACK  (balance back to 100)
-T2: Now has incorrect data!
-```
-
-### 2. Non-Repeatable Read
-> Reading same row twice, getting **different** values (due to UPDATE/DELETE by another transaction).
-
-```
-T1: SELECT balance FROM accounts WHERE id = 1  → 100
-T2: UPDATE accounts SET balance = 200 WHERE id = 1; COMMIT
-T1: SELECT balance FROM accounts WHERE id = 1  → 200 (CHANGED!)
-```
-
-### 3. Phantom Read
-> Re-executing query returns **different set of rows** (due to INSERT/DELETE by another transaction).
-
-```
-T1: SELECT * FROM accounts WHERE balance > 100  → 5 rows
-T2: INSERT INTO accounts (balance) VALUES (200); COMMIT
-T1: SELECT * FROM accounts WHERE balance > 100  → 6 rows (PHANTOM!)
-```
-
-### Isolation Level Protection Matrix
-
-| Problem | Read Uncommitted | Read Committed | Repeatable Read | Serializable |
-|---------|------------------|----------------|-----------------|--------------|
-| Dirty Read | ✅ Occurs | ❌ Prevented | ❌ Prevented | ❌ Prevented |
-| Non-Repeatable Read | ✅ Occurs | ✅ Occurs | ❌ Prevented | ❌ Prevented |
-| Phantom Read | ✅ Occurs | ✅ Occurs | ✅ Occurs | ❌ Prevented |
-
-> **Exam Tip**: Draw the T1/T2 timeline diagrams for each problem. **2023 Q4(a) 10 marks explicitly asked for dirty read, non-repeatable read, phantom read with isolation levels.**
-
----
-
-## 15.14 DatabaseMetaData and ResultSetMetaData — **Appeared 2024, 2025 (10 marks)**
-
-### DatabaseMetaData (Database Information)
-
-Provides comprehensive information about the database and driver.
-
-```java
-DatabaseMetaData meta = conn.getMetaData();
-
-// Database identification
-System.out.println("Database: " + meta.getDatabaseProductName() + " " + 
-                   meta.getDatabaseProductVersion());
-System.out.println("Driver: " + meta.getDriverName() + " " + 
-                   meta.getDriverVersion());
-System.out.println("URL: " + meta.getURL());
-System.out.println("User: " + meta.getUserName());
-
-// Capabilities
-System.out.println("Supports Transactions: " + meta.supportsTransactions());
-System.out.println("Supports Savepoints: " + meta.supportsSavepoints());
-System.out.println("Supports Batch Updates: " + meta.supportsBatchUpdates());
-
-// Get all tables
-try (ResultSet tables = meta.getTables(null, "schema_name", "%", 
-        new String[]{"TABLE", "VIEW"})) {
-    while (tables.next()) {
-        String tableName = tables.getString("TABLE_NAME");
-        String tableType = tables.getString("TABLE_TYPE");
-        System.out.println("Table: " + tableName + " (" + tableType + ")");
-    }
-}
-
-// Get all columns for a table
-try (ResultSet columns = meta.getColumns(null, null, "students", "%")) {
-    while (columns.next()) {
-        System.out.println(columns.getString("COLUMN_NAME") + " - " +
-            columns.getString("TYPE_NAME") + " (" +
-            columns.getInt("COLUMN_SIZE") + ")");
-    }
-}
-
-// Get primary keys
-try (ResultSet pk = meta.getPrimaryKeys(null, null, "students")) {
-    while (pk.next()) {
-        System.out.println("PK Column: " + pk.getString("COLUMN_NAME"));
-    }
-}
-
-// Get stored procedures
-try (ResultSet procs = meta.getProcedures(null, null, "%")) {
-    while (procs.next()) {
-        System.out.println("Procedure: " + procs.getString("PROCEDURE_NAME"));
-    }
-}
-```
-
-### ResultSetMetaData (ResultSet Structure)
-
-Provides information about columns in a ResultSet.
-
-```java
-ResultSet rs = stmt.executeQuery("SELECT id, name, salary FROM employees");
-ResultSetMetaData rsMeta = rs.getMetaData();
-
-int columnCount = rsMeta.getColumnCount();
-for (int i = 1; i <= columnCount; i++) {
-    System.out.println("Column " + i + ":");
-    System.out.println("  Label: " + rsMeta.getColumnLabel(i));
-    System.out.println("  Name: " + rsMeta.getColumnName(i));
-    System.out.println("  Type Name: " + rsMeta.getColumnTypeName(i));
-    System.out.println("  SQL Type: " + rsMeta.getColumnType(i));  // java.sql.Types constant
-    System.out.println("  Precision: " + rsMeta.getPrecision(i));
-    System.out.println("  Scale: " + rsMeta.getScale(i));
-    System.out.println("  Nullable: " + (rsMeta.isNullable(i) == ResultSetMetaData.columnNoNulls ? 
-                       "NO" : rsMeta.isNullable(i) == ResultSetMetaData.columnNullable ? 
-                       "YES" : "UNKNOWN"));
-    System.out.println("  Signed: " + rsMeta.isSigned(i));
-    System.out.println("  Auto Increment: " + rsMeta.isAutoIncrement(i));
-    System.out.println("  Case Sensitive: " + rsMeta.isCaseSensitive(i));
-}
-```
-
-### ParameterMetaData (PreparedStatement Parameters)
-
-```java
-PreparedStatement pstmt = conn.prepareStatement(
-    "SELECT * FROM employees WHERE dept_id = ? AND salary > ? AND name LIKE ?");
-
-ParameterMetaData pMeta = pstmt.getParameterMetaData();
-
-System.out.println("Parameter count: " + pMeta.getParameterCount());
-
-for (int i = 1; i <= pMeta.getParameterCount(); i++) {
-    System.out.println("Param " + i + ":");
-    System.out.println("  Type: " + pMeta.getParameterTypeName(i));
-    System.out.println("  SQL Type: " + pMeta.getParameterType(i));  // java.sql.Types
-    System.out.println("  Precision: " + pMeta.getPrecision(i));
-    System.out.println("  Scale: " + pMeta.getScale(i));
-    System.out.println("  Signed: " + pMeta.isSigned(i));
-}
-```
-
-> **Exam Tip (2024, 2025 — 10 marks)**: Metadata questions often ask to write a program that lists tables, columns, or procedure information. Know `getTables()`, `getColumns()`, `getPrimaryKeys()`, `getProcedures()` for DatabaseMetaData and `getColumnCount()`, `getColumnName()`, `getColumnType()`, `isNullable()` for ResultSetMetaData.
-
----
-
 ## 15.7 Statement Types — Detailed Comparison
 
 ### 1. Statement (Static SQL)
@@ -743,6 +449,7 @@ pstmt.setNull(8, Types.VARCHAR);
 pstmt.setObject(9, someObject);  // Generic (JDBC 2.0+)
 pstmt.setBigDecimal(10, new BigDecimal("123.45"));
 pstmt.setBytes(11, byteArray);   // For BLOB
+pstmt.setClob(12, clobObject);   // For CLOB
 ```
 
 ### 3. CallableStatement (Stored Procedures & Functions) — **CRITICAL (2023, 2025 Q5(a) 5m)**
@@ -793,12 +500,13 @@ int count = cstmt3.getInt(1);
 | `registerOutParameter(int index, int sqlType, int scale)` | For DECIMAL/NUMERIC with scale |
 | `wasNull()` | Check if last OUT parameter was SQL NULL |
 | `getString(), getInt(), getDouble(), ...` | Retrieve OUT/INOUT values |
+| `getResultSet()` | Get ResultSet if procedure returns one |
+
+> **Exam Tip (2025 Q5(a) 5 marks)**: "Write a short note on CallableStatement" — Cover: syntax `{call ...}`, IN/OUT/INOUT params, `registerOutParameter()`, `execute()`, getter methods. Include a complete example.
 
 ---
 
-## 15.8 ResultSet Interface — Comprehensive Overview (Core for Exams, detailed in Unit 16)
-
-> **Note**: ResultSet is covered in depth in **Unit 16**. Here are the essentials used in Unit 15 examples — **memorize the types, concurrency, and holdability for 2/5/10-mark questions**.
+## 15.8 ResultSet Interface — Comprehensive Overview
 
 ### ResultSet Types (Scrollability) — **CRITICAL (2022, 2023, 2024 — 5-10 marks)**
 
@@ -900,7 +608,7 @@ rs.getBoolean("active");
 rs.getTimestamp("created_at");
 rs.getLong("phone");
 rs.getBytes("data");      // For BLOB data
-rs.getClob("document");     // For CLOB data
+rs.getClob("document");   // For CLOB data
 
 // By column index (1-based - faster but less readable)
 rs.getInt(1);
@@ -936,7 +644,139 @@ LocalDateTime timestamp = rs.getObject("created_at", LocalDateTime.class);
 
 ---
 
-## 15.9 Complete JDBC CRUD Program (EXAM STANDARD — Appeared 2021, 2022, 2023, 2024, 2025)
+## 15.9 DatabaseMetaData and ResultSetMetaData — **Appeared 2024, 2025 (10 marks)**
+
+### DatabaseMetaData (Database Information)
+
+Provides comprehensive information about the database and driver.
+
+```java
+DatabaseMetaData meta = conn.getMetaData();
+
+// Database identification
+System.out.println("Database: " + meta.getDatabaseProductName() + " " + 
+                   meta.getDatabaseProductVersion());
+System.out.println("Driver: " + meta.getDriverName() + " " + 
+                   meta.getDriverVersion());
+System.out.println("URL: " + meta.getURL());
+System.out.println("User: " + meta.getUserName());
+
+// Capabilities
+System.out.println("Supports Transactions: " + meta.supportsTransactions());
+System.out.println("Supports Savepoints: " + meta.supportsSavepoints());
+System.out.println("Supports Batch Updates: " + meta.supportsBatchUpdates());
+System.out.println("Supports Scroll Insensitive: " + meta.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE));
+System.out.println("Supports Updatable: " + meta.supportsResultSetConcurrency(ResultSet.CONCUR_UPDATABLE));
+
+// Get all tables
+try (ResultSet tables = meta.getTables(null, "schema_name", "%", 
+        new String[]{"TABLE", "VIEW"})) {
+    while (tables.next()) {
+        String tableName = tables.getString("TABLE_NAME");
+        String tableType = tables.getString("TABLE_TYPE");
+        System.out.println("Table: " + tableName + " (" + tableType + ")");
+    }
+}
+
+// Get all columns for a table
+try (ResultSet columns = meta.getColumns(null, null, "students", "%")) {
+    while (columns.next()) {
+        System.out.println(columns.getString("COLUMN_NAME") + " - " +
+            columns.getString("TYPE_NAME") + " (" +
+            columns.getInt("COLUMN_SIZE") + ")");
+    }
+}
+
+// Get primary keys
+try (ResultSet pk = meta.getPrimaryKeys(null, null, "students")) {
+    while (pk.next()) {
+        System.out.println("PK Column: " + pk.getString("COLUMN_NAME"));
+    }
+}
+
+// Get foreign keys (imported)
+try (ResultSet fk = meta.getImportedKeys(null, null, "students")) {
+    while (fk.next()) {
+        System.out.println("FK: " + fk.getString("FKCOLUMN_NAME") + 
+            " references " + fk.getString("PKTABLE_NAME") + "." + 
+            fk.getString("PKCOLUMN_NAME"));
+    }
+}
+
+// Get stored procedures
+try (ResultSet procs = meta.getProcedures(null, null, "%")) {
+    while (procs.next()) {
+        System.out.println("Procedure: " + procs.getString("PROCEDURE_NAME"));
+    }
+}
+
+// Get schemas
+try (ResultSet schemas = meta.getSchemas()) {
+    while (schemas.next()) {
+        System.out.println("Schema: " + schemas.getString("TABLE_SCHEM"));
+    }
+}
+```
+
+### ResultSetMetaData (ResultSet Structure)
+
+Provides information about columns in a ResultSet.
+
+```java
+ResultSet rs = stmt.executeQuery("SELECT id, name, salary FROM employees");
+ResultSetMetaData rsMeta = rs.getMetaData();
+
+int columnCount = rsMeta.getColumnCount();
+for (int i = 1; i <= columnCount; i++) {
+    System.out.println("Column " + i + ":");
+    System.out.println("  Label: " + rsMeta.getColumnLabel(i));
+    System.out.println("  Name: " + rsMeta.getColumnName(i));
+    System.out.println("  Type Name: " + rsMeta.getColumnTypeName(i));
+    System.out.println("  SQL Type: " + rsMeta.getColumnType(i));  // java.sql.Types constant
+    System.out.println("  Precision: " + rsMeta.getPrecision(i));
+    System.out.println("  Scale: " + rsMeta.getScale(i));
+    System.out.println("  Nullable: " + (rsMeta.isNullable(i) == ResultSetMetaData.columnNoNulls ? 
+                       "NO" : rsMeta.isNullable(i) == ResultSetMetaData.columnNullable ? 
+                       "YES" : "UNKNOWN"));
+    System.out.println("  Signed: " + rsMeta.isSigned(i));
+    System.out.println("  Auto Increment: " + rsMeta.isAutoIncrement(i));
+    System.out.println("  Case Sensitive: " + rsMeta.isCaseSensitive(i));
+    System.out.println("  Searchable: " + rsMeta.isSearchable(i));
+    System.out.println("  Currency: " + rsMeta.isCurrency(i));
+    System.out.println("  Table Name: " + rsMeta.getTableName(i));
+    System.out.println("  Schema Name: " + rsMeta.getSchemaName(i));
+    System.out.println("  Catalog Name: " + rsMeta.getCatalogName(i));
+}
+```
+
+### ParameterMetaData (PreparedStatement Parameters)
+
+```java
+PreparedStatement pstmt = conn.prepareStatement(
+    "SELECT * FROM employees WHERE dept_id = ? AND salary > ? AND name LIKE ?");
+
+ParameterMetaData pMeta = pstmt.getParameterMetaData();
+
+System.out.println("Parameter count: " + pMeta.getParameterCount());
+
+for (int i = 1; i <= pMeta.getParameterCount(); i++) {
+    System.out.println("Param " + i + ":");
+    System.out.println("  Type: " + pMeta.getParameterTypeName(i));
+    System.out.println("  SQL Type: " + pMeta.getParameterType(i));  // java.sql.Types
+    System.out.println("  Precision: " + pMeta.getPrecision(i));
+    System.out.println("  Scale: " + pMeta.getScale(i));
+    System.out.println("  Signed: " + pMeta.isSigned(i));
+    System.out.println("  Nullable: " + pMeta.isNullable(i));
+    System.out.println("  Mode: " + (pMeta.getParameterMode(i) == ParameterMetaData.parameterModeIn ? "IN" :
+                       pMeta.getParameterMode(i) == ParameterMetaData.parameterModeOut ? "OUT" : "INOUT"));
+}
+```
+
+> **Exam Tip (2024, 2025 — 10 marks)**: Metadata questions often ask to write a program that lists tables, columns, or procedure information. Know `getTables()`, `getColumns()`, `getPrimaryKeys()`, `getImportedKeys()`, `getProcedures()`, `getSchemas()` for DatabaseMetaData and `getColumnCount()`, `getColumnName()`, `getColumnType()`, `isNullable()`, `getTableName()` for ResultSetMetaData.
+
+---
+
+## 15.10 Complete JDBC CRUD Program (EXAM STANDARD — Appeared 2021, 2022, 2023, 2024, 2025)
 
 ```java
 import java.sql.*;
@@ -1064,7 +904,7 @@ public class StudentCRUD {
 
 ---
 
-## 15.10 Transaction Management Example (EXAM STANDARD — 2023, 2024, 2025)
+## 15.11 Transaction Management Example (EXAM STANDARD — 2023, 2024, 2025)
 
 ```java
 import java.sql.*;
@@ -1150,12 +990,366 @@ public class TransactionDemo {
 
 ---
 
-## 15.11 Exception Handling in JDBC
+## 15.12 JDBC Batch Processing — **CRITICAL (2021, 2023, 2025 — 10 marks each)**
+
+### Purpose
+Execute multiple SQL statements as a single batch for better performance. Reduces network round-trips by sending multiple statements in one request.
+
+### How Batch Processing Works
+
+```java
+// Traditional approach (single statement, multiple network trips):
+for (int i = 0; i < 1000; i++) {
+    stmt.executeUpdate("INSERT INTO students VALUES(" + i + ", 'Student" + i + "')");
+    // 1000 network round-trips!
+}
+
+// Batch approach (multiple statements, one network trip):
+for (int i = 0; i < 1000; i++) {
+    stmt.addBatch("INSERT INTO students VALUES(" + i + ", 'Student" + i + "')");
+}
+int[] results = stmt.executeBatch();  // Single network trip
+```
+
+### Using PreparedStatement (Preferred — Pre-compiled, Type Safe, Faster)
+
+```java
+String sql = "INSERT INTO students(name, age, email) VALUES(?, ?, ?)";
+PreparedStatement pstmt = conn.prepareStatement(sql);
+
+for (int i = 1; i <= 100; i++) {
+    pstmt.setString(1, "Student" + i);
+    pstmt.setInt(2, 18 + i);
+    pstmt.setString(3, "student" + i + "@example.com");
+    pstmt.addBatch();
+}
+
+int[] results = pstmt.executeBatch();
+// results = [1, 1, 1, ...] (100 elements)
+
+conn.commit();  // If auto-commit false
+```
+
+### Batch Error Handling — **Exam Important**
+
+```java
+try (PreparedStatement pstmt = conn.prepareStatement(
+        "INSERT INTO students(id, name, age) VALUES(?, ?, ?)")) {
+    
+    for (int i = 1; i <= 100; i++) {
+        pstmt.setInt(1, i);
+        pstmt.setString(2, "Student" + i);
+        pstmt.setInt(3, 18 + i);
+        pstmt.addBatch();
+    }
+    
+    int[] results = pstmt.executeBatch();
+    
+    // Verify all inserts succeeded
+    for (int i = 0; i < results.length; i++) {
+        if (results[i] == Statement.EXECUTE_FAILED) {
+            System.out.println("Batch statement " + i + " failed");
+        } else {
+            System.out.println("Batch statement " + i + ": inserted " + results[i] + " row(s)");
+        }
+    }
+    
+} catch (BatchUpdateException e) {
+    // Database-specific error handling
+    System.err.println("Batch failed: " + e.getMessage());
+    System.err.println("SQL State: " + e.getSQLState());
+    System.err.println("Error Code: " + e.getErrorCode());
+    
+    // Get update counts for successful statements before failure
+    int[] updateCounts = e.getUpdateCounts();
+    System.out.println("Successful statements before failure: " + updateCounts.length);
+}
+```
+
+### Batch Processing with Transaction (Best Practice)
+
+```java
+try {
+    conn.setAutoCommit(false);
+    Statement stmt = conn.createStatement();
+    
+    stmt.addBatch("INSERT INTO products VALUES(1, 'Laptop', 50000)");
+    stmt.addBatch("INSERT INTO products VALUES(2, 'Mouse', 500)");  
+    stmt.addBatch("INSERT INTO products VALUES(3, 'Keyboard', 800)");
+    
+    int[] counts = stmt.executeBatch();
+    System.out.println("Batch results: " + java.util.Arrays.toString(counts));
+    conn.commit();
+    
+} catch (BatchUpdateException e) {
+    conn.rollback();
+    System.out.println("Rolled back due to batch error");
+}
+```
+
+> **Exam Tip**: Batch processing appeared 2021 (Q5b 10m), 2023 (Q5c 10m), 2025 (Q5c 10m). **Always use PreparedStatement for batch** — pre-compiled once, type-safe, prevents SQL injection. Know `addBatch()`, `executeBatch()`, `clearBatch()`, `BatchUpdateException`, and `getUpdateCounts()`.
+
+---
+
+## 15.13 Transaction Isolation Levels — **CRITICAL (2023 — 10 marks, 2024, 2025)**
+
+### Four Standard Isolation Levels
+
+| Level | Constant | Dirty Read | Non-Repeatable Read | Phantom Read | Performance | Default DB |
+|-------|----------|------------|---------------------|--------------|-------------|------------|
+| **Read Uncommitted** | `TRANSACTION_READ_UNCOMMITTED` (1) | ✅ Possible | ✅ Possible | ✅ Possible | Highest | — |
+| **Read Committed** | `TRANSACTION_READ_COMMITTED` (2) | ❌ Prevented | ✅ Possible | ✅ Possible | High | PostgreSQL, Oracle, SQL Server |
+| **Repeatable Read** | `TRANSACTION_REPEATABLE_READ` (4) | ❌ Prevented | ❌ Prevented | ✅ Possible | Medium | MySQL |
+| **Serializable** | `TRANSACTION_SERIALIZABLE` (8) | ❌ Prevented | ❌ Prevented | ❌ Prevented | Lowest | SQLite |
+| **None** | `TRANSACTION_NONE` (0) | N/A | N/A | N/A | — | — |
+
+### Setting and Checking Isolation Level
+
+```java
+// Get current isolation level
+int currentLevel = conn.getTransactionIsolation();
+System.out.println("Current level: " + isolationLevelToString(currentLevel));
+
+// Set isolation level (MUST be called BEFORE starting transaction!)
+conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+// Helper method to print level
+public String isolationLevelToString(int level) {
+    return switch (level) {
+        case Connection.TRANSACTION_READ_UNCOMMITTED -> "Read Uncommitted";
+        case Connection.TRANSACTION_READ_COMMITTED -> "Read Committed";
+        case Connection.TRANSACTION_REPEATABLE_READ -> "Repeatable Read";
+        case Connection.TRANSACTION_SERIALIZABLE -> "Serializable";
+        case Connection.TRANSACTION_NONE -> "None";
+        default -> "Unknown";
+    };
+}
+
+// Isolation level constants
+Connection.TRANSACTION_READ_UNCOMMITTED   // 1 - Lowest
+Connection.TRANSACTION_READ_COMMITTED     // 2 - Default for most DBs
+Connection.TRANSACTION_REPEATABLE_READ    // 4 - Good balance
+Connection.TRANSACTION_SERIALIZABLE       // 8 - Highest isolation
+Connection.TRANSACTION_NONE               // 0 - No transaction support
+```
+
+### Database-Specific Defaults
+
+| Database | Default | Supported Levels |
+|----------|---------|------------------|
+| MySQL | Repeatable Read | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
+| PostgreSQL | Read Committed | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
+| Oracle | Read Committed | READ_COMMITTED, SERIALIZABLE |
+| SQL Server | Read Committed | READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
+| SQLite | Serializable | SERIALIZABLE |
+
+> **Exam Tip (2023 Q4(a) 10m)**: "JDBC Transaction + dirty read, non-repeatable, phantom read" — Must explain all three concurrency problems with T1/T2 examples and show which isolation level prevents which.
+
+---
+
+## 15.14 Concurrency Problems (Explained with Examples) — **CRITICAL (2023 — 10 marks)**
+
+### 1. Dirty Read
+> Reading **uncommitted** data from another transaction.
+
+```
+T1: UPDATE accounts SET balance = 500 WHERE id = 1  (not committed)
+T2: SELECT balance FROM accounts WHERE id = 1  → Reads 500 (DIRTY!)
+T1: ROLLBACK  (balance back to 100)
+T2: Now has incorrect data!
+```
+
+### 2. Non-Repeatable Read
+> Reading same row twice, getting **different** values (due to UPDATE/DELETE by another transaction).
+
+```
+T1: SELECT balance FROM accounts WHERE id = 1  → 100
+T2: UPDATE accounts SET balance = 200 WHERE id = 1; COMMIT
+T1: SELECT balance FROM accounts WHERE id = 1  → 200 (CHANGED!)
+```
+
+### 3. Phantom Read
+> Re-executing query returns **different set of rows** (due to INSERT/DELETE by another transaction).
+
+```
+T1: SELECT * FROM accounts WHERE balance > 100  → 5 rows
+T2: INSERT INTO accounts (balance) VALUES (200); COMMIT
+T1: SELECT * FROM accounts WHERE balance > 100  → 6 rows (PHANTOM!)
+```
+
+### Isolation Level Protection Matrix
+
+| Problem | Read Uncommitted | Read Committed | Repeatable Read | Serializable |
+|---------|------------------|----------------|-----------------|--------------|
+| Dirty Read | ✅ Occurs | ❌ Prevented | ❌ Prevented | ❌ Prevented |
+| Non-Repeatable Read | ✅ Occurs | ✅ Occurs | ❌ Prevented | ❌ Prevented |
+| Phantom Read | ✅ Occurs | ✅ Occurs | ✅ Occurs | ❌ Prevented |
+
+> **Exam Tip**: Draw the T1/T2 timeline diagrams for each problem. **2023 Q4(a) 10 marks explicitly asked for dirty read, non-repeatable read, phantom read with isolation levels.**
+
+---
+
+## 15.15 JDBC RowSet Interface — **Appeared 2023 (10m), 2026 (5m)**
+
+### What is RowSet?
+> **RowSet** is an extension of the `ResultSet` interface (in `javax.sql.rowset`). It wraps a `ResultSet` object, inheriting all its capabilities, and adds:
+> - **JavaBeans component model** support (properties, events)
+> - **Disconnected** operation capability
+> - **Serialization** support (can be sent over network)
+> - **Scrollable & Updatable by default**
+
+### RowSet Types
+
+| Type | Connection Style | Implementations | Use Case |
+|------|------------------|-----------------|----------|
+| **Connected** | Stays connected to DB | `JdbcRowSet` | When driver doesn't support scrollable/updatable ResultSet |
+| **Disconnected** | Connects only for read/write | `CachedRowSet`, `WebRowSet`, `JoinRowSet`, `FilteredRowSet` | Lightweight, serializable, network transmission |
+
+### RowSet Implementations
+
+| Implementation | Extends | Key Features |
+|----------------|---------|--------------|
+| **JdbcRowSet** | RowSet | Connected; scrollable/updatable; JavaBeans; wraps ResultSet |
+| **CachedRowSet** | RowSet | Disconnected; caches data in memory; reconnects to write back; conflict resolution |
+| **WebRowSet** | CachedRowSet | XML read/write; web services; serialization to/from XML |
+| **JoinRowSet** | WebRowSet | SQL JOIN without DB connection; combines multiple RowSets |
+| **FilteredRowSet** | WebRowSet | Row filtering; predicate-based visibility |
+
+### Creating and Using JdbcRowSet (Connected)
+
+```java
+import javax.sql.rowset.JdbcRowSet;
+import javax.sql.rowset.RowSetProvider;
+
+JdbcRowSet rowSet = RowSetProvider.newFactory().createJdbcRowSet();
+rowSet.setUrl("jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC");
+rowSet.setUsername("root");
+rowSet.setPassword("password");
+rowSet.setCommand("SELECT * FROM students");
+rowSet.execute();  // Executes query, populates RowSet
+
+// Scrollable & updatable by default
+rowSet.last();
+rowSet.absolute(5);
+rowSet.updateString("name", "New Name");
+rowSet.updateRow();  // Commits to DB
+```
+
+### Creating and Using CachedRowSet (Disconnected)
+
+```java
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
+
+CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
+crs.setUrl("jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC");
+crs.setUsername("root");
+crs.setPassword("password");
+crs.setCommand("SELECT * FROM students");
+crs.execute();  // Connects, fetches data, DISCONNECTS
+
+// Work offline - fully scrollable/updatable
+crs.beforeFirst();
+while (crs.next()) {
+    System.out.println(crs.getString("name"));
+}
+
+// Modify offline
+crs.absolute(3);
+crs.updateString("email", "new@email.com");
+crs.updateRow();  // Updates in-memory cache only
+
+// Reconnect and sync
+crs.acceptChanges();  // Reconnects, writes back, handles conflicts
+```
+
+### RowSet Event Handling (JavaBeans)
+
+```java
+import javax.sql.RowSetEvent;
+import javax.sql.RowSetListener;
+import javax.sql.rowset.JdbcRowSet;
+
+JdbcRowSet rowSet = RowSetProvider.newFactory().createJdbcRowSet();
+// ... configure and execute ...
+
+rowSet.addRowSetListener(new RowSetListener() {
+    @Override
+    public void cursorMoved(RowSetEvent event) {
+        System.out.println("Cursor moved to row: " + ((JdbcRowSet)event.getSource()).getRow());
+    }
+    @Override
+    public void rowChanged(RowSetEvent event) {
+        System.out.println("Row changed: insert/update/delete");
+    }
+    @Override
+    public void rowSetChanged(RowSetEvent event) {
+        System.out.println("RowSet structure changed (new query executed)");
+    }
+});
+```
+
+### RowSet vs ResultSet — **Exam Critical (2023 Q4(b) 10m, 2026 Q5(b) 5m)**
+
+| Feature | ResultSet | RowSet |
+|---------|-----------|--------|
+| **Package** | `java.sql` | `javax.sql.rowset` |
+| **Connection** | Always connected | Connected (JdbcRowSet) or Disconnected (others) |
+| **Scrollable** | Must specify type | Scrollable by default |
+| **Updatable** | Must specify concurrency | Updatable by default |
+| **Serialization** | Not serializable | **Serializable** (disconnected) |
+| **JavaBeans** | No | Yes — properties, events, listeners |
+| **Network Transfer** | Cannot send over network | Can serialize and send over RMI/HTTP |
+| **Offline Use** | Impossible | Possible (disconnected implementations) |
+| **Driver Dependency** | Depends on driver support | JdbcRowSet adds scroll/update even if driver lacks support |
+
+---
+
+## 15.16 Java Data Objects (JDO) vs JDBC — **Appeared 2023 Q4(b) 10m**
+
+### What is JDO?
+> **Java Data Objects (JDO)** is a specification for **transparent persistence** of Java objects. It provides an **object-oriented** abstraction over data storage, unlike JDBC's **relational/SQL** approach.
+
+### JDO vs JDBC Comparison
+
+| Aspect | JDBC | JDO |
+|--------|------|-----|
+| **Data Source** | Relational databases only | Any: RDBMS, OODBMS, flat files, XML |
+| **Query Language** | SQL | JDOQL (Java-like, object-oriented) |
+| **Programming Model** | Relational (tables, rows, SQL) | **Object-oriented** (classes, objects, fields) |
+| **Mapping** | Manual (ResultSet → Object) | **Automatic/Transparent** (JDO handles it) |
+| **Portability** | Database-specific SQL | **Vendor-neutral** (JDO implementation handles) |
+| **Schema** | DDL required | Can generate schema from classes |
+| **Transactions** | JDBC transactions | JDO transactions (similar ACID) |
+| **Performance** | High (direct SQL) | Good (optimizations, caching) |
+| **Learning Curve** | SQL knowledge required | Java-only; no SQL needed |
+| **Use Case** | Complex SQL, reporting, legacy | Domain-driven design, OO applications |
+
+### JDO Advantages (Memorize for 10-mark answers)
+1. **Portable** — Run on different JDO implementations without code changes
+2. **Transparent Persistence** — Access data via Java objects; no SQL, no ResultSet mapping
+3. **Data Source Independence** — Works with RDBMS, OODBMS, files
+4. **Ease of Use** — Focus on domain model; JDO handles persistence details
+5. **High Performance** — Caching, lazy loading, fetch groups
+6. **EJB Integration** — Same domain model across enterprise tiers
+
+### JDO Core Interfaces
+- `PersistenceManagerFactory` — Factory for PersistenceManager
+- `PersistenceManager` — Main interface (like Connection); manages persistence, queries, transactions
+- `Transaction` — JDO transaction (begin, commit, rollback)
+- `Query` — JDOQL queries
+- `Extent` — All instances of a class in datastore
+
+> **Exam Tip (2023 Q4(b) 10 marks)**: "Difference between RowSet and ResultSet, JDO vs JDBC" — Must cover both comparisons in detail with tables. JDO: transparent persistence, object-oriented, no SQL, any data source, portable.
+
+---
+
+## 15.17 Exception Handling in JDBC
 
 ```java
 try (Connection conn = DriverManager.getConnection(url, user, pass);
      PreparedStatement pstmt = conn.prepareStatement(sql)) {
-     
+    
     pstmt.setString(1, value);
     pstmt.executeUpdate();
     
@@ -1186,7 +1380,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 
 ---
 
-## 15.12 Important Exam Questions (from PYQ Analysis 2021-2026)
+## 15.18 Important Exam Questions (from PYQ Analysis 2021-2026)
 
 ### High Priority — 2-Mark Questions
 1. **What is JDBC? Why is it used?** — Standard API, database-independent, part of Java SE
@@ -1211,6 +1405,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 20. **What is a savepoint?** — setSavepoint(), rollback(Savepoint), releaseSavepoint()
 21. **DatabaseMetaData vs ResultSetMetaData** — DB info vs ResultSet structure
 22. **RowSet vs ResultSet** — Disconnected, serializable, JavaBeans compliant
+23. **JDO vs JDBC** — Object-oriented vs relational, transparent persistence, any data source
 
 ### 5-Mark Questions (Short Notes / Explain with Example)
 1. **Explain JDBC Architecture with diagram (2-tier and 3-tier)** — 2022, 2023, 2024, 2025
@@ -1227,6 +1422,8 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 12. **Explain isolation levels** with demonstration of dirty/non-repeatable/phantom reads
 13. **Explain DatabaseMetaData and ResultSetMetaData** with example code
 14. **Explain ACID properties** with practical transaction example
+15. **Explain RowSet (JdbcRowSet, CachedRowSet)** with connected vs disconnected — 2023, 2026
+16. **Explain JDO vs JDBC** with advantages — 2023
 
 ### 10-Mark Questions (Detailed Theory + Complete Program)
 1. **JDBC Architecture (2/3 tier), Driver Types, Connection Steps, Statement Types, Transaction Management** — **Appeared 2021, 2022, 2023, 2024, 2025** — **MUST MASTER**
@@ -1234,6 +1431,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 3. **JDBC Core Components + Architecture diagram + Driver comparison + Transaction example** — 2025 Q4(a)
 4. **ResultSet (types, concurrency, holdability), Transactions (ACID, isolation, savepoints), Batch Processing, Metadata** — **Appeared 2022, 2023, 2024, 2025**
 5. **CallableStatement for stored procedures** with parameter handling and result set retrieval
+6. **RowSet vs ResultSet + JDO vs JDBC** — 2023 Q4(b) 10 marks
 
 ### Programs to Practice (High Yield — Appeared Repeatedly)
 1. ✅ **JDBC Connection + CRUD** — 2021, 2022, 2023, 2024, 2025
@@ -1247,10 +1445,11 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 9. ✅ **Isolation level demonstration** — 2023
 10. ✅ **Scrollable/Updatable ResultSet navigation** — 2022, 2023, 2024
 11. ✅ **Metadata retrieval program** — 2024, 2025
+12. ✅ **JdbcRowSet / CachedRowSet demo** — 2023, 2026
 
 ---
 
-## 15.13 Quick Comparison: Statement vs PreparedStatement vs CallableStatement
+## 15.19 Quick Comparison: Statement vs PreparedStatement vs CallableStatement
 
 | Feature | Statement | PreparedStatement | CallableStatement |
 |---------|-----------|-------------------|-------------------|
@@ -1269,7 +1468,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 
 ---
 
-## 15.14 Summary of Unit 15
+## 15.20 Summary of Unit 15 (JDBC Part 1 & 2 Combined)
 
 | Topic | Key Points |
 |-------|------------|
@@ -1278,7 +1477,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 | **Driver Types** | Type 1: JDBC-ODBC (removed); Type 2: Native-API; Type 3: Middleware; **Type 4: Pure Java (Best)** |
 | **Connection Steps** | 1. Load Driver (auto since JDBC 4.0), 2. Get Connection, 3. Create Statement, 4. Execute, 5. Process, 6. Close |
 | **DriverManager** | Manages drivers; `getConnection()` overloads; `getDrivers()`, `getDriver(url)` |
-| **Connection** | `createStatement()`, `prepareStatement()`, `prepareCall()`; **Transaction**: `setAutoCommit(false)`, `commit()`, `rollback()`, `setSavepoint()`, `setTransactionIsolation()` |
+| **Connection** | `createStatement()`, `prepareStatement()`, `prepareCall()`; **Transaction**: `setAutoCommit(false)`, `commit()`, `rollback()`, `setSavepoint()`, `setTransactionIsolation()`, `setHoldability()` |
 | **Statement** | Static SQL; `executeQuery()`, `executeUpdate()`, `execute()`, `addBatch()`, `executeBatch()` |
 | **PreparedStatement** | **Parameterized**; prevents SQL injection; pre-compiled; **PREFERRED** for DML; batch support |
 | **CallableStatement** | Stored procedures/functions; IN/OUT/INOUT params; `registerOutParameter()` |
@@ -1286,12 +1485,14 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 | **Transactions** | ACID; disable auto-commit; commit/rollback in try-catch-finally; savepoints for partial rollback; isolation levels |
 | **Isolation Levels** | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE; prevents dirty/non-repeatable/phantom reads |
 | **Batch Processing** | addBatch(), executeBatch(); PreparedStatement preferred; BatchUpdateException handling; getUpdateCounts() |
-| **Metadata** | DatabaseMetaData (getTables, getColumns, getPrimaryKeys, getProcedures); ResultSetMetaData (getColumnCount, getColumnName, getColumnType); ParameterMetaData |
+| **RowSet** | JdbcRowSet (connected), CachedRowSet/WebRowSet/JoinRowSet/FilteredRowSet (disconnected); JavaBeans, serializable |
+| **JDO** | Transparent persistence; object-oriented; any data source; JDOQL; portable |
+| **Metadata** | DatabaseMetaData (getTables, getColumns, getPrimaryKeys, getImportedKeys, getProcedures, getSchemas); ResultSetMetaData (getColumnCount, getColumnName, getColumnType, isNullable, getTableName); ParameterMetaData |
 | **Exception Handling** | `SQLException` — SQLState, ErrorCode, Message, chained exceptions (getNextException) |
 
 ---
 
-## 15.15 Quick Reference: JDBC Template (Exam Cheat Sheet)
+## 15.21 Quick Reference: JDBC Template (Exam Cheat Sheet)
 
 ```java
 // 1. CONNECTION (with Properties - best practice)
@@ -1380,6 +1581,16 @@ try (Connection conn = DriverManager.getConnection(url, props)) {
         }
     }
 
+    // 8. ROWSET (CachedRowSet - disconnected)
+    CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
+    crs.setUrl(url);
+    crs.setUsername("root");
+    crs.setPassword("pass");
+    crs.setCommand("SELECT * FROM users");
+    crs.execute();  // Connects, fetches, disconnects
+    // Work offline...
+    crs.acceptChanges();  // Reconnect & sync
+
 } catch (SQLException e) {
     // Handle: e.getSQLState(), e.getErrorCode(), e.getMessage()
     // Print chained exceptions
@@ -1392,7 +1603,7 @@ try (Connection conn = DriverManager.getConnection(url, props)) {
 
 ---
 
-## 15.16 Common Exam Mistakes to Avoid
+## 15.22 Common Exam Mistakes to Avoid
 
 | ❌ Mistake | ✅ Correct |
 |-----------|-----------|
@@ -1414,7 +1625,9 @@ try (Connection conn = DriverManager.getConnection(url, props)) {
 | Not checking `BatchUpdateException.getUpdateCounts()` | Always get update counts to know which statements succeeded |
 | Assuming `ResultSet` is scrollable by default | Default is `TYPE_FORWARD_ONLY` — specify type explicitly |
 | Not releasing savepoints with `releaseSavepoint()` | Release when no longer needed (some DBs require it) |
+| Confusing RowSet with ResultSet | RowSet = disconnected, serializable, JavaBeans; ResultSet = connected only |
+| Forgetting JDO is object-oriented, not SQL-based | JDO uses JDOQL, transparent persistence, any data source |
 
 ---
 
-**End of Unit 15 Notes** — Next: **Unit 16: JDBC Part 2** (ResultSet types, advanced transactions, batch processing, RowSet, Metadata)
+**End of Unit 15 Notes** — This combined unit covers both JDBC Part 1 (Unit 15) and JDBC Part 2 (Unit 16) from the textbook. All PYQ topics from 2021-2026 are addressed.
