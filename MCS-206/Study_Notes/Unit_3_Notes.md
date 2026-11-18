@@ -3,12 +3,34 @@
 ## Unit Overview
 This unit covers decision-making statements (if, if-else, switch-case), looping statements (while, do-while, for), jump statements (break, continue), and arrays in Java.
 
+> **⚡ PYQ Insight**: Unit 3 topics appear as **5-mark questions** in Q1. **HIGH PRIORITY**: if/if-else/switch-case (2022-2025), while/do-while/for loops (2022, 2023). **MEDIUM**: Arrays (2024, 2025). **Programs**: Matrix addition (2022, 2025), Week days (2023), Circle area (2024), Multiplication table (2022).
+
 ---
 
 ## 3.1 Decision Constructs
 
 ### Topic Introduction
 Decision constructs allow programs to execute different code blocks based on conditions. Java provides `if`, `if-else`, and `switch-case` for selection.
+
+### 3.1.0 Relational & Logical Operators (Foundation for Decisions)
+> **⚡ PYQ Insight**: Relational operators asked in **DEC 2022 (6 marks)** and **JUNE 2024 (5 marks)**.
+
+| Operator | Name | Example | Result |
+|----------|------|---------|--------|
+| `==` | Equal to | `5 == 3` | `false` |
+| `!=` | Not equal | `5 != 3` | `true` |
+| `>` | Greater than | `5 > 3` | `true` |
+| `<` | Less than | `5 < 3` | `false` |
+| `>=` | Greater/equal | `5 >= 5` | `true` |
+| `<=` | Less/equal | `5 <= 3` | `false` |
+
+| Logical Operator | Name | Short-circuit? |
+|------------------|------|----------------|
+| `&&` | AND | ✅ Yes |
+| `||` | OR | ✅ Yes |
+| `!` | NOT | - |
+
+**Key**: Relational operators return `boolean`; used in `if`, `while`, `for` conditions.
 
 ---
 

@@ -1,7 +1,12 @@
 # Unit 5: Inheritance
 
 ## Unit Overview
-This unit covers inheritance basics, advantages, member access, access specifiers in inheritance, types of inheritance, `super` keyword, multilevel hierarchy, constructor execution order, and `final` keyword in inheritance.
+This unit covers inheritance basics, advantages, member access, access specifiers in inheritance, types of inheritance, `super` keyword, multilevel hierarchy, constructor execution order, method overriding, `final` keyword in inheritance, and Object class methods.
+
+## PYQ Frequency: 9/10 years (CRITICAL - Appeared 2021, 2022×2, 2023×2, 2024, 2025×2)
+- **2-Mark**: Definition, types, why no multiple inheritance, super keyword uses, constructor order
+- **5-Mark**: Advantages + example, super keyword with examples, types with diagrams, multilevel with constructor chaining, final keyword
+- **10-Mark**: Inheritance + types + advantages + super keyword (appeared 2021, 2022, 2023, 2024, 2025), Method overriding with rules
 
 ---
 

@@ -3,6 +3,8 @@
 ## Unit Overview
 This unit covers class definition, object creation, constructors, `this` keyword, `static` keyword, `final` keyword, encapsulation, access modifiers, garbage collection, and String handling.
 
+> **📋 PYQ Insight**: Unit 4 topics (Class/Object, Constructor, this, static, final, Encapsulation, Access Modifiers, GC, String) have appeared **consistently across all 10 years** (2021-2026). High-frequency: Constructor (7×), Encapsulation (7×), final (7×), Access Modifiers (7×), this (5×), static (5×), GC+finalize (5×). Expect 5-10 mark questions with code.
+
 ---
 
 ## 4.1 Class and Object Fundamentals
