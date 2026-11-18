@@ -1,14 +1,11 @@
 # Unit 16: JDBC Part 2
 
 ## Unit Overview
-This unit covers ResultSet interface (types, concurrency, holdability, navigation methods), JDBC Transactions (ACID, isolation levels, savepoints), concurrency issues (dirty read, non-repeatable read, phantom read), batch processing, RowSet interface, metadata, CallableStatement for stored procedures, and important exam questions from PYQ analysis.
-
-# Unit 16: JDBC Part 2
-
-## Unit Overview
-This unit covers ResultSet interface (types, concurrency, holdability, navigation methods), JDBC Transactions (ACID, isolation levels, savepoints), concurrency issues (dirty read, non-repeatable read, phantom read), batch processing, RowSet interface, metadata, CallableStatement for stored procedures, and important exam questions from PYQ analysis.
+This unit covers **ResultSet interface** (types, concurrency, holdability, navigation methods), **JDBC Transactions** (ACID, isolation levels, savepoints), **concurrency issues** (dirty read, non-repeatable read, phantom read), **batch processing**, **RowSet interface**, **metadata**, **CallableStatement** for stored procedures, and important exam questions from PYQ analysis.
 
 > **Prerequisite**: Review Unit 15 for JDBC Architecture, Driver Types, Connection Steps, Statement types, and DriverManager.
+
+> **Note**: Unit 15 now includes comprehensive coverage of ResultSet types, batch processing, isolation levels, concurrency problems, and metadata. Unit 16 focuses on **advanced** topics: RowSet (JdbcRowSet, CachedRowSet, WebRowSet), deeper CallableStatement examples, and complete integration programs.
 
 ---
 

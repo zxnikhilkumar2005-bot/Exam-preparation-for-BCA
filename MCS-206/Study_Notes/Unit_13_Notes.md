@@ -661,7 +661,7 @@ public class Controller {
 
 ---
 
-## 13.9 CSS Styling in JavaFX
+## 13.10 CSS Styling in JavaFX
 
 ### What is JavaFX CSS?
 - JavaFX uses CSS (Cascading Style Sheets) for styling UI components
@@ -775,7 +775,7 @@ scene.getStylesheets().add("styles.css");
 
 ---
 
-## 13.10 Properties and Binding (JavaFX Observable Pattern)
+## 13.11 Properties and Binding (JavaFX Observable Pattern)
 
 ### Why Properties?
 - JavaFX uses reactive programming; properties are observable
@@ -904,7 +904,7 @@ validationLabel.textProperty().bind(
 
 ---
 
-## 13.14 Adding HTML Content, Text and Text Effects
+## 13.12 Adding HTML Content, Text and Text Effects
 
 ### WebView (HTML Content)
 ```java
@@ -969,7 +969,7 @@ imageView.setPreserveRatio(true);
 
 ---
 
-## 13.16 Animations & Media in JavaFX
+## 13.13 Animations & Media in JavaFX
 
 ### JavaFX Animations
 
@@ -1051,7 +1051,7 @@ mediaView.setSmooth(true);
 
 ---
 
-## 13.16 Important Exam Questions (PYQ Analysis)
+## 13.14 Important Exam Questions (PYQ Analysis)
 
 ### Critical Priority Topics (90%+ Probability - Must Master)
 
@@ -1115,7 +1115,7 @@ mediaView.setSmooth(true);
 | **AWT** | Heavyweight, native peers, platform-dependent, basic components (Button, Label, Frame, etc.), uses `java.awt` package |
 | **Swing** | Lightweight, pure Java, pluggable L&F, MVC architecture, rich components, uses `javax.swing` package, runs on EDT |
 | **JavaFX** | Modern, Scene Graph architecture, CSS styling (`-fx-` prefix), FXML support, hardware accelerated, uses `javafx.*` packages |
-| **JavaFX Architecture** | Application → Stage (window) → Scene (content) → Root Node (Layout/Group) → Controls/Shaps/Media |
+| **JavaFX Architecture** | Application → Stage (window) → Scene (content) → Root Node (Layout/Group) → Controls/Shapes/Media |
 | **Stage** | Represents OS window; `show()`, `setTitle()`, `setScene()`; methods: `close()`, `minimize()`, `maximize()` |
 | **Scene** | Contains all UI elements; `setRoot()`, `getStylesheets()`, `getRoot()`, `setFill()` |
 | **Layouts** | VBox (vertical), HBox (horizontal), BorderPane (5 regions), GridPane (grid), StackPane (overlay), AnchorPane (anchored), FlowPane (flow), TilePane (uniform tiles) |
