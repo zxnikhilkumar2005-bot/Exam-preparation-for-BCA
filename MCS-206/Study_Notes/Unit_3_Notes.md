@@ -675,84 +675,93 @@ public class ArgsDemo {
 
 ---
 
-### 3.3.2 Array Access
+### 3.3.4 Matrix Operations (CRITICAL FOR EXAMS)
 
+> **⚡ PYQ Insight**: **3×3 Matrix Addition** appeared in **JUNE 2022 (5 marks)** and **DEC 2025 (5 marks)**.
+
+#### Complete Matrix Addition Program
 ```java
-int[] arr = {10, 20, 30, 40, 50};
+import java.util.Scanner;
 
-arr[0]    // 10 (first element)
-arr[4]    // 50 (last element)
-arr.length // 5 (size - property, not method!)
-
-// Loop through array
-for (int i = 0; i < arr.length; i++) {
-    System.out.println(arr[i]);
+public class MatrixAddition {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int rows = 3, cols = 3;
+        
+        int[][] a = new int[rows][cols];
+        int[][] b = new int[rows][cols];
+        int[][] sum = new int[rows][cols];
+        
+        System.out.println("Enter elements of Matrix A (3x3):");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                a[i][j] = sc.nextInt();
+            }
+        }
+        
+        System.out.println("Enter elements of Matrix B (3x3):");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                b[i][j] = sc.nextInt();
+            }
+        }
+        
+        // Addition
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                sum[i][j] = a[i][j] + b[i][j];
+            }
+        }
+        
+        System.out.println("Resultant Matrix (A + B):");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(sum[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 }
+```
 
-// Enhanced for loop
-for (int num : arr) {
-    System.out.println(num);
+#### Matrix Multiplication (Bonus)
+```java
+// Matrix Multiplication (2x3 × 3x2 = 2x2)
+int[][] a = {{1, 2, 3}, {4, 5, 6}};  // 2x3
+int[][] b = {{7, 8}, {9, 1}, {2, 3}};  // 3x2
+int[][] product = new int[2][2];
+
+for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 2; j++) {
+        for (int k = 0; k < 3; k++) {
+            product[i][j] += a[i][k] * b[k][j];
+        }
+    }
 }
 ```
 
-#### IndexOutOfBoundsException
+#### Transpose of Matrix
 ```java
-int[] a = new int[5];
-a[5] = 10;  // Runtime Exception! Valid indices: 0-4
-```
+int[][] mat = {{1, 2, 3}, {4, 5, 6}};  // 2x3
+int[][] transpose = new int[3][2];      // 3x2
 
----
-
-### 3.3.3 Multi-dimensional Arrays
-
-#### 2D Array (Matrix)
-```java
-// Declaration
-int[][] matrix;
-
-// Creation
-matrix = new int[3][4];  // 3 rows, 4 columns
-
-// Initialization
-int[][] mat = {
-    {1, 2, 3},
-    {4, 5, 6},
-    {7, 8, 9}
-};
-
-// Access
-mat[0][0]  // 1 (row 0, col 0)
-mat[1][2]  // 6 (row 1, col 2)
-mat.length // 3 (number of rows)
-mat[0].length // 3 (columns in row 0)
-```
-
-#### Jagged Arrays (rows of different lengths)
-```java
-int[][] jagged = new int[3][];
-jagged[0] = new int[2];
-jagged[1] = new int[5];
-jagged[2] = new int[3];
-```
-
----
-
-### 3.3.4 Matrix Operations Example
-
-```java
-// Matrix Addition (3x3) - IMPORTANT FOR EXAMS
-int[][] a = {{1,2,3}, {4,5,6}, {7,8,9}};
-int[][] b = {{9,8,7}, {6,5,4}, {3,2,1}};
-int[][] sum = new int[3][3];
-
-for (int i = 0; i < 3; i++) {
+for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 3; j++) {
-        sum[i][j] = a[i][j] + b[i][j];
+        transpose[j][i] = mat[i][j];
     }
 }
 ```
 
 ---
+
+### 3.3.5 Array vs ArrayList (Quick Comparison)
+| Aspect | Array | ArrayList |
+|--------|-------|-----------|
+| Size | Fixed | Dynamic |
+| Primitives | Direct (int[]) | Wrapper (Integer) |
+| Methods | `length` field | `size()`, `add()`, `remove()` |
+| Performance | Faster | Slightly slower |
+| Generics | No | Yes |
 
 ## 3.4 Important Exam Questions (from PYQ Analysis)
 
@@ -765,6 +774,8 @@ for (int i = 0; i < 3; i++) {
 4. Syntax of `switch-case` statement.
 5. What is fall-through in switch?
 6. What is enhanced for loop?
+7. Relational operators in Java (<, >, <=, >=, ==, !=).
+8. Difference between switch-case and if-else-if.
 
 **5-Mark Questions:**
 1. Write a program to print multiplication table using for loop.
@@ -775,21 +786,30 @@ for (int i = 0; i < 3; i++) {
 6. Write a program for matrix addition (3×3).
 7. Write a program demonstrating `break` and `continue`.
 8. Explain jump statements in Java.
+9. Week days program using switch-case.
+10. Average of 3 numbers using command-line arguments.
+11. Circle area program using if-else for validation.
+12. Switch-case vs if-else comparison with examples.
 
 **10-Mark Questions:**
 1. Explain all loop constructs in Java with syntax, flow diagrams, and examples.
 2. Write a menu-driven program using switch-case for arithmetic operations.
 3. Explain arrays: declaration, initialization, types, and matrix operations.
+4. Nested loops for pattern printing and multiplication tables.
 
 ### Programs to Practice (High Yield)
 1. ✅ **Matrix Addition (3×3)** - appeared 2022, 2025
 2. ✅ **Week days program (switch)** - appeared 2023
 3. ✅ **Circle area program** - appeared 2024
 4. ✅ **Average of 3 numbers** - appeared 2022
-5. ✅ **Multiplication table 1-20** - appeared 2021
+5. ✅ **Multiplication table 1-20** - appeared 2022
 6. ✅ **Largest of 3 numbers** - appeared 2021
 7. ✅ **Switch-case with break** - appeared 2022, 2024
 8. ✅ **For loop programs** (patterns, series)
+9. ✅ **Menu-driven calculator (do-while + switch)** - 2023, 2024
+10. ✅ **Command-line args sum/average** - 2022
+11. ✅ **Linear search in array** - common
+12. ✅ **Bubble sort array** - common
 
 ---
 
@@ -797,19 +817,26 @@ for (int i = 0; i < 3; i++) {
 
 | Topic | Key Points |
 |-------|------------|
+| **Relational Operators** | `<`, `>`, `<=`, `>=`, `==`, `!=` — return boolean |
+| **Logical Operators** | `&&`, `||`, `!` — short-circuit evaluation |
 | **if statement** | Single condition, optional braces for single statement |
 | **if-else** | Two-way branch |
 | **if-else-if** | Multi-way branch |
 | **switch-case** | Multi-way for discrete values (int, char, String, enum) |
-| **break** | Exits loop/switch immediately |
-| **continue** | Skips to next iteration |
-| **while** | Entry-controlled, may not execute |
-| **do-while** | Exit-controlled, executes at least once |
-| **for** | Counter-controlled, all parts in one line |
-| **for-each** | Iterates over arrays/collections (no index) |
-| **Arrays** | Fixed-size, zero-indexed, `length` property |
-| **2D Arrays** | Array of arrays; `matrix[i][j]` access |
+| **switch vs if-else** | switch: discrete values, jump table; if-else: ranges, complex conditions |
+| **break** | Exits loop/switch immediately; labeled break for nested loops |
+| **continue** | Skips to next iteration; labeled continue for nested loops |
+| **while** | Entry-controlled, may not execute (0 times) |
+| **do-while** | Exit-controlled, executes at least once (1 time) |
+| **for** | Counter-controlled, init/condition/update in one line |
+| **for-each** | Iterates over arrays/collections (no index access) |
+| **Nested loops** | Pattern programs, matrix operations, multiplication tables |
+| **Arrays** | Fixed-size, zero-indexed, `length` property (not method) |
+| **2D Arrays** | Array of arrays; `matrix[i][j]` access; jagged arrays possible |
+| **3D Arrays** | Array of 2D arrays; `cube[x][y][z]` |
 | **Matrix Addition** | Nested loops, same dimensions required |
+| **Matrix Multiplication** | Triple nested loop; cols of A = rows of B |
+| **Command-line args** | `String[] args`; parse with `Integer.parseInt()` |
 
 ---
 
@@ -869,4 +896,95 @@ for (int i = 0; i < 3; i++) {
     └──────┬───────┘
            │
            └────────┘ (loop back)
+```
+
+### do-while Loop
+```
+    ┌──────────────┐
+    │     Body     │ (executes first)
+    └──────┬───────┘
+           ▼
+    ┌──────────────┐
+    │  Condition   │────True──┐
+    └──────┬───────┘          │
+           │ False            │
+           ▼                  │
+         Exit ◄───────────────┘
+```
+
+### if-else Statement
+```
+        ┌─────────┐
+        │ Condition │
+        └────┬────┘
+             │
+        ┌────┴────┐
+        ▼         ▼
+      True       False
+        │         │
+        ▼         ▼
+    ┌───────┐ ┌───────┐
+    │ If-Block│ │Else-Block│
+    └───────┘ └───────┘
+        │         │
+        └────┬────┘
+             ▼
+      Next Statement
+```
+
+### if-else-if Ladder
+```
+        ┌───────────┐
+        │Condition 1│
+        └─────┬─────┘
+              │
+         ┌────┴────┐
+         ▼         ▼
+       True       False
+         │         │
+         ▼         ▼
+     ┌────────┐ ┌───────────┐
+     │ Block 1│ │Condition 2│
+     └────────┘ └─────┬─────┘
+                       │
+                  ┌────┴────┐
+                  ▼         ▼
+                True       False
+                  │         │
+                  ▼         ▼
+              ┌────────┐ ┌───────────┐
+              │ Block 2│ │Condition 3│
+              └────────┘ └─────┬─────┘
+                                │
+                           ┌────┴────┐
+                           ▼         ▼
+                         True       False
+                           │         │
+                           ▼         ▼
+                       ┌────────┐ ┌─────────┐
+                       │ Block 3│ │ Else    │
+                       └────────┘ │(Default)│
+                                  └─────────┘
+```
+
+### switch-case Statement
+```
+        ┌─────────────┐
+        │  Expression │
+        └──────┬──────┘
+               │
+       ┌───────┼───────┐
+       ▼       ▼       ▼
+    case 1  case 2  case 3  ...  default
+       │       │       │
+       ▼       ▼       ▼
+    ┌──────┐┌──────┐┌──────┐
+    │Block ││Block ││Block │
+    └──┬───┘└──┬───┘└──┬───┘
+       │       │       │
+    (break) (break) (break)
+       │       │       │
+       └───────┼───────┘
+               ▼
+       Next Statement
 ```

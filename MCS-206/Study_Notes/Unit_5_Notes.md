@@ -353,7 +353,7 @@ class B { void show() { System.out.println("B"); } }
 
 ---
 
-## 5.6 The `super` Keyword
+## 5.9 The `super` Keyword — **CRITICAL: Appeared 2021, 2022, 2023, 2024×2, 2025**
 
 ### Uses of `super`
 
@@ -363,7 +363,7 @@ class B { void show() { System.out.println("B"); } }
 | **2. Access superclass method** | `super.methodName();` | When overridden in subclass |
 | **3. Access superclass variable** | `super.variableName` | When hidden by subclass variable |
 
-### 5.6.1 Calling Superclass Constructor
+### 5.9.1 Calling Superclass Constructor
 
 ```java
 class Box {
@@ -400,7 +400,7 @@ class BoxWeight extends Box {
 }
 ```
 
-### 5.6.2 Accessing Superclass Method (Method Overriding)
+### 5.9.2 Accessing Superclass Method (Method Overriding)
 
 ```java
 class Animal {
@@ -431,7 +431,7 @@ Animal makes sound
 Dog barks: Bow wow
 ```
 
-### 5.6.3 Accessing Superclass Variable (Variable Hiding)
+### 5.9.3 Accessing Superclass Variable (Variable Hiding)
 
 ```java
 class A {
@@ -468,10 +468,15 @@ Subclass i: 10
 
 ---
 
-## 5.7 Creating Multilevel Class Hierarchy
+## 5.10 Creating Multilevel Class Hierarchy — **CRITICAL: Constructor Order Appeared 2022 (10 marks)**
 
 ### Concept
 Each subclass inherits from its immediate superclass, forming a chain.
+
+### Constructor Execution Order in Multilevel Hierarchy — **Exam Favorite**
+**Order**: Superclass → Subclass (top to bottom)
+
+**Reason**: Superclass has no knowledge of subclass; its initialization may be prerequisite.
 
 ```java
 class Student {
@@ -518,9 +523,6 @@ class Percentage extends Marks {
 }
 ```
 
-### Constructor Execution Order in Multilevel Hierarchy
-**Order**: Superclass → Subclass (top to bottom)
-
 ```java
 class GrandParent {
     GrandParent() { System.out.println("GrandParent constructor"); }
@@ -548,11 +550,9 @@ Parent constructor
 Child constructor
 ```
 
-> **Reason**: Superclass has no knowledge of subclass; its initialization may be prerequisite.
-
 ---
 
-## 5.8 `final` Keyword in Inheritance
+## 5.11 `final` Keyword in Inheritance — **Appeared 2022, 2025**
 
 ### 1. Final Variable
 - Cannot be modified after initialization
@@ -588,7 +588,7 @@ final class Parent {
 
 ---
 
-## 5.9 Important Exam Questions (from PYQ Analysis)
+## 5.12 Important Exam Questions (from PYQ Analysis)
 
 ### High Priority (CRITICAL - Appeared 9/10 years)
 
@@ -624,7 +624,7 @@ final class Parent {
 
 ---
 
-## 5.10 Summary of Unit 5
+## 5.13 Summary of Unit 5
 
 | Topic | Key Points |
 |-------|------------|
@@ -636,10 +636,11 @@ final class Parent {
 | **Constructor Order** | Top-down (superclass first) |
 | **`final`** | Variable=constant, Method=can't override, Class=can't extend |
 | **Method Overriding** | Same signature; runtime polymorphism; `@Override` annotation |
+| **Object Class** | `toString()`, `equals()`, `hashCode()` commonly overridden |
 
 ---
 
-## 5.11 Quick Reference: Inheritance Rules
+## 5.14 Quick Reference: Inheritance Rules
 
 | Rule | Description |
 |------|-------------|
@@ -651,3 +652,124 @@ final class Parent {
 | `super()` call | Must be first statement in constructor |
 | Overriding rules | Same signature, same/broader access, same return (covariant allowed) |
 | `@Override` | Annotation to catch errors at compile time |
+
+---
+
+## 5.15 PYQ Comparison Questions (Frequently Asked 2-5 Marks)
+
+Based on 10-year analysis, these comparison questions appear frequently:
+
+### 1. Multiple vs Multilevel Inheritance (2023 Q1d - 5 marks)
+| Aspect | Multiple Inheritance | Multilevel Inheritance |
+|--------|---------------------|------------------------|
+| **Definition** | One class inherits from **multiple** parents | Chain of inheritance: A → B → C |
+| **Java Support** | ❌ **Not supported** (directly) | ✅ **Supported** |
+| **Ambiguity** | Diamond problem | No ambiguity |
+| **Alternative** | Use **interfaces** | Native `extends` chain |
+
+```java
+// Multiple - NOT ALLOWED
+// class C extends A, B {}  // Error
+
+// Multilevel - ALLOWED
+class A {}
+class B extends A {}
+class C extends B {}
+```
+
+### 2. Hierarchical vs Multiple Inheritance (2023 Q1e - 5 marks)
+| Aspect | Hierarchical Inheritance | Multiple Inheritance |
+|--------|-------------------------|---------------------|
+| **Definition** | One parent, **multiple children** | One child, **multiple parents** |
+| **Java Support** | ✅ **Supported** | ❌ **Not supported** |
+| **Example** | A → B, A → C | C extends A, B (not allowed) |
+| **Use Case** | Common base class for variants | Need features from multiple classes |
+
+```java
+// Hierarchical - ALLOWED
+class Parent {}
+class Child1 extends Parent {}
+class Child2 extends Parent {}
+
+// Multiple - NOT ALLOWED
+// class Child extends Parent1, Parent2 {}  // Error
+```
+
+### 3. Overloading vs Overriding (2023 Q1e - 5 marks, 2026 Q4b - 10 marks)
+| Aspect | Overloading | Overriding |
+|--------|-------------|------------|
+| **Also Called** | Compile-time polymorphism | Runtime polymorphism |
+| **Binding** | Static (early) | Dynamic (late) |
+| **Signature** | Must differ (parameters) | Must be **same** |
+| **Return Type** | Can be different | Same or covariant |
+| **Access Modifier** | Can be different | Same or broader |
+| **Scope** | Same class | Superclass & Subclass |
+| **Inheritance** | Not required | **Required** |
+| **`static` Methods** | Can be overloaded | **Hidden**, not overridden |
+| **`final` Methods** | Can be overloaded | **Cannot** be overridden |
+| **`private` Methods** | Can be overloaded | **Cannot** be overridden |
+
+### 4. `super()` vs `this()` (2022 Q4b - 5 marks, 2025 Q1e - 5 marks)
+| Aspect | `super()` | `this()` |
+|--------|-----------|----------|
+| **Calls** | **Superclass constructor** | **Same class constructor** |
+| **Purpose** | Initialize parent state | Constructor chaining within class |
+| **Position** | Must be **first statement** | Must be **first statement** |
+| **Default** | `super()` called implicitly if not written | Never implicit |
+| **Inheritance** | Related to inheritance | **No inheritance needed** |
+
+```java
+class Parent {
+    Parent() { System.out.println("Parent"); }
+    Parent(int x) { System.out.println("Parent: " + x); }
+}
+
+class Child extends Parent {
+    Child() {
+        super();        // Calls Parent() - OK
+        // this();       // Would call Child() - recursive!
+    }
+    Child(int x) {
+        this();         // Calls Child() - OK
+        super(x);       // ERROR: super() not first!
+    }
+}
+```
+
+### 5. `final` vs `finally` vs `finalize` (2023 Q5b - 6 marks, 2024 Q2a - 5 marks)
+| Keyword | Type | Purpose |
+|---------|------|---------|
+| **`final`** | Modifier | Variable=constant, Method=can't override, Class=can't extend |
+| **`finally`** | Block | Executes **always** after try/catch (cleanup code) |
+| **`finalize()`** | Method (Object) | Called by **GC** before object destruction (deprecated Java 9+) |
+
+```java
+final int MAX = 100;           // final variable - constant
+final void show() {}           // final method - cannot override
+final class MyClass {}         // final class - cannot extend
+
+try {
+    // risky code
+} catch (Exception e) {
+    // handle
+} finally {
+    // ALWAYS executes - cleanup (close resources)
+}
+
+// @Deprecated (Java 9+)
+protected void finalize() throws Throwable {
+    // cleanup before GC - avoid using
+}
+```
+
+### 6. Abstract Class vs Interface (2022 Q5c - 5 marks, 2023 Q1e/1g - 5 marks each, 2024 Q2c - 10 marks, 2025 Q1b - 5 marks)
+| Aspect | Abstract Class | Interface |
+|--------|----------------|-----------|
+| **Keyword** | `abstract class` | `interface` |
+| **Inheritance** | `extends` (single) | `implements` (multiple) |
+| **Methods** | Abstract + concrete | Abstract + default + static (Java 8+) |
+| **Variables** | Any (instance, static, final) | Only `public static final` (constants) |
+| **Constructors** | ✅ Can have | ❌ Cannot have |
+| **Access Modifiers** | Any | Methods: `public` only (default for abstract) |
+| **Multiple** | ❌ One only | ✅ Multiple allowed |
+| **Use When** | Shared code + IS-A relationship | Contract + multiple implementations |

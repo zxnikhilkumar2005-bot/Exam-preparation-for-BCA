@@ -549,6 +549,8 @@ void process() {
 ### Encapsulation
 **Definition**: Binding data and methods together; hiding internal state; providing controlled access via public methods.
 
+> **📋 PYQ Insight**: Encapsulation appeared **7 times** (2021 Q1(a) 6m, 2022 Q5(a) 5m, 2023 Q1(c) 5m, 2024 Q1(a) 5m, 2025 Q1(a) 5m, 2025 Q1(b) 5m, 2026 Q1(d) 5m). "Explain encapsulation with getter/setter program" is a **high-yield 5-10 mark question**. Also appears as short note (2022 Q5(a), 2026 Q1(d)).
+
 ```java
 class BankAccount {
     // Private data - hidden from outside
@@ -576,6 +578,13 @@ class BankAccount {
 }
 ```
 
+### Benefits of Encapsulation (Exam Answer Points)
+1. **Data Hiding**: Internal implementation hidden from outside
+2. **Controlled Access**: Validation in setters (e.g., no negative balance)
+3. **Flexibility**: Can change internal logic without breaking external code
+4. **Reusability**: Class can be reused with confidence
+5. **Testing**: Easier to unit test with controlled interfaces
+
 ### Access Modifiers (Specifiers)
 
 | Modifier | Class | Package | Subclass (diff package) | World |
@@ -591,7 +600,7 @@ class BankAccount {
 | `default` | ✅ Accessible | ❌ Not accessible |
 | `public` | ✅ Accessible | ✅ Accessible |
 
-> **Note**: A class can only be `public` or `default` (not `private`/`protected` unless nested).
+> **Note**: A top-level class can only be `public` or `default` (not `private`/`protected` unless nested).
 
 ### Example: Access Control
 ```java
@@ -638,6 +647,113 @@ class Unrelated {
 }
 ```
 
+### Protected Access Nuance (⭐ Important for Exams)
+```java
+package pack1;
+public class Parent {
+    protected int protectedVar = 10;
+}
+
+package pack2;
+import pack1.Parent;
+
+class Child extends Parent {
+    void test() {
+        // Access via INHERITANCE (child object)
+        System.out.println(this.protectedVar);    // OK
+        System.out.println(super.protectedVar);   // OK
+        
+        // Access via REFERENCE (parent object) - NOT ALLOWED
+        Parent p = new Parent();
+        // System.out.println(p.protectedVar);    // ERROR: not in same package
+    }
+}
+```
+
+**Key Rule**: `protected` = package access **PLUS** subclass access (via inheritance only, not via parent reference from outside package)
+
+### Encapsulation Program for Exam (Complete 10-mark version)
+```java
+// 10-mark encapsulation program with all features
+class Student {
+    // Private fields (data hiding)
+    private String name;
+    private int age;
+    private double gpa;
+    private String studentId;
+    private static int count = 0;  // Shared counter
+    
+    // Constructor with validation
+    public Student(String name, int age, double gpa) {
+        setName(name);
+        setAge(age);
+        setGpa(gpa);
+        this.studentId = "STU" + (++count);  // Auto-generate ID
+    }
+    
+    // Getters (accessors)
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public double getGpa() { return gpa; }
+    public String getStudentId() { return studentId; }
+    public static int getCount() { return count; }
+    
+    // Setters (mutators) with validation
+    public void setName(String name) {
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name.trim();
+        } else {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+    }
+    
+    public void setAge(int age) {
+        if (age >= 16 && age <= 100) {
+            this.age = age;
+        } else {
+            throw new IllegalArgumentException("Age must be 16-100");
+        }
+    }
+    
+    public void setGpa(double gpa) {
+        if (gpa >= 0.0 && gpa <= 4.0) {
+            this.gpa = gpa;
+        } else {
+            throw new IllegalArgumentException("GPA must be 0.0-4.0");
+        }
+    }
+    
+    // Additional behavior
+    public boolean isHonorsStudent() {
+        return gpa >= 3.5;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Student[%s: %s, Age: %d, GPA: %.2f, Honors: %s]",
+            studentId, name, age, gpa, isHonorsStudent());
+    }
+}
+
+public class EncapsulationDemo {
+    public static void main(String[] args) {
+        Student s1 = new Student("Alice", 20, 3.8);
+        Student s2 = new Student("Bob", 22, 3.2);
+        
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println("Total students: " + Student.getCount());
+        
+        // Validation in action
+        try {
+            s1.setGpa(5.0);  // Throws exception
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+
 ---
 
 ## 4.7 Garbage Collection and `finalize()`
@@ -647,6 +763,8 @@ class Unrelated {
 - JVM reclaims memory from objects no longer referenced
 - Runs as a **daemon thread** in background
 - Non-deterministic (cannot predict when it runs)
+
+> **📋 PYQ Insight**: GC + `finalize()` appeared **5 times** (2022, 2023 Q4(b) 10m, 2024, 2025 Q5(b) 5m, 2026). "Explain garbage collection and finalize() method" is a **5-10 mark question**. Also appears as short note (2025 Q5(b) 5m).
 
 ### Making Objects Eligible for GC
 ```java
@@ -663,6 +781,17 @@ s1 = s2;   // First object eligible for GC
 void method() {
     Student s = new Student();
 }  // s goes out of scope → eligible for GC
+
+// 4. Island of Isolation (circular references)
+class Island {
+    Island ref;
+}
+Island i1 = new Island();
+Island i2 = new Island();
+i1.ref = i2;
+i2.ref = i1;
+i1 = null;
+i2 = null;  // Both eligible (island of isolation)
 ```
 
 ### `finalize()` Method
@@ -689,8 +818,70 @@ class Resource {
 - ✅ `finalize()` called **at most once** per object
 - ✅ Not guaranteed to be called (program may exit)
 - ✅ Can "resurrect" object by assigning `this` to a reference
-- ✅ Deprecated since Java 9 (use try-with-resources or Cleaner API)
+- ✅ **Deprecated since Java 9** (use try-with-resources or Cleaner API)
 - ✅ `System.gc()` only **suggests** GC to run
+
+### Object Resurrection (⭐ Exam Trick Question)
+```java
+class Resurrect {
+    static Resurrect savedRef;  // Static reference to "save" object
+    
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("finalize() called - resurrecting!");
+        savedRef = this;  // Object resurrected! Not eligible for GC anymore
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Resurrect r = new Resurrect();
+        r = null;
+        System.gc();  // Request GC
+        Thread.sleep(100);  // Wait for finalize
+        
+        if (Resurrect.savedRef != null) {
+            System.out.println("Object resurrected!");
+        }
+        
+        // Second GC - finalize() WON'T be called again (only once per object)
+        Resurrect.savedRef = null;
+        System.gc();
+        Thread.sleep(100);
+    }
+}
+```
+
+### Modern Alternatives (Java 7+)
+```java
+// 1. try-with-resources (AutoCloseable) - Preferred
+try (FileInputStream fis = new FileInputStream("file.txt")) {
+    // use fis
+} // automatically closed
+
+// 2. Cleaner API (Java 9+) - Replaces finalize
+class Resource implements AutoCloseable {
+    private static final Cleaner cleaner = Cleaner.create();
+    private final Cleaner.Cleanable cleanable;
+    
+    Resource() {
+        cleanable = cleaner.register(this, () -> {
+            System.out.println("Cleaning up resource");
+        });
+    }
+    
+    @Override
+    public void close() {
+        cleanable.clean();
+    }
+}
+```
+
+### GC Algorithms (Conceptual - Good for Theory)
+- **Serial GC**: Single thread, simple, for small apps
+- **Parallel GC**: Multiple threads, throughput-focused (default Java 8)
+- **G1 GC**: Garbage First, low latency, large heaps (default Java 9+)
+- **ZGC / Shenandoah**: Ultra-low latency, large heaps (Java 11+)
 
 ---
 
