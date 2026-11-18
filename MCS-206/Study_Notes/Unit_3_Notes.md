@@ -168,6 +168,94 @@ switch (num) {
 // Output: Two Three Default
 ```
 
+#### switch-case with String (Java 7+)
+```java
+String day = "MONDAY";
+switch (day.toUpperCase()) {
+    case "MONDAY": System.out.println("Start of work week"); break;
+    case "FRIDAY": System.out.println("Weekend coming!"); break;
+    case "SATURDAY":
+    case "SUNDAY": System.out.println("Weekend"); break;
+    default: System.out.println("Midweek");
+}
+```
+
+#### switch-case vs if-else Comparison
+> **⚡ PYQ Insight**: Asked in **JUNE 2023 (5 marks Theory+Code)**
+
+| Aspect | switch-case | if-else-if |
+|--------|-------------|------------|
+| **Best for** | Multiple discrete values | Range/boolean conditions |
+| **Types** | byte, short, int, char, String, enum | Any boolean expression |
+| **Performance** | O(1) jump table (compiler optimized) | O(n) sequential evaluation |
+| **Readability** | Clean for many cases | Better for complex conditions |
+| **Fall-through** | Supported (intentional) | Not applicable |
+| **Null handling** | Throws NPE on null (pre-Java 12) | Handles null naturally |
+
+**When to use which:**
+- **switch**: Menu systems, enum handling, known discrete values
+- **if-else**: Range checks (score >= 90), complex boolean logic, null checks
+
+---
+
+### 3.1.5 Nested Decision Constructs
+```java
+// Nested if-else: Find largest of 3 numbers
+int a = 10, b = 25, c = 15;
+int largest;
+
+if (a > b) {
+    if (a > c) largest = a;
+    else largest = c;
+} else {
+    if (b > c) largest = b;
+    else largest = c;
+}
+System.out.println("Largest: " + largest);  // Output: 25
+```
+
+```java
+// Nested switch (avoid if possible - use if-else)
+int month = 2, year = 2024;
+int days;
+switch (month) {
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+        days = 31; break;
+    case 4: case 6: case 9: case 11:
+        days = 30; break;
+    case 2:
+        // Nested leap year check
+        if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+            days = 29;
+        else
+            days = 28;
+        break;
+    default: days = -1; // Invalid month
+}
+```
+
+### 3.1.6 Labeled break/continue (Advanced)
+```java
+// Labeled break - exit outer loop
+outerLoop:
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (i == 2 && j == 2) break outerLoop;
+        System.out.println("i=" + i + ", j=" + j);
+    }
+}
+// Output: i=1,j=1 | i=1,j=2 | i=1,j=3 | i=2,j=1
+
+// Labeled continue - skip to next iteration of outer loop
+outerLoop:
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (j == 2) continue outerLoop;
+        System.out.println("i=" + i + ", j=" + j);
+    }
+}
+// Output: i=1,j=1 | i=1,j=3 | i=2,j=1 | i=2,j=3 | i=3,j=1 | i=3,j=3
+```
 ---
 
 ### 3.1.4 Jump Statements
@@ -284,6 +372,8 @@ Value: 3
 ```
 
 #### while vs do-while
+> **⚡ PYQ Insight**: Asked in **DEC 2023 (5 marks Theory+Code)**
+
 | Aspect | while | do-while |
 |--------|-------|----------|
 | Control | Entry-controlled | Exit-controlled |
@@ -292,6 +382,51 @@ Value: 3
 | Syntax end | No semicolon | Semicolon required |
 | Use case | May not run at all | Must run at least once |
 
+**Example showing the difference:**
+```java
+// while - may not execute
+int x = 5;
+while (x < 5) {
+    System.out.println("while: " + x);  // Never prints
+    x++;
+}
+
+// do-while - executes once
+int y = 5;
+do {
+    System.out.println("do-while: " + y);  // Prints once: "do-while: 5"
+    y++;
+} while (y < 5);
+```
+
+**Program: Menu-driven calculator using do-while**
+```java
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            
+            if (choice >= 1 && choice <= 4) {
+                System.out.print("Enter two numbers: ");
+                double a = sc.nextDouble(), b = sc.nextDouble();
+                switch (choice) {
+                    case 1: System.out.println("Result: " + (a + b)); break;
+                    case 2: System.out.println("Result: " + (a - b)); break;
+                    case 3: System.out.println("Result: " + (a * b)); break;
+                    case 4: System.out.println("Result: " + (b != 0 ? a / b : "Error")); break;
+                }
+            }
+        } while (choice != 5);
+        System.out.println("Calculator exited.");
+    }
+}
+```
 ---
 
 ### 3.2.3 for Loop
@@ -348,12 +483,67 @@ for (int num : arr) {
 }
 ```
 
+#### Nested for Loops (Pattern Programs)
+> **⚡ PYQ Insight**: Multiplication table 1-20 asked in **DEC 2022 (6 marks)**
+
+```java
+// Multiplication Table 1-20 (DEC 2022 Q1g)
+for (int i = 1; i <= 20; i++) {
+    for (int j = 1; j <= 10; j++) {
+        System.out.println(i + " x " + j + " = " + (i * j));
+    }
+    System.out.println(); // Blank line between tables
+}
+```
+
+```java
+// Pattern Programs (common in exams)
+/*
+Pattern 1: Right Triangle
+*
+**
+***
+****
+*/
+
+for (int i = 1; i <= 4; i++) {
+    for (int j = 1; j <= i; j++) {
+        System.out.print("*");
+    }
+    System.out.println();
+}
+
+/*
+Pattern 2: Number Pyramid
+1
+2 2
+3 3 3
+*/
+
+for (int i = 1; i <= 4; i++) {
+    for (int j = 1; j <= i; j++) {
+        System.out.print(i + " ");
+    }
+    System.out.println();
+}
+```
+
+#### for Loop vs while Loop vs do-while
+| Aspect | for | while | do-while |
+|--------|-----|-------|----------|
+| **Best for** | Known iteration count | Unknown iterations | At least one execution |
+| **Control** | Counter-controlled | Entry-controlled | Exit-controlled |
+| **Scope** | Variable in init stays in loop | Variable declared outside | Variable declared outside |
+| **Parts** | Init, condition, update in one line | Condition only | Condition only |
+
 ---
 
 ## 3.3 Arrays
 
 ### Topic Introduction
 An array is a fixed-size container that stores multiple values of the same type in contiguous memory.
+
+> **⚡ PYQ Insight**: Arrays asked in **JUNE 2024 (5 marks Short Note)** and **DEC 2025 (5 marks Matrix Addition)**. Programs: Matrix addition (2022, 2025).
 
 ---
 
@@ -385,6 +575,103 @@ method(new int[] {1, 2, 3});
 | boolean | false |
 | char | '\u0000' |
 | Object reference | null |
+
+#### Array Memory Model
+```java
+int[] arr = new int[3];  // Stack: arr (reference) → Heap: [0, 0, 0]
+                         // arr.length = 3 (fixed after creation)
+
+// Object array
+String[] names = new String[3];  // [null, null, null]
+names[0] = "Amit";               // [Amit, null, null]
+```
+
+---
+
+### 3.3.2 Array Operations (Exam-Important)
+
+#### Finding Min/Max
+```java
+int[] arr = {45, 12, 78, 23, 56};
+int max = arr[0], min = arr[0];
+
+for (int i = 1; i < arr.length; i++) {
+    if (arr[i] > max) max = arr[i];
+    if (arr[i] < min) min = arr[i];
+}
+System.out.println("Max: " + max + ", Min: " + min);
+```
+
+#### Searching (Linear Search)
+```java
+int[] arr = {10, 20, 30, 40, 50};
+int key = 30, index = -1;
+
+for (int i = 0; i < arr.length; i++) {
+    if (arr[i] == key) {
+        index = i;
+        break;
+    }
+}
+System.out.println(index != -1 ? "Found at: " + index : "Not found");
+```
+
+#### Sorting (Bubble Sort - simple version)
+```java
+int[] arr = {64, 34, 25, 12, 22, 11, 90};
+int n = arr.length;
+
+for (int i = 0; i < n - 1; i++) {
+    for (int j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+            // swap
+            int temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+        }
+    }
+}
+// Use Arrays.sort(arr) in practice
+```
+
+#### Copying Arrays
+```java
+int[] src = {1, 2, 3, 4, 5};
+int[] dest = new int[src.length];
+
+// Method 1: Manual copy
+for (int i = 0; i < src.length; i++) dest[i] = src[i];
+
+// Method 2: System.arraycopy (fastest)
+System.arraycopy(src, 0, dest, 0, src.length);
+
+// Method 3: Arrays.copyOf
+int[] dest2 = Arrays.copyOf(src, src.length);
+
+// Method 4: clone()
+int[] dest3 = src.clone();
+```
+
+---
+
+### 3.3.3 Command-Line Arguments (String[] args)
+```java
+// Run: java MyProgram 10 20 30
+public class ArgsDemo {
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("No arguments provided");
+            return;
+        }
+        
+        int sum = 0;
+        for (String arg : args) {
+            sum += Integer.parseInt(arg);  // Convert String to int
+        }
+        System.out.println("Sum: " + sum);
+    }
+}
+```
 
 ---
 

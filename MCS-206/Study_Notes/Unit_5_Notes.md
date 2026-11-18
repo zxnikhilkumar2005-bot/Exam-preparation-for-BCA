@@ -146,7 +146,7 @@ Animal makes sound
 
 ---
 
-## 5.3 Advantages of Inheritance
+## 5.4 Advantages of Inheritance
 
 | Advantage | Description |
 |-----------|-------------|
@@ -159,7 +159,7 @@ Animal makes sound
 
 ---
 
-## 5.3 Member Access and Inheritance
+## 5.5 Member Access and Inheritance
 
 ### Access Rules in Inheritance
 
@@ -194,7 +194,7 @@ class Child extends Parent {
 
 ---
 
-## 5.4 Types of Access Specifiers (Summary)
+## 5.6 Types of Access Specifiers (Summary)
 
 | Modifier | Same Class | Same Package | Subclass (diff pkg) | Non-subclass (diff pkg) |
 |----------|------------|--------------|---------------------|-------------------------|
@@ -236,7 +236,71 @@ class Other {
 
 ---
 
-## 5.5 Types of Inheritance
+## 5.7 Object Class Methods — **Important for Complete Understanding**
+
+Every class in Java implicitly extends `java.lang.Object`. These methods are inherited by all classes:
+
+| Method | Description | Common Override |
+|--------|-------------|-----------------|
+| `toString()` | Returns string representation | ✅ **Very common** — return meaningful object state |
+| `equals(Object obj)` | Checks logical equality | ✅ **Common** — compare content, not reference |
+| `hashCode()` | Returns hash code | ✅ **Must override with equals** — contract: equal objects = equal hash |
+| `getClass()` | Returns runtime class | ❌ final — cannot override |
+| `clone()` | Creates copy | Sometimes — implements Cloneable |
+| `finalize()` | Called by GC | Deprecated (Java 9+) — avoid |
+| `wait()`, `notify()`, `notifyAll()` | Thread synchronization | Used in multithreading |
+
+### Overriding `toString()` Example
+```java
+class Student {
+    int rollNo;
+    String name;
+    
+    Student(int r, String n) {
+        rollNo = r; name = n;
+    }
+    
+    @Override
+    public String toString() {
+        return "Student[rollNo=" + rollNo + ", name=" + name + "]";
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Student s = new Student(101, "Nikhil");
+        System.out.println(s);  // Automatically calls toString()
+        // Output: Student[rollNo=101, name=Nikhil]
+    }
+}
+```
+
+### Overriding `equals()` and `hashCode()` Contract
+```java
+class Student {
+    int rollNo;
+    String name;
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Student other = (Student) obj;
+        return rollNo == other.rollNo && name.equals(other.name);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(rollNo, name);
+    }
+}
+```
+
+> **Exam Tip**: If asked about Object class methods, focus on `toString()`, `equals()`, and `hashCode()` — most commonly tested.
+
+---
+
+## 5.8 Types of Inheritance
 
 ### Supported in Java
 

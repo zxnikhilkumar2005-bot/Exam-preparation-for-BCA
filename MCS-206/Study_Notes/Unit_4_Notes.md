@@ -82,6 +82,8 @@ s1 = null;              // s1 reference gone, but object still reachable via s3
 ### Topic Introduction
 A constructor is a special method used to initialize objects. It has the same name as the class and no return type.
 
+> **📋 PYQ Insight**: Constructors appeared **7 times** (2022 Q1(e) 6m, 2022 Q2(a) 10m, 2023 Q1(c) 5m, 2024 Q2(a) 5m, 2025 Q1(g) 5m, 2026 Q1(b) 5m). "Parameterized constructor + need" is a frequent 5-mark question. Constructor chaining with `this()` and `super()` in multilevel inheritance (2022 Q2(a) 10m) is critical.
+
 ### Types of Constructors
 
 | Type | Description | Syntax |
@@ -146,18 +148,79 @@ public class ConstructorDemo {
 - ✅ Cannot be `static`, `abstract`, `final`, `synchronized`
 - ✅ If any constructor defined, default NOT provided by compiler
 
+### Constructor Chaining with `this()` and `super()` (⭐ 2022 Q2(a) 10 marks)
+
+```java
+// Parent class
+class Person {
+    String name;
+    int age;
+    
+    Person() {
+        this("Unknown", 0);  // this() chaining
+        System.out.println("Person default constructor");
+    }
+    
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+        System.out.println("Person parameterized constructor");
+    }
+}
+
+// Child class
+class Student extends Person {
+    int rollNo;
+    
+    Student() {
+        super();  // Calls Person() - MUST be first statement
+        this.rollNo = 0;
+        System.out.println("Student default constructor");
+    }
+    
+    Student(String name, int age, int rollNo) {
+        super(name, age);  // Calls Person(String, int) - MUST be first statement
+        this.rollNo = rollNo;
+        System.out.println("Student parameterized constructor");
+    }
+}
+
+public class ConstructorChainingDemo {
+    public static void main(String[] args) {
+        Student s = new Student("Alice", 20, 101);
+        // Output order:
+        // Person parameterized constructor
+        // Student parameterized constructor
+    }
+}
+```
+
+**Execution Order in Multilevel Inheritance** (2022 Q2(a)):
+1. Grandparent constructor → Parent constructor → Child constructor
+2. `super()` must be **first statement** in constructor
+3. If no `super()` written, `super()` (no-arg) is inserted automatically
+4. If parent has no default constructor, child MUST explicitly call `super(args)`
+
+### Why Parameterized Constructor? (2022 Q1(e), 2024 Q2(a), 2025 Q1(g), 2026 Q1(b))
+- Ensures object is created in **valid state** with required data
+- Prevents uninitialized fields
+- Enables **immutable objects** (no setters needed)
+- Supports **constructor overloading** for flexible object creation
+
 ---
 
 ## 4.3 The `this` Keyword
 
 ### Uses of `this`
 
+> **📋 PYQ Insight**: `this` keyword appeared in **2022 Q1(e)** (constructors vs methods), **2025** (programs). "Explain `this` keyword with examples (all 4 uses)" is a frequent **5-mark question**.
+
 | Use | Description | Example |
 |-----|-------------|---------|
 | **1. Refer to current object's instance variables** | Resolve name conflicts with parameters | `this.name = name;` |
 | **2. Call current class constructor** | Constructor chaining (must be first statement) | `this("Default", 0);` |
 | **3. Pass current object as argument** | In method calls | `method(this);` |
-| **4. Return current object** | Method chaining | `return this;` |
+| **4. Return current object** | Method chaining / fluent API | `return this;` |
 
 ### Example: Resolving Name Conflicts
 ```java
@@ -195,12 +258,65 @@ class Student {
 }
 ```
 
+### Example: Passing `this` as Argument
+```java
+class Student {
+    String name;
+    
+    Student(String name) {
+        this.name = name;
+    }
+    
+    void print(Student s) {
+        System.out.println("Student: " + s.name);
+    }
+    
+    void display() {
+        print(this);  // Pass current object to method
+    }
+}
+```
+
+### Example: Method Chaining (Returning `this`)
+```java
+class StringBuilder {
+    private StringBuilder sb = new StringBuilder();
+    
+    public StringBuilder append(String str) {
+        sb.append(str);
+        return this;  // Enable chaining
+    }
+    
+    public StringBuilder reverse() {
+        sb.reverse();
+        return this;
+    }
+    
+    @Override
+    public String toString() {
+        return sb.toString();
+    }
+}
+
+// Usage
+StringBuilder builder = new StringBuilder();
+builder.append("Hello").append(" ").append("World").reverse();
+// Output: "dlroW olleH"
+```
+
+### ⚠️ Important Rules for `this()`
+- Must be **first statement** in constructor
+- Cannot use `this()` and `super()` in same constructor
+- Cannot use `this` in static context (static methods/blocks)
+
 ---
 
 ## 4.4 The `static` Keyword
 
 ### Topic Introduction
 `static` members belong to the **class**, not to instances. Shared by all objects.
+
+> **📋 PYQ Insight**: `static` keyword appeared in **2023 Q1(a)** (static binding + example, 5m), **2026 Q1(h)** (static methods in interface + multiple interface issues, 5m). "Explain `static` keyword with program" is a **5-mark question**.
 
 ### Static Members
 
@@ -254,11 +370,81 @@ public class StaticDemo {
 | **Can access** | Only static members | Both static & instance |
 | **Override** | Cannot override (can hide) | Can override |
 
+### Static Block & Initialization Order (Important for Exams)
+```java
+class Demo {
+    static int a = 10;          // 1. Static variable initialization
+    
+    static {                    // 2. Static block (in order of appearance)
+        System.out.println("Static block 1");
+        a = 20;
+    }
+    
+    static int b = a + 5;       // 3. More static variables
+    
+    static {                    // 4. Another static block
+        System.out.println("Static block 2: a=" + a + ", b=" + b);
+    }
+    
+    {                           // 5. Instance block (runs per object, before constructor)
+        System.out.println("Instance block");
+    }
+    
+    Demo() {                    // 6. Constructor
+        System.out.println("Constructor");
+    }
+}
+
+// Output when: Demo d = new Demo();
+// Static block 1
+// Static block 2: a=20, b=25
+// Instance block
+// Constructor
+```
+
+### Static Methods in Interfaces (⭐ 2026 Q1(h) - 5 marks)
+```java
+interface MyInterface {
+    // Static method in interface (Java 8+)
+    static void staticMethod() {
+        System.out.println("Interface static method");
+    }
+    
+    // Default method (Java 8+)
+    default void defaultMethod() {
+        System.out.println("Interface default method");
+    }
+}
+
+class MyClass implements MyInterface {
+    // Static method NOT inherited - must call via InterfaceName.staticMethod()
+    // Default method IS inherited - can be overridden
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MyInterface.staticMethod();  // OK: InterfaceName.staticMethod()
+        // MyClass.staticMethod();   // ERROR: Static methods not inherited
+        
+        MyClass obj = new MyClass();
+        obj.defaultMethod();         // OK: Default method inherited
+    }
+}
+```
+
+### Why is `main` Method Static? (⭐ Frequent 2-mark question)
+- JVM calls `main()` **without creating an object** of the class
+- Static methods can be called via class name: `ClassName.main(args)`
+- If `main` were non-static, JVM would need to instantiate the class first (which constructor? what args?)
+- Entry point must be accessible without object creation
+
 ---
 
 ## 4.5 The `final` Keyword
 
 ### Uses of `final`
+
+> **📋 PYQ Insight**: `final` keyword appeared **7 times** (2022 Q1(f) 6m, 2022 Q4(b) 5m, 2023 Q3(b) 5m, 2024 Q1(b) 5m, 2025 Q1(e) 5m, 2026 Q1(c) 5m). **Critical**: "final vs finally vs finalize" differentiation appeared in **2023 Q5(b) (6m)**, **2025 Q5(d)**. "Explain final keyword (variable, method, class) with examples" is a **5-10 mark question**.
 
 | Context | Meaning | Example |
 |---------|---------|---------|
@@ -280,6 +466,11 @@ class Circle {
 
 // 3. Static final (compile-time constant)
 static final int MAX_STUDENTS = 60;
+
+// 4. Reference variable final (object can be modified, reference cannot)
+final List<String> list = new ArrayList<>();
+list.add("Hello");    // OK: modifying object
+// list = new ArrayList<>();  // ERROR: cannot change reference
 ```
 
 ### Example
@@ -300,6 +491,55 @@ class MathUtil {
 // class Child extends MathUtil {
 //     double calculateArea(double r) {}     // ERROR: Cannot override final method
 // }
+```
+
+### Final vs Finally vs Finalize (⭐⭐⭐ 2023 Q5(b) 6 marks, 2025 Q5(d) 5 marks)
+
+| Aspect | `final` | `finally` | `finalize()` |
+|--------|---------|-----------|--------------|
+| **Type** | Keyword / Modifier | Block | Method |
+| **Purpose** | Restrict modification (var/method/class) | Execute cleanup code always | Cleanup before GC destroys object |
+| **Usage** | Variable, Method, Class, Parameter | try-catch-finally | Object class, override in subclass |
+| **Execution** | Compile-time restriction | **Always executes** (except System.exit) | Called by GC (not guaranteed) |
+| **Since** | Java 1.0 | Java 1.0 | Java 1.0 (Deprecated Java 9) |
+| **Example** | `final int x = 10;` | `finally { close(); }` | `protected void finalize() {}` |
+
+```java
+// Complete Example showing all three
+class ResourceDemo {
+    final String resourceName = "DBConnection";  // final variable
+    
+    void connect() {
+        try {
+            System.out.println("Connecting to " + resourceName);
+            // ... connection logic
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {  // finally block - ALWAYS executes
+            System.out.println("Finally: Closing resources");
+            // cleanup code here
+        }
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {  // finalize method
+        try {
+            System.out.println("Finalize: Cleanup for " + resourceName);
+        } finally {
+            super.finalize();
+        }
+    }
+}
+```
+
+### Effective Final (Java 8+ for Lambdas)
+```java
+void process() {
+    int x = 10;           // Effectively final (not modified)
+    // x = 20;           // If uncommented, NOT effectively final
+    
+    Runnable r = () -> System.out.println(x);  // OK: x is effectively final
+}
 ```
 
 ---
