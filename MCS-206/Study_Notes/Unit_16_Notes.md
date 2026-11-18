@@ -3,6 +3,13 @@
 ## Unit Overview
 This unit covers ResultSet interface (types, concurrency, holdability, navigation methods), JDBC Transactions (ACID, isolation levels, savepoints), concurrency issues (dirty read, non-repeatable read, phantom read), batch processing, RowSet interface, metadata, CallableStatement for stored procedures, and important exam questions from PYQ analysis.
 
+# Unit 16: JDBC Part 2
+
+## Unit Overview
+This unit covers ResultSet interface (types, concurrency, holdability, navigation methods), JDBC Transactions (ACID, isolation levels, savepoints), concurrency issues (dirty read, non-repeatable read, phantom read), batch processing, RowSet interface, metadata, CallableStatement for stored procedures, and important exam questions from PYQ analysis.
+
+> **Prerequisite**: Review Unit 15 for JDBC Architecture, Driver Types, Connection Steps, Statement types, and DriverManager.
+
 ---
 
 ## 16.1 ResultSet Interface
@@ -18,21 +25,6 @@ This unit covers ResultSet interface (types, concurrency, holdability, navigatio
 | **Scroll Insensitive** | `TYPE_SCROLL_INSENSITIVE` | Scrollable; not affected by database changes during its existence |
 | **Scroll Sensitive** | `TYPE_SCROLL_SENSITIVE` | Scrollable; reflects database changes made by others after ResultSet was created |
 
----
-
-## 16.1 ResultSet Interface
-
-### Definition
-> **ResultSet** represents a table of data returned by a query. It maintains a cursor pointing to the current row.
-
-### ResultSet Types (Scrollability)
-
-| Type | Constant | Description |
-|------|----------|-------------|
-| **Forward Only** | `TYPE_FORWARD_ONLY` | Default; cursor moves only forward |
-| **Scroll Insensitive** | `TYPE_SCROLL_INSENSITIVE` | Scrollable; not affected by DB changes |
-| **Scroll Sensitive** | `TYPE_SCROLL_SENSITIVE` | Scrollable; reflects DB changes |
-
 ### ResultSet Concurrency
 
 | Concurrency | Constant | Description |
@@ -44,12 +36,13 @@ This unit covers ResultSet interface (types, concurrency, holdability, navigatio
 
 | Holdability | Constant | Description |
 |-------------|----------|-------------|
-| **Close on Commit** | `HOLD_CURSORS_OVER_COMMIT` | Cursors remain open after transaction commit |
+| **Keep Open** | `HOLD_CURSORS_OVER_COMMIT` | Cursors remain open after transaction commit |
 | **Close on Commit** | `CLOSE_CURSORS_AT_COMMIT` | Cursors close automatically after transaction commit (default for most databases) |
 
 > **Exam Tip**: Holdability determines cursor behavior during transaction commit. Use `conn.getHoldability()` to check current setting.
 
 ### Creating Scrollable/Updatable ResultSet
+
 ```java
 // Statement with scrollable, updatable ResultSet
 Statement stmt = conn.createStatement(
@@ -90,21 +83,29 @@ rs.setFetchSize(100);          // Fetch 100 rows at a time
 ```
 
 ### Updating Rows (Updatable ResultSet)
+
 ```java
 // Update current row
-rs.updateString("name", "New Name");
-rs.updateInt("age", 25);
-rs.updateRow();  // Commit to database
+rs.updateDouble("gpa", 3.8);
+rs.updateString("name", "Updated Name");
+rs.updateRow();           // Commit changes to database
 
-// Insert new row
+// Update by index
+rs.updateString(3, "New Email");  // Update column 3
+rs.updateRow();
+
+// Insert new row into ResultSet (then into database)
 rs.moveToInsertRow();
 rs.updateString("name", "New Student");
 rs.updateInt("age", 20);
-rs.insertRow();  // Insert into database
-rs.moveToCurrentRow();  // Back to current row
+rs.insertRow();           // Adds row to database
+rs.moveToCurrentRow();    // Return to original position
 
-// Delete current row
+// Delete current row from database
 rs.deleteRow();
+
+// Refresh row from database
+rs.refreshRow();
 ```
 
 ### Getter Methods
@@ -142,32 +143,6 @@ LocalDateTime timestamp = rs.getObject("created_at", LocalDateTime.class);
 // getTime() for millisecond precision
 java.sql.Timestamp ts = rs.getTimestamp("created_at");
 java.util.Date utilDate = new java.util.Date(ts.getTime());
-```
-
-### ResultSet Update Methods (for Updatable ResultSet)
-
-```java
-// Update current row
-rs.updateDouble("gpa", 3.8);
-rs.updateString("name", "Updated Name");
-rs.updateRow();           // Commit changes to database
-
-// Update by index
-rs.updateString(3, "New Email");  // Update column 3
-rs.updateRow();
-
-// Insert new row into ResultSet (then into database)
-rs.moveToInsertRow();
-rs.updateString("name", "New Student");
-rs.updateInt("age", 20);
-rs.insertRow();           // Adds row to database
-rs.moveToCurrentRow();    // Return to original position
-
-// Delete current row from database
-rs.deleteRow();
-
-// Refresh row from database
-rs.refreshRow();
 ```
 
 ### ResultSet Navigation Details
@@ -499,6 +474,7 @@ int[] results = stmt.executeBatch();  // Single network trip
 ```
 
 ### Using Statement
+
 ```java
 Statement stmt = conn.createStatement();
 
@@ -511,6 +487,7 @@ int[] results = stmt.executeBatch();  // Returns update counts
 ```
 
 ### Using PreparedStatement (Preferred)
+
 ```java
 String sql = "INSERT INTO students(name, age, email) VALUES(?, ?, ?)";
 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -634,7 +611,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Procedure returning result set
+-- Function
 DELIMITER //
 CREATE FUNCTION getEmployeeCount() RETURNS INT
 READS SQL DATA
@@ -649,7 +626,7 @@ DELIMITER ;
 ### Calling Stored Procedures from Java
 
 ```java
-// 1. Procedure with IN, OUT, INOUT parameters
+// 1. Procedure with IN, OUT parameters
 String call = "{call calculateBonus(?, ?, ?)}";
 try (CallableStatement cstmt = conn.prepareCall(call)) {
     
@@ -700,53 +677,12 @@ try (CallableStatement cstmt = conn.prepareCall(call)) {
 |--------|-------------|
 | `registerOutParameter(int paramIndex, int sqlType)` | Register OUT parameter type |
 | `registerOutParameter(int paramIndex, int sqlType, int scale)` | Register DECIMAL NUMERIC with scale |
-| `registerOutParameter(int paramIndex, String typeName)` | Register for User Defined Types |
 | `wasNull()` | Check if last OUT parameter was NULL |
 | `getString(), getInt(), getDouble(), ...` | Get OUT parameter values |
 
-### Common Stored Procedure Patterns
-
-```java
-// Pattern 1: Simple query stored procedure
-CallableStatement cs = conn.prepareCall("{call getCustomerDetails(?, ?, ?)}");
-cs.setInt(1, customerId);              // IN param
-cs.registerOutParameter(2, Types.VARCHAR);  // OUT param for name
-cs.registerOutParameter(3, Types.DECIMAL); // OUT param for balance
-cs.execute();
-
-// Pattern 2: Stored procedure returning cursor (Oracle)
-CallableStatement cs = conn.prepareCall(
-    "{call getActiveEmployees(? , ?)}");
-cs.setInt(1, status);
-cs.registerOutParameter(2, OracleTypes.CURSOR);
-cs.execute();
-ResultSet rs = ((OracleCallableStatement) cs).getCursor(2);
-
-// Pattern 3: Batch stored procedure calls
-conn.setAutoCommit(false);
-CallableStatement cs = conn.prepareCall("{call updateDepartmentBudget(?, ?)}");
-for (Department dept : departments) {
-    cs.setString(1, dept.getName());
-    cs.setDouble(2, dept.getBudget());
-    cs.addBatch();
-}
-cs.executeBatch();
-conn.commit();
-```
-
-### PreparedStatement vs CallableStatement Comparison
-
-| Feature | PreparedStatement | CallableStatement |
-|---------|-----------------|-------------------|
-| Purpose | Execute SQL with parameters | Call stored procedures/functions |
-| SQL type | Static SQL | Stored procedure SQL |
-| IN params | `setXxx()` methods | `setXxx()` methods |
-| OUT params | Not supported | `registerOutParameter()` |
-| ResultSet | `executeQuery()` | `execute()` + `getResultSet()` |
-
 ---
 
-## 16.5 RowSet Interface (Extended ResultSet)
+## 16.6 RowSet Interface (Extended ResultSet)
 
 ### Definition
 > **RowSet** extends ResultSet interface and adds JavaBeans properties, making it serializable. It provides enhanced functionality like disconnected operation and event handling.
@@ -891,7 +827,7 @@ crs.setPageSize(50);
 
 ---
 
-## 16.6 DatabaseMetaData and ResultSetMetaData
+## 16.7 DatabaseMetaData and ResultSetMetaData
 
 ### DatabaseMetaData (Database Information)
 
@@ -1020,7 +956,7 @@ if (sqlType == Types.VARCHAR) {
 
 ---
 
-## 16.7 Important Exam Questions (from PYQ Analysis)
+## 16.8 Important Exam Questions (from PYQ Analysis)
 
 Based on analysis of Dec 2021 - June 2026 question papers.
 
@@ -1073,7 +1009,7 @@ Based on analysis of Dec 2021 - June 2026 question papers.
 
 ---
 
-## 16.8 Summary of Unit 16
+## 16.9 Summary of Unit 16
 
 | Topic | Key Points | Exam Year(s) |
 |-------|------------|--------------|
@@ -1094,7 +1030,22 @@ Based on analysis of Dec 2021 - June 2026 question papers.
 
 ---
 
-## 16.9 Quick Reference: Transaction Template
+## 16.10 Best Practices Checklist
+
+- [ ] Use **try-with-resources** for automatic resource cleanup
+- [ ] Use **PreparedStatement** instead of Statement for parameters
+- [ ] Always **close resources** in finally block or try-with-resources
+- [ ] Use **savepoints** for partial rollback in complex transactions
+- [ ] Choose **appropriate isolation level** based on requirements
+- [ ] Use **batch processing** for bulk operations
+- [ ] Handle **BatchUpdateException** for batch errors
+- [ ] Use **metadata** for database-independent code
+- [ ] Consider **CachedRowSet** for disconnected/offline scenarios
+- [ ] Call **setAutoCommit(false)** before starting any transaction work
+
+---
+
+## 16.11 Quick Reference: Transaction Template
 
 ```java
 Connection conn = null;
@@ -1104,14 +1055,12 @@ try {
     
     Savepoint sp = conn.setSavepoint("Start");
     
-    // Operation 1
     try (PreparedStatement ps1 = conn.prepareStatement("UPDATE accounts SET balance = balance - ? WHERE id = ?")) {
         ps1.setDouble(1, 100.0);
         ps1.setInt(2, 1);
         ps1.executeUpdate();
     }
     
-    // Operation 2
     try (PreparedStatement ps2 = conn.prepareStatement("UPDATE accounts SET balance = balance + ? WHERE id = ?")) {
         ps2.setDouble(1, 100.0);
         ps2.setInt(2, 2);
@@ -1141,150 +1090,14 @@ try {
 }
 ```
 
-## 16.10 Best Practices Checklist
+## 16.12 RowSet vs ResultSet Code Comparison
 
-- [ ] Use **try-with-resources** for automatic resource cleanup
-- [ ] Use **PreparedStatement** instead of Statement for parameters
-- [ ] Always **close resources** in finally block or try-with-resources
-- [ ] Use **savepoints** for partial rollback in complex transactions
-- [ ] Choose **appropriate isolation level** based on requirements
-- [ ] Use **batch processing** for bulk operations
-- [ ] Handle **BatchUpdateException** for batch errors
-- [ ] Use **metadata** for database-independent code
-- [ ] Consider **CachedRowSet** for disconnected/offline scenarios
-- [ ] Call **setAutoCommit(false)** before starting any transaction work
-```java
-DatabaseMetaData meta = conn.getMetaData();
-
-System.out.println("DB Product: " + meta.getDatabaseProductName());
-System.out.println("DB Version: " + meta.getDatabaseProductVersion());
-System.out.println("Driver: " + meta.getDriverName());
-System.out.println("Driver Version: " + meta.getDriverVersion());
-System.out.println("URL: " + meta.getURL());
-System.out.println("User: " + meta.getUserName());
-
-// Table info
-ResultSet tables = meta.getTables(null, null, "%", new String[]{"TABLE"});
-while (tables.next()) {
-    System.out.println("Table: " + tables.getString("TABLE_NAME"));
-}
-
-// Column info
-ResultSet cols = meta.getColumns(null, null, "students", "%");
-while (cols.next()) {
-    System.out.println(cols.getString("COLUMN_NAME") + " " + 
-                       cols.getString("TYPE_NAME"));
-}
-```
-
-### ResultSetMetaData (ResultSet Info)
-```java
-ResultSet rs = stmt.executeQuery("SELECT * FROM students");
-ResultSetMetaData rsMeta = rs.getMetaData();
-
-int columnCount = rsMeta.getColumnCount();
-for (int i = 1; i <= columnCount; i++) {
-    System.out.println("Column " + i + ":");
-    System.out.println("  Name: " + rsMeta.getColumnName(i));
-    System.out.println("  Type: " + rsMeta.getColumnTypeName(i));
-    System.out.println("  Precision: " + rsMeta.getPrecision(i));
-    System.out.println("  Nullable: " + rsMeta.isNullable(i));
-}
-```
-
-### ParameterMetaData (PreparedStatement Parameters)
-```java
-PreparedStatement pstmt = conn.prepareStatement(
-    "INSERT INTO students(name, age) VALUES(?, ?)");
-ParameterMetaData pMeta = pstmt.getParameterMetaData();
-
-int paramCount = pMeta.getParameterCount();
-for (int i = 1; i <= paramCount; i++) {
-    System.out.println("Param " + i + ": " + pMeta.getParameterTypeName(i));
-}
-```
-
----
-
-## 16.7 Important Exam Questions (from PYQ Analysis)
-
-### High Priority
-
-**2-Mark Questions:**
-1. ResultSet types: TYPE_FORWARD_ONLY, TYPE_SCROLL_INSENSITIVE, TYPE_SCROLL_SENSITIVE.
-2. ResultSet concurrency: CONCUR_READ_ONLY, CONCUR_UPDATABLE.
-3. What is holdability?
-4. Difference between ResultSet and RowSet.
-5. What is batch processing? addBatch(), executeBatch().
-6. Transaction ACID properties.
-7. Four isolation levels.
-8. Dirty read, Non-repeatable read, Phantom read.
-9. What is a savepoint?
-10. JdbcRowSet vs CachedRowSet.
-
-**5-Mark Questions:**
-1. Explain ResultSet types, concurrency, and holdability.
-2. Explain updatable ResultSet with example.
-3. Explain batch processing with PreparedStatement.
-4. Explain JDBC transactions with commit/rollback.
-5. Explain isolation levels with dirty/non-repeatable/phantom reads.
-6. Explain RowSet types (JdbcRowSet, CachedRowSet).
-7. Explain DatabaseMetaData and ResultSetMetaData.
-
-**10-Mark Questions:**
-1. **ResultSet (scrollable/updatable), Transactions (ACID, isolation, savepoints), Batch Processing, RowSet, Metadata.** (Appeared 2022, 2023, 2024, 2025)
-2. Complete program: Transaction with savepoint, batch insert, ResultSet navigation.
-
-### Programs to Practice
-1. ✅ **Scrollable ResultSet navigation** - appeared 2022, 2023, 2024
-2. ✅ **Updatable ResultSet (update/insert/delete row)** - appeared 2022, 2023, 2024
-3. ✅ **Batch processing with PreparedStatement** - appeared 2021, 2023, 2025
-4. ✅ **Transaction with savepoint** - appeared 2023, 2024, 2025
-5. ✅ **Isolation level demonstration** - appeared 2023
-6. ✅ **CachedRowSet offline editing** - appeared 2023, 2026
-
----
-
-## 16.8 Summary of Unit 16
-
-| Topic | Key Points |
-|-------|------------|
-| **ResultSet Types** | FORWARD_ONLY (default), SCROLL_INSENSITIVE, SCROLL_SENSITIVE |
-| **Concurrency** | READ_ONLY (default), UPDATABLE |
-| **Holdability** | HOLD_CURSORS_OVER_COMMIT, CLOSE_CURSORS_AT_COMMIT |
-| **Navigation** | next, previous, first, last, absolute, relative |
-| **Updatable** | updateXxx(), updateRow(), insertRow(), deleteRow() |
-| **Transactions** | ACID; setAutoCommit(false); commit(); rollback() |
-| **Savepoints** | setSavepoint(), rollback(sp), releaseSavepoint() |
-| **Isolation Levels** | READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE |
-| **Concurrency Issues** | Dirty Read, Non-Repeatable Read, Phantom Read |
-| **Batch Processing** | addBatch(), executeBatch(); better performance |
-| **RowSet** | JdbcRowSet (connected), CachedRowSet (disconnected) |
-| **Metadata** | DatabaseMetaData, ResultSetMetaData, ParameterMetaData |
-
----
-
-## 16.9 Quick Reference: Transaction Template
-
-```java
-Connection conn = null;
-try {
-    conn = DriverManager.getConnection(url, user, pass);
-    conn.setAutoCommit(false);
-    
-    Savepoint sp = conn.setSavepoint();
-    
-    // Operation 1
-    // Operation 2
-    
-    conn.commit();
-} catch (SQLException e) {
-    if (conn != null) conn.rollback();
-    e.printStackTrace();
-} finally {
-    if (conn != null) {
-        try { conn.setAutoCommit(true); } catch (SQLException ignored) {}
-        try { conn.close(); } catch (SQLException ignored) {}
-    }
-}
-```
+| Operation | ResultSet | RowSet |
+|-----------|-----------|--------|
+| Create | `stmt.executeQuery(sql)` | `RowSetProvider.newFactory().createCachedRowSet()` |
+| Navigate | `rs.next()`, `rs.previous()` | Same methods |
+| Update | `rs.updateString(...)` + `rs.updateRow()` | `crs.updateString(...)` + `crs.updateRow()` |
+| Insert | `rs.moveToInsertRow()` + `rs.insertRow()` | `crs.moveToInsertRow()` + `crs.insertRow()` |
+| Close | `rs.close()` | `crs.close()` |
+| Offline | Not possible | `crs.execute()` fetchs and disconnects, `crs.acceptChanges()` syncs |
+| Events | No | `crs.addRowSetListener(listener)` |
