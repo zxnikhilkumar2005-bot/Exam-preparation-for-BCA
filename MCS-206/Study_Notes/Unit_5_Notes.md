@@ -69,7 +69,84 @@ Car has 4 wheels
 
 ---
 
-## 5.2 Advantages of Inheritance
+## 5.2 Method Overriding (Runtime Polymorphism) — **CRITICAL: Appeared 2022, 2024, 2025, 2026**
+
+### Definition
+> **Method Overriding** occurs when a subclass provides a specific implementation of a method that is already defined in its superclass. The method in subclass must have the **same signature** (name, parameters, return type).
+
+### Rules for Method Overriding
+| Rule | Description |
+|------|-------------|
+| **Same Method Signature** | Same name, same parameter list |
+| **Return Type** | Same or **covariant** (subclass of superclass return type) — Java 5+ |
+| **Access Modifier** | Must be **same or broader** (not narrower) |
+| **`final` Methods** | **Cannot be overridden** |
+| **`static` Methods** | **Cannot be overridden** (they are **hidden**) |
+| **`private` Methods** | **Cannot be overridden** (not inherited) |
+| **Constructors** | Cannot be overridden |
+| **`@Override` Annotation** | Optional but **recommended** — catches errors at compile time |
+
+### Overriding vs Overloading Comparison
+
+| Aspect | Overloading (Compile-time) | Overriding (Runtime) |
+|--------|---------------------------|---------------------|
+| **Binding** | Static (early) | Dynamic (late) |
+| **Signature** | Must differ (params) | Must be same |
+| **Return Type** | Can differ | Same or covariant |
+| **Access** | Can be different | Same or broader |
+| **Scope** | Same class | Superclass & Subclass |
+| **Polymorphism** | Ad-hoc | Subtype |
+
+### Method Overriding Example
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks: Bow wow");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Cat meows: Meow meow");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Animal a1 = new Dog();
+        Animal a2 = new Cat();
+        Animal a3 = new Animal();
+        
+        a1.sound();  // Dog barks: Bow wow
+        a2.sound();  // Cat meows: Meow meow
+        a3.sound();  // Animal makes sound
+    }
+}
+```
+
+**Output:**
+```
+Dog barks: Bow wow
+Cat meows: Meow meow
+Animal makes sound
+```
+
+### Key Points for Exams
+- **Dynamic Method Dispatch**: JVM determines which method to call at **runtime** based on **actual object type**, not reference type
+- **Why use overriding?** To achieve **runtime polymorphism** — same interface, different behavior
+- **`super.method()`**: Used to call parent's overridden method from child
+
+---
+
+## 5.3 Advantages of Inheritance
 
 | Advantage | Description |
 |-----------|-------------|

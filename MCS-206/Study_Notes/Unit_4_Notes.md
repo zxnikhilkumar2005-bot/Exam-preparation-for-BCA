@@ -12,10 +12,12 @@ This unit covers class definition, object creation, constructors, `this` keyword
 ### Topic Introduction
 A class is a blueprint/template that defines the structure and behavior of objects. An object is an instance of a class.
 
+> **📋 PYQ Insight**: "Class definition + Object creation + Memory allocation" appeared in **2021 Q1(a) (6m)** and **2024 Q1(a) (5m)**. "Object assignment/reference" appeared in **2024 Q1(d) (5m)**.
+
 ### Class Definition
 ```java
 class ClassName {
-    // Fields (attributes/data members)
+    // Fields (attributes/data members) - Instance variables
     dataType fieldName;
     
     // Methods (behavior)
@@ -53,6 +55,25 @@ Stack (References)          Heap (Objects)
 └─────────────┘           │ age: 22         │
                           └─────────────────┘
 ```
+
+### Object Assignment & Reference Behavior (⭐ 2024 Q1(d) - 5 marks)
+```java
+Student s1 = new Student("Alice", 20);
+Student s2 = new Student("Bob", 22);
+Student s3 = s1;        // s3 references SAME object as s1
+
+s3.name = "Charlie";    // Changes s1.name too!
+System.out.println(s1.name);  // "Charlie" - s1 and s3 share the object
+
+s1 = null;              // s1 reference gone, but object still reachable via s3
+// Object eligible for GC only when BOTH s1 and s3 are null/reassigned
+```
+
+**Key Points**:
+- Assignment copies the **reference**, not the object
+- Multiple references can point to the same object
+- Object eligible for GC only when **no references** point to it
+- `==` compares references, `.equals()` compares content (if overridden)
 
 ---
 
